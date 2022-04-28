@@ -15,8 +15,12 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\User\Desktop\DiplomProject\FoodSharingWeb\FoodSharing
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/User/Desktop/DiplomProject/FoodSharingWeb/FoodSharing/Views/Account/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+[C:/Users/User/Desktop/DiplomProject/FoodSharingWeb/FoodSharing/Views/Admin/AdminList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW5MaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Desktop/DiplomProject/FoodSharingWeb/FoodSharing/Views/Auth/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/User/Desktop/DiplomProject/FoodSharingWeb/FoodSharing/Views/Home/Index.cshtml]

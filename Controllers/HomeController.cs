@@ -1,9 +1,11 @@
 ﻿using FoodSharing.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace FoodSharing.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -13,11 +15,13 @@ namespace FoodSharing.Controllers
             _logger = logger;
         }
 
+        //[Route("/Index")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Route("/Home/Privacy")]
         public IActionResult Privacy()
         {
             return View();
