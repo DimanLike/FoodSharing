@@ -1,0 +1,29 @@
+﻿@{
+	ViewData["Title"] = "Registration";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+	.authContainer {
+		width: 35%;
+		margin: auto;
+	}
+</style>
+
+<div class="authContainer">
+	<legend> Регистрация </legend>
+	<div class="mb-3">
+		<label for="ExampleInputEmail" class="form-label">Email Adress</label>
+		<input name="email" type="email" class="form-control" id="ExamleInputEmail" aria-describedby="EmailHelp">
+	</div>
+	<div class="mb-3">
+		<label for="exampleInputPassword1" class="form-label">Пароль</label>
+		<input name="password" type="password" class="form-control" id="exampleInputPassword1">
+	</div>
+	<div class="mb-3">
+		<label for="exampleInputPassword1" class="form-label">Повторите пароль</label>
+		<input name="password" type="password" class="form-control" id="exampleInputPassword1">
+	</div>
+	<div class="mb-4" style="text-align-last: center;">
+		<button type="submit" class="btn btn-primary">Регистрация</button>
+	</div>
+</div>

@@ -18,19 +18,22 @@ namespace FoodSharing.Controllers
             new Person("tom@gmail.com", "12345"),
             new Person("bob@gmail.com", "55555")
         };
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
 
         [HttpGet]
         [Route("Login")]
         public IActionResult Login()
         {
-            HttpContext.Response.ContentType = "text/html; charset=utf-8";
+            //HttpContext.Response.ContentType = "text/html; charset=utf-8";
 
             return View();
         }
+
+        [HttpGet]
+        [Route("Registration")]
+        public IActionResult Registration()
+		{
+            return View();
+		}
 
         [HttpPost]
         [Route("Login")]
