@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 

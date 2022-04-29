@@ -12,14 +12,12 @@
 
 <div class="text-center">
 	<h1 class="display-4">Welcome</h1>
-	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
 <div class="authContainer">
 	<div class="bd-example">
 		@using (Html.BeginForm("Login", "Auth", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
 		{
-			@Html.AntiForgeryToken()
 			<div class="mb-3">
 				<label for="ExampleInputEmail" class="form-label">Email Adress</label>
 				<input name="email" type="email" class="form-control" id="ExamleInputEmail" aria-describedby="EmailHelp">
@@ -36,6 +34,3 @@
 		}
 	</div>
 </div>
-@*  <form method="post" onsubmit="/Auth/Login">
-
-	</form>*@

@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Builder;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using FoodSharing.Models;
+using Npgsql;
 
 namespace FoodSharing.Controllers
 {
@@ -23,17 +26,15 @@ namespace FoodSharing.Controllers
         [Route("Login")]
         public IActionResult Login()
         {
-            //HttpContext.Response.ContentType = "text/html; charset=utf-8";
-
             return View();
         }
 
         [HttpGet]
-        [Route("Registration")]
+        //[Route("Registration")]
         public IActionResult Registration()
-		{
+        {
             return View();
-		}
+        }
 
         [HttpPost]
         [Route("Login")]
@@ -63,12 +64,50 @@ namespace FoodSharing.Controllers
             return RedirectToAction("Privacy", "Home");
         }
 
-        [HttpGet]
-        public async Task<IResult> LogOut(HttpContext context)
+        [HttpPost]
+        [Route("LogOut")]
+        public async Task<IResult> LogOut()
         {
-            await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return Results.Redirect("/Login");
         }
+
+        [HttpPost]
+        [Route("RegisterUser")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterUser(RegistrationViewModel model)
+        {
+            List<RegistrationViewModel> models = new List<RegistrationViewModel>() { model };
+
+            var connectionString = "Server=localhost;Port=5432;User Id=postgres;Password=12345;Database=FoodSharingBD;";
+
+            await using var conn = new NpgsqlConnection(connectionString);
+            await conn.OpenAsync();
+
+            Guid uuid1 = Guid.NewGuid();
+
+            await using var cmd = new NpgsqlCommand("INSERT INTO usertest (id, email, password) VALUES (@id, @email, @password)", conn)
+            {
+                Parameters =
+            {
+                new("id", uuid1),
+                new("email", model.Email),
+                new("password", model.Password)
+            }
+            };
+
+            await cmd.ExecuteNonQueryAsync();
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, model.Email) };
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+            // установка аутентификационных куки
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+            return RedirectToAction("Privacy", "Home");
+            //return View();
+        }
+
+
     }
 }
