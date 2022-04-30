@@ -30,11 +30,12 @@ namespace FoodSharing.Controllers
         }
 
         [HttpGet]
-        //[Route("Registration")]
+        [Route("Registration")]
         public IActionResult Registration()
         {
             return View();
         }
+
 
         [HttpPost]
         [Route("Login")]
@@ -63,14 +64,14 @@ namespace FoodSharing.Controllers
 
             return RedirectToAction("Privacy", "Home");
         }
+            
 
-        [HttpPost]
-        [Route("LogOut")]
-        public async Task<IResult> LogOut()
+        [Authorize]
+        public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return Results.Redirect("/Login");
+            return RedirectToAction("Login", "Auth");
         }
 
         [HttpPost]
@@ -105,7 +106,7 @@ namespace FoodSharing.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
             return RedirectToAction("Privacy", "Home");
-            //return View();
+
         }
 
 
