@@ -3,6 +3,9 @@ using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
+/// <summary>
+/// //
+/// </summary>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
