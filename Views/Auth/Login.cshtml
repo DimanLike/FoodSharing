@@ -1,36 +1,36 @@
-﻿@{
-	ViewData["Title"] = "Login";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
-	.authContainer {
-		width: 35%;
-		margin: auto;
-	}
+    .authContainer {
+        width: 35%;
+        margin: auto;
+    }
 </style>
 
 <div class="text-center">
-	<h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome</h1>
 </div>
 
-<div class="authContainer">
-	<div class="bd-example">
-		@using (Html.BeginForm("Login", "Auth", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
-		{
-			<div class="mb-3">
-				<label for="ExampleInputEmail" class="form-label">Email Adress</label>
-				<input name="email" type="email" class="form-control" id="ExamleInputEmail" aria-describedby="EmailHelp">
-			</div>
-			<div class="mb-3">
-				<label for="exampleInputPassword1" class="form-label">Password</label>
-				<input name="password" type="password" class="form-control" id="exampleInputPassword1">
-			</div>
-			<div class="mb-3 form-check">
-				<input type="checkbox" class="form-check-input" id="exampleCheck1">
-				<label class="form-check-label" for="exampleCheck1">Check me out</label>
-			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
-		}
-	</div>
-</div>
+<form method="post" asp-action="Login">
+    <div class="authContainer">
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email"  type="email" class="form-control">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password"  type="password" class="form-control">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3 form-check">
+            <input asp-for="RememberMe" type="checkbox" class="form-check-input" >
+            <label asp-for="RememberMe" class="form-check-label" ></label>
+            </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

@@ -1,33 +1,35 @@
-﻿@model FoodSharing.Models.RegistrationViewModel
+﻿@model RegistrationViewModel
 @{
-	ViewData["Title"] = "Registration";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-	.authContainer {
-		width: 35%;
-		margin: auto;
-	}
+    .authContainer {
+        width: 35%;
+        margin: auto;
+    }
 </style>
 
-<div class="authContainer">
-	<legend> Регистрация </legend>
-	@using (Html.BeginForm("RegisterUser", "Auth", FormMethod.Post, new { role = "form" }))
-	{
-		<div class="mb-3">
-			@*<label for="ExampleInputEmail" class="form-label">Email Adress</label>*@
-			@Html.LabelFor(m => m.Email, new {@class = "form-label"})
-			@*<input name="email" type="email" class="form-control" id="ExamleInputEmail" aria-describedby="EmailHelp">*@
-			@Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
-		</div>
-		<div class="mb-3">
-			@*<label for="exampleInputPassword1" class="form-label">Повторите пароль</label>*@
-			@Html.LabelFor(m => m.Password, new {@class = "form-label"})
-			@*<input name="password" type="password" class="form-control" id="exampleInputPassword1">*@
-			@Html.PasswordFor(m => m.Password, new {@class = "form-control"})
-		</div>
-		<div class="mb-4" style="text-align-last: center;">
-			<button type="submit" class="btn btn-primary">Регистрация</button>
-		</div>
-	}
-</div>
+<form method="post" asp-action="RegisterUser" >
+    <div class="authContainer"  >
+        <legend> Регистрация </legend>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" type="email" class="form-control">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" type="password" class="form-control">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" type="password" class="form-control">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="mb-4" style="text-align-last: center;">
+            <button type="submit" class="btn btn-primary">Регистрация</button>
+        </div>
+    </div>
+</form>
