@@ -1,18 +1,25 @@
+using FoodSharing.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Npgsql;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-/// <summary>
-/// //
-/// </summary>
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => options.LoginPath = "/Login");
+
 builder.Services.AddAuthorization();
 
+ServiceConfiguration.ConfigureServices(builder.Services);
+
+
+//var connectionstring = new IConfiguration.this["DefaultConnection"] _connectionstring;
+//string con = AppConfiguration.GetConnectionString("DefaultConnection");
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -26,6 +33,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

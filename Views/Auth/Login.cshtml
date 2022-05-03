@@ -19,18 +19,23 @@
     <div class="authContainer">
         <div class="mb-3">
             <label asp-for="Email" class="form-label"></label>
-            <input asp-for="Email"  type="email" class="form-control">
+            <input asp-for="Email" type="email" class="form-control">
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Password" class="form-label"></label>
-            <input asp-for="Password"  type="password" class="form-control">
+            <input asp-for="Password" type="password" class="form-control">
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="mb-3 form-check">
-            <input asp-for="RememberMe" type="checkbox" class="form-check-input" >
-            <label asp-for="RememberMe" class="form-check-label" ></label>
-            </div>
+            <input asp-for="RememberMe" type="checkbox" class="form-check-input">
+            <label asp-for="RememberMe" class="form-check-label"></label>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+       @* <div class="mb-3 alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>О нет!</strong> Ваш аккаунт зарегистрирован!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>*@
     </div>
 </form>
+

@@ -15,7 +15,6 @@ namespace FoodSharing.Controllers
             _logger = logger;
         }
 
-        //[Route("/Index")]
         public IActionResult Index()
         {
             return View();
