@@ -38,7 +38,7 @@
                     else
                     {
                         <div class="nav-item p-2 ms-auto">
-                            <a class="nav-link active"> @(User.Identity.Name)</a>
+                            <a class="nav-link active " asp-controller="Account" asp-action="Profile"> @(User.Identity.Name)</a>
                         </div>
                         <div class="nav-item p-2">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="LogOut">Выход</a>
@@ -48,11 +48,9 @@
             </div>
         </nav>
     </header>
-    <div class="container">
             @RenderBody()
-    </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top text-muted footer">
         <div class="container">
             &copy; 2022 - FoodSharing - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
