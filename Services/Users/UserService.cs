@@ -16,5 +16,10 @@ namespace FoodSharing.Services.Users
         {
             return _userRepository.GetUserByEmailAndPassword(email, password);
         }
+
+        public Task AddUserByEmailAndPassword(string email, string password)
+        {
+            return _userRepository.AddUserByEmailAndPassword(email, password);
+        }
     }
 }

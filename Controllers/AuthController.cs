@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Builder;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using FoodSharing.Models;
-using Npgsql;
-using System.Configuration;
 using FoodSharing.Services.Users.Interfaces;
 using FoodSharing.Models.Users;
 
@@ -19,7 +15,6 @@ namespace FoodSharing.Controllers
 	[AllowAnonymous]
 	public class AuthController : Controller
 	{
-		private DataConnection _db;
 		private readonly IConfiguration _config;
         private IUserService _userService;
 
@@ -28,18 +23,6 @@ namespace FoodSharing.Controllers
 			_config = config;
             _userService = userService;
         }
-
-		public string ConnectionString()
-		{
-			return _config.GetConnectionString("DefaultConnection");
-		}
-
-		List<Person> people = new List<Person>
-		{
-			new Person("tom@gmail.com", "12345"),
-			new Person("bob@gmail.com", "55555"),
-			new Person("dima.pozdn01@mail.ru","1234567")
-		};
 
 		[HttpGet]
 		[Route("Login")]
@@ -55,7 +38,6 @@ namespace FoodSharing.Controllers
 			return View();
 		}
 
-
 		[HttpPost]
 		[Route("Login")]
 		[ValidateAntiForgeryToken]
@@ -66,29 +48,26 @@ namespace FoodSharing.Controllers
 				return View("Login", model);
 			}
 
-			// получаем из формы email и пароль
 			var form = HttpContext.Request.Form;
-			// если email и/или пароль не установлены, посылаем статусный код ошибки 400
+
 			if (!form.ContainsKey("email") || !form.ContainsKey("password"))
 				return View();
 
 			string email = form["email"];
 			string password = form["password"];
 
-			User user = await _userService.GetUserByEmailAndPassword(email, password);
+			User user = await _userService.GetUserByEmailAndPassword(email, password); 
 			if (user is null)
             {
-				ModelState.AddModelError("", "Пользователь не найден");
+				TempData["LoginError"] = "Пользователь не найден";
 				return View(model);
             }	
 
 			await Authenticate(model.Email);
 
-			//await DBLoginUser(model);
-
-			return RedirectToAction("Privacy", "Home");
+			return RedirectToAction("Profile", "Account");
+			
 		}
-
 
 		[Authorize]
 		public async Task<IActionResult> LogOut()
@@ -107,16 +86,15 @@ namespace FoodSharing.Controllers
 			{
 				return View("Registration", model);
 			}
-			Guid uuid1 = Guid.NewGuid();
- 
-			//Исправить
-			//await _db.ExecuteNonQuery($@"INSERT INTO usertest (id, email, password) VALUES(N'{uuid1}', N'{model.Email}', N'{model.Password}', 'false')");
-			//await using var cmd = new NpgsqlCommand("INSERT INTO usertest (id, email, password) VALUES (@id, @email, @password)", conn)
-			await DBRegisterUser(model);
+			var form = HttpContext.Request.Form;
+			string email = form["email"];
+			string password = form["password"];
+
+			await _userService.AddUserByEmailAndPassword(email, password);
 
 			await Authenticate(model.Email);
 
-			return RedirectToAction("Privacy", "Home");
+			return RedirectToAction("Profile", "Account");
 		}
 
 		private async Task Authenticate(string username)
@@ -129,30 +107,6 @@ namespace FoodSharing.Controllers
 			ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
  
 			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-		}
-
-		private async Task DBRegisterUser(RegistrationViewModel model)
-		{
-			var connectionString = ConnectionString();
-
-			List<RegistrationViewModel> models = new List<RegistrationViewModel>() { model };
-
-			await using var conn = new NpgsqlConnection(connectionString);
-			await conn.OpenAsync();
-
-			Guid uuid1 = Guid.NewGuid();
-
-			await using var cmd = new NpgsqlCommand("INSERT INTO usertest (id, email, password) VALUES (@id, @email, @password)", conn)
-			{
-				Parameters =
-					{
-					new("id", uuid1),
-					new("email", model.Email),
-					new("password", model.Password)
-					}
-			};
-
-			await cmd.ExecuteNonQueryAsync();
 		}
 	}
 }

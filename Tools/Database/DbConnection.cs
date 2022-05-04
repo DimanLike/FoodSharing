@@ -33,5 +33,30 @@ namespace FoodSharing.Tools.Database
                 await conn.DisposeAsync();
             }
         }
+
+        public async Task Add(string expression, NpgsqlParameter[] parameters = default)
+        {
+            await using var conn = new NpgsqlConnection(_connectionString);
+            try
+            {
+                await conn.OpenAsync();
+
+                await using var cmd = new NpgsqlCommand(expression, conn);
+
+                foreach (NpgsqlParameter parameter in parameters)
+                {
+                    cmd.Parameters.Add(parameter);
+                }
+                await cmd.ExecuteNonQueryAsync();
+                
+            }
+            finally
+            {
+                await conn.CloseAsync();
+                await conn.DisposeAsync();
+            }
+
+        }
+
     }
 }
