@@ -12,6 +12,13 @@
 
 <form method="post" asp-action="RegisterUser" >
     <div class="authContainer"  >
+        @if (TempData["RegisterError"] != null)
+        {
+            <div class="mb-3 alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>О нет!</strong> @TempData["RegisterError"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
         <legend> Регистрация </legend>
         <div class="mb-3">
             <label asp-for="Email" class="form-label"></label>

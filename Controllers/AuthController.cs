@@ -9,9 +9,6 @@ using FoodSharing.Models.Users;
 
 namespace FoodSharing.Controllers
 {
-
-	record class Person(string Email, string Password);
-
 	[AllowAnonymous]
 	public class AuthController : Controller
 	{
@@ -56,12 +53,13 @@ namespace FoodSharing.Controllers
 			string email = form["email"];
 			string password = form["password"];
 
-			User user = await _userService.GetUserByEmailAndPassword(email, password); 
+			User user = await _userService.GetUserByEmailAndPassword(email); 
 			if (user is null)
             {
+				
 				TempData["LoginError"] = "Пользователь не найден";
 				return View(model);
-            }	
+			}	
 
 			await Authenticate(model.Email);
 
@@ -90,11 +88,22 @@ namespace FoodSharing.Controllers
 			string email = form["email"];
 			string password = form["password"];
 
-			await _userService.AddUserByEmailAndPassword(email, password);
+			User user = await _userService.GetUserByEmailAndPassword(email);
 
-			await Authenticate(model.Email);
+			if (user is null)
+			{
+				await _userService.AddUserByEmailAndPassword(email, password);
 
-			return RedirectToAction("Profile", "Account");
+				await Authenticate(model.Email);
+
+				return RedirectToAction("Profile", "Account");
+			}
+			else
+			{ 
+				TempData["RegisterError"] = "Пользователь с данной почтой уже существует";
+				return View("Registration", model);
+			}
+			
 		}
 
 		private async Task Authenticate(string username)
