@@ -16,6 +16,7 @@ namespace FoodSharing.Services.Users.Converters
                     user.Id = (Guid)reader["ID"];
                     user.Email = (string)reader["Email"];
                     user.Password = (string)reader["Password"];
+                    user.DateCreate = (DateTime)reader["DateCreate"];
                 }
             }
             else
@@ -25,5 +26,27 @@ namespace FoodSharing.Services.Users.Converters
 
             return user;
         }
-    }
+        public static async Task<UserProfile> MapToUserProfile(NpgsqlDataReader reader)
+        {
+            UserProfile userProfile = new UserProfile();
+
+            if (reader.HasRows)
+            {
+                while (await reader.ReadAsync())
+                {
+                    userProfile.Id = (Guid)reader["ID"];
+                    userProfile.FirstName = (string)reader["FirstName"];
+                    userProfile.LastName = (string)reader["LastName"];
+                    userProfile.Email = (string)reader["Email"];
+                    userProfile.Adress = (string)reader["Adress"];
+                    userProfile.Phone = (string)reader["Phone"];
+                }
+            }
+            else
+            {
+                return null;
+            }
+            return userProfile;
+        }
+    }    
 }

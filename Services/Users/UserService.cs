@@ -12,14 +12,19 @@ namespace FoodSharing.Services.Users
             _userRepository = userRepository;
         }
 
-        public Task<User> GetUserByEmailAndPassword(string email, string password)
+        public Task<User> GetUserByEmailAndPassword(string email)
         {
-            return _userRepository.GetUserByEmailAndPassword(email, password);
+            return _userRepository.GetUserByEmailAndPassword(email);
         }
 
         public Task AddUserByEmailAndPassword(string email, string password)
         {
             return _userRepository.AddUserByEmailAndPassword(email, password);
+        }
+
+        public Task AddUserDataProfile(Guid id, string firstname, string lastname, string email, string adress, string phone)
+        {
+            return _userRepository.AddUserDataProfile(id, firstname, lastname, email, adress, phone);
         }
     }
 }
