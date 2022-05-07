@@ -19,10 +19,16 @@ namespace FoodSharing.Controllers
             _userService = userService;
         }
 
+
         [Route("Profile")]
-        public IActionResult Profile()
+        public async Task<ActionResult> Profile()
         {
-            return View();
+            string claim = User.Identity.Name;
+
+            //UserProfile user = await _userService.GetUserDataProfile(claim);
+            UserProfileViewModel userProfile = await _userService.GetUserDataProfile(claim);
+
+            return View(userProfile);
         }
 
         [HttpPost]
@@ -33,24 +39,13 @@ namespace FoodSharing.Controllers
                 return View();
             }
 
-            string claim = User.Identity.Name;
-            User user = await _userService.GetUserByEmailAndPassword(claim);
-            
+            //string claim = User.Identity.Name;
+            //User user = await _userService.GetUserByEmailAndPassword(claim);
+            //model.Id = 
 
+            await _userService.AddUserDataProfile(model);
 
-            var form = HttpContext.Request.Form;
-
-            Guid id = user.Id;
-            string firstname = form["firstname"];
-            string lastname = form["lastname"];
-            string email = form["email"];
-            string adress = form["adress"];
-            string phone = form["phone"];
-
-            await _userService.AddUserDataProfile(id, firstname, lastname, email, adress, phone);
-
-            //await _userService.AddUserDataProfile()
-            return View();
+            return View("Profile", model);
         }
         
 

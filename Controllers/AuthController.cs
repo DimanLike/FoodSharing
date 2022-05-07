@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using FoodSharing.Models;
 using FoodSharing.Services.Users.Interfaces;
 using FoodSharing.Models.Users;
+using FoodSharing.Tools.Authorization;
 
 namespace FoodSharing.Controllers
 {
@@ -61,7 +62,7 @@ namespace FoodSharing.Controllers
 				return View(model);
 			}	
 
-			await Authenticate(model.Email);
+			await CookieEvents.Authenticate(model.Email, HttpContext);
 
 			return RedirectToAction("Profile", "Account");
 			
@@ -70,7 +71,7 @@ namespace FoodSharing.Controllers
 		[Authorize]
 		public async Task<IActionResult> LogOut()
 		{
-			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+			await CookieEvents.SignOut(HttpContext);
 
 			return RedirectToAction("Login", "Auth");
 		}
@@ -94,7 +95,7 @@ namespace FoodSharing.Controllers
 			{
 				await _userService.AddUserByEmailAndPassword(email, password);
 
-				await Authenticate(model.Email);
+				await CookieEvents.Authenticate(model.Email, HttpContext);
 
 				return RedirectToAction("Profile", "Account");
 			}
@@ -104,18 +105,6 @@ namespace FoodSharing.Controllers
 				return View("Registration", model);
 			}
 			
-		}
-
-		private async Task Authenticate(string username)
-		{
-			var claims = new List<Claim>
-			{
-				new Claim(ClaimTypes.Name, username)
-			};
-
-			ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
- 
-			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 		}
 	}
 }

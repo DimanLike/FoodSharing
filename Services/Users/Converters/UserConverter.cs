@@ -1,4 +1,5 @@
-﻿using FoodSharing.Models.Users;
+﻿using FoodSharing.Models;
+using FoodSharing.Models.Users;
 using Npgsql;
 
 namespace FoodSharing.Services.Users.Converters
@@ -16,7 +17,7 @@ namespace FoodSharing.Services.Users.Converters
                     user.Id = (Guid)reader["ID"];
                     user.Email = (string)reader["Email"];
                     user.Password = (string)reader["Password"];
-                    user.DateCreate = (DateTime)reader["DateCreate"];
+                    user.CreatedAt = (DateTime)reader["CreatedAt"];
                 }
             }
             else
@@ -47,6 +48,12 @@ namespace FoodSharing.Services.Users.Converters
                 return null;
             }
             return userProfile;
+        }
+
+        public static UserProfileViewModel MapToUserProfileView(UserProfile userProfile)
+        {
+            return new UserProfileViewModel(userProfile.Id, userProfile.FirstName, userProfile.LastName, userProfile.Email, userProfile.Adress, userProfile.Phone );
+           
         }
     }    
 }

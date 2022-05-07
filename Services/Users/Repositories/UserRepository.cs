@@ -1,4 +1,5 @@
-﻿using FoodSharing.Models.Users;
+﻿using FoodSharing.Models;
+using FoodSharing.Models.Users;
 using FoodSharing.Services.Users.Converters;
 using FoodSharing.Services.Users.Interfaces;
 using FoodSharing.Tools.Database;
@@ -24,41 +25,52 @@ namespace FoodSharing.Services.Users.Repositories
 				new NpgsqlParameter(nameof(email), email),
 			};
 
-			return _dbConnection.Get<User>(expression, UserConverter.MapToUser, parameters);
+			return _dbConnection.Get(expression, UserConverter.MapToUser, parameters);
 		}
 
 		public Task AddUserByEmailAndPassword(string email, string password)
 		{
-			string expression = @"INSERT INTO usertest(id, email, password, datecreate ) VALUES(@id, @email, @password, @datecreate)";
+			string expression = @"INSERT INTO usertest (id, email, password, createdat) VALUES (@id, @email, @password, @createdat)";
 			Guid id = Guid.NewGuid();
-			DateTime datecreate = DateTime.Now; 
-
+			DateTime createdAt = DateTime.Now; 
 
 			NpgsqlParameter[] parameters = new[]
 		    {
 				new NpgsqlParameter(nameof(id), id),
 				new NpgsqlParameter(nameof(email), email),
 				new NpgsqlParameter(nameof(password), password),
-				new NpgsqlParameter(nameof(datecreate), datecreate),
+				new NpgsqlParameter(nameof(createdAt), createdAt),
 			};
 
 			return _dbConnection.Add(expression, parameters);
 		}
 
-		public Task AddUserDataProfile(Guid id, string firstname, string lastname, string email, string adress, string phone)
+		public Task AddUserDataProfile(UserProfileViewModel model)
         {
 			string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress,phone) VALUES(@id, @firstname, @lastname, @email, @adress, @phone)";
 
 			NpgsqlParameter[] parameters = new[]
 			{
-				new NpgsqlParameter(nameof(id), id),
-				new NpgsqlParameter(nameof(firstname), firstname),
-				new NpgsqlParameter(nameof(lastname), lastname),
-				new NpgsqlParameter(nameof(email), email),
-				new NpgsqlParameter(nameof(adress),adress),
-				new NpgsqlParameter(nameof(phone),phone),
+				new NpgsqlParameter(nameof(model.Id), model.Id),
+				new NpgsqlParameter(nameof(model.FirstName), model.FirstName),
+				new NpgsqlParameter(nameof(model.LastName), model.LastName),
+				new NpgsqlParameter(nameof(model.Email), model.Email),
+				new NpgsqlParameter(nameof(model.Adress), model.Adress),
+				new NpgsqlParameter(nameof(model.Phone), model.Phone),
 			};
 			return _dbConnection.Add(expression, parameters);
+		}
+
+		public Task<UserProfile> GetUserDataProfile(string email)
+        {
+			string expression = @"SELECT * FROM profiletest WHERE email = @email";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(email), email),
+			};
+
+			return _dbConnection.Get(expression, UserConverter.MapToUserProfile, parameters);
 		}
 	}
 }

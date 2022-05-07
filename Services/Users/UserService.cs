@@ -1,4 +1,6 @@
-﻿using FoodSharing.Models.Users;
+﻿using FoodSharing.Models;
+using FoodSharing.Models.Users;
+using FoodSharing.Services.Users.Converters;
 using FoodSharing.Services.Users.Interfaces;
 
 namespace FoodSharing.Services.Users
@@ -22,9 +24,15 @@ namespace FoodSharing.Services.Users
             return _userRepository.AddUserByEmailAndPassword(email, password);
         }
 
-        public Task AddUserDataProfile(Guid id, string firstname, string lastname, string email, string adress, string phone)
+        public Task AddUserDataProfile(UserProfileViewModel model)
         {
-            return _userRepository.AddUserDataProfile(id, firstname, lastname, email, adress, phone);
+            return _userRepository.AddUserDataProfile(model);
+        }
+        public async Task<UserProfileViewModel> GetUserDataProfile(string email)
+        {
+
+            UserProfile userProfile = await _userRepository.GetUserDataProfile(email);
+            return UserConverter.MapToUserProfileView(userProfile);
         }
     }
 }
