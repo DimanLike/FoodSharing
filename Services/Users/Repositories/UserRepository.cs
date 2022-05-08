@@ -24,7 +24,6 @@ namespace FoodSharing.Services.Users.Repositories
 			{
 				new NpgsqlParameter(nameof(email), email),
 			};
-
 			return _dbConnection.Get(expression, UserConverter.MapToUser, parameters);
 		}
 
@@ -47,7 +46,7 @@ namespace FoodSharing.Services.Users.Repositories
 
 		public Task AddUserDataProfile(UserProfileViewModel model)
         {
-			string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress,phone) VALUES(@id, @firstname, @lastname, @email, @adress, @phone)";
+			string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress,phone) VALUES(@id, @firstname, @lastname, @email, @adress, @phone) ON CONFLICT (id) DO UPDATE SET firstname = EXCLUDED.firstname, lastname = EXCLUDED.lastname, adress = EXCLUDED.adress, phone = EXCLUDED.phone ; ";
 
 			NpgsqlParameter[] parameters = new[]
 			{
