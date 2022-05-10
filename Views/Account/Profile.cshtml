@@ -1,4 +1,5 @@
 ﻿@model UserProfileViewModel
+
 @{
     ViewData["Title"] = "Profile";
 }
@@ -115,7 +116,7 @@
                                 <label class="mb-0 h6">Фото</label>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input class="form-control" type="file" id="formFile">
+                                <input class="form-control" type="file" >
                             </div>
                         </div>
                         <div class="row">
@@ -126,7 +127,7 @@
                                 
                             </div>
                             <div class="col-sm-2 text-secondary">
-                                <button asp-action="Profile" class="btn btn-primary">Photo</button>
+                                <button asp-action="SavePhoto" class="btn btn-primary">Photo</button>
                             </div>
                         </div>
                     </div>

@@ -9,9 +9,19 @@
         public string Adress { get; set; }
         public string Phone { get; set; }
 
+
         public UserProfile()
         {
 
         }
+
+        public class UserAvatar
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public IFormFile Image { get; set; }
+        }
     }
+
+    
 }

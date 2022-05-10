@@ -47,10 +47,13 @@ namespace FoodSharing.Controllers
             return View("Profile", model);
         }
 
-        public async Task<ActionResult> UploadPhoto()
+        [HttpPost]
+        public async Task<ActionResult> SavePhoto(UserAvatarViewModel model)
         {
             return View("Profile");
+
         }
+
 
 
 

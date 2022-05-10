@@ -33,5 +33,7 @@ namespace FoodSharing.Models
             Adress = adress;
             Phone = phone;
         }
+
+       
     }
 }
