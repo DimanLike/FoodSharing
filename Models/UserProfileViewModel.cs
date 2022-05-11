@@ -4,8 +4,6 @@ namespace FoodSharing.Models
 {
     public class UserProfileViewModel
     {
-
-
         public Guid Id { get; set; }
         [Display(Name = "Имя")]
         public string FirstName { get; set; }
@@ -33,7 +31,6 @@ namespace FoodSharing.Models
             Adress = adress;
             Phone = phone;
         }
-
-       
     }
+
 }

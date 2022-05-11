@@ -85,15 +85,22 @@ namespace FoodSharing.Controllers
 			{
 				return View("Registration", model);
 			}
-			var form = HttpContext.Request.Form;
-			string email = form["email"];
-			string password = form["password"];
 
-			User user = await _userService.GetUserByEmailAndPassword(email);
+			User user = await _userService.GetUserByEmailAndPassword(model.Email);
+			
+
 
 			if (user is null)
 			{
-				await _userService.AddUserByEmailAndPassword(email, password);
+				await _userService.AddUserByEmailAndPassword(model.Email, model.Password);
+
+				user = await _userService.GetUserByEmailAndPassword(model.Email);
+
+				UserProfileViewModel userprofile = new UserProfileViewModel();
+				userprofile.Id = user.Id;
+				userprofile.Email = user.Email;
+
+				await _userService.AddUserDataProfile(userprofile);
 
 				await CookieEvents.Authenticate(model.Email, HttpContext);
 

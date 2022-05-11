@@ -21,7 +21,7 @@ namespace FoodSharing.Controllers
 
 
         [Route("Profile")]
-        public async Task<ActionResult> Profile()
+        public async Task<ActionResult> Profile(UserProfileViewModel model)
         {
             string claim = User.Identity.Name;
             //UserProfile user = await _userService.GetUserDataProfile(claim);
@@ -48,7 +48,7 @@ namespace FoodSharing.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SavePhoto(UserAvatarViewModel model)
+        public async Task<ActionResult> SavePhoto()
         {
             return View("Profile");
 

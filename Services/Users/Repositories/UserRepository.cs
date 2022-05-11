@@ -48,6 +48,10 @@ namespace FoodSharing.Services.Users.Repositories
         {
 			string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress,phone) VALUES(@id, @firstname, @lastname, @email, @adress, @phone) ON CONFLICT (id) DO UPDATE SET firstname = EXCLUDED.firstname, lastname = EXCLUDED.lastname, adress = EXCLUDED.adress, phone = EXCLUDED.phone ; ";
 
+			var user = model.GetType;
+
+
+
 			NpgsqlParameter[] parameters = new[]
 			{
 				new NpgsqlParameter(nameof(model.Id), model.Id),
