@@ -24,7 +24,6 @@ namespace FoodSharing.Controllers
         public async Task<ActionResult> Profile(UserProfileViewModel model)
         {
             string claim = User.Identity.Name;
-            //UserProfile user = await _userService.GetUserDataProfile(claim);
             UserProfileViewModel userProfile = await _userService.GetUserDataProfile(claim);
 
             return View(userProfile);
@@ -38,8 +37,8 @@ namespace FoodSharing.Controllers
                 return View();
             }
 
-            string claim = User.Identity.Name;
-            User user = await _userService.GetUserByEmailAndPassword(claim);
+            string email = User.Identity.Name;
+            UserProfileViewModel user = await _userService.GetUserDataProfile(email);
             model.Id = user.Id;
 
             await _userService.AddUserDataProfile(model);
@@ -48,9 +47,20 @@ namespace FoodSharing.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SavePhoto()
+        public async Task<ActionResult> SavePhoto(UserProfileViewModel model)
         {
-            return View("Profile");
+            UserAvatar useravatar = new UserAvatar();
+            if (model.Avatar != null)
+            {
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(model.Avatar.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)model.Avatar.Length);
+                }
+               model.Image = imageData;
+            }
+            
+            return View("Profile", model);
 
         }
 

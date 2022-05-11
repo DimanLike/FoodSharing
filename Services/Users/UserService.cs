@@ -30,8 +30,9 @@ namespace FoodSharing.Services.Users
         }
         public async Task<UserProfileViewModel> GetUserDataProfile(string email)
         {
-
             UserProfile userProfile = await _userRepository.GetUserDataProfile(email);
+            if (userProfile is null) return null;
+
             return UserConverter.MapToUserProfileView(userProfile);
         }
     }

@@ -19,7 +19,15 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+                            @if (Model.Image != null)
+                            {
+                                <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" alt="Admin" class="rounded-circle p-1 bg-primary" width="110"  />
+                            }
+                            else
+                            {
+                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">   
+                            }
+                            
                             <div class="mt-3">
                                 <h4>King Kong</h4>
                                 <p class="text-secondary mb-1">Seller Apples</p>
@@ -67,7 +75,7 @@
                 </div>
             </div>
             <div class="col-lg-8">
-            <form method="post" asp-action="EditProfile">
+            <form method="post" asp-action="EditProfile" enctype="multipart/form-data" >
                 <div class="card">
                     <div class="card-body">
 
@@ -116,7 +124,7 @@
                                 <label class="mb-0 h6">Фото</label>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input class="form-control" type="file" >
+                                <input asp-for="Avatar"  class="form-control" type="file" >
                             </div>
                         </div>
                         <div class="row">

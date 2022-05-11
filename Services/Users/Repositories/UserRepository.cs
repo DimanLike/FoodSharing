@@ -46,14 +46,18 @@ namespace FoodSharing.Services.Users.Repositories
 
 		public Task AddUserDataProfile(UserProfileViewModel model)
         {
-			string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress,phone) VALUES(@id, @firstname, @lastname, @email, @adress, @phone) ON CONFLICT (id) DO UPDATE SET firstname = EXCLUDED.firstname, lastname = EXCLUDED.lastname, adress = EXCLUDED.adress, phone = EXCLUDED.phone ; ";
+            try
+            {
+				string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress,phone)
+				VALUES(@id, @firstname, @lastname, @email, @adress, @phone)
+				ON CONFLICT (id) DO UPDATE SET
+					firstname = EXCLUDED.firstname,
+					lastname = EXCLUDED.lastname,
+					adress = EXCLUDED.adress,
+					phone = EXCLUDED.phone;";
 
-			var user = model.GetType;
-
-
-
-			NpgsqlParameter[] parameters = new[]
-			{
+				NpgsqlParameter[] parameters = new[]
+				{
 				new NpgsqlParameter(nameof(model.Id), model.Id),
 				new NpgsqlParameter(nameof(model.FirstName), model.FirstName),
 				new NpgsqlParameter(nameof(model.LastName), model.LastName),
@@ -61,7 +65,13 @@ namespace FoodSharing.Services.Users.Repositories
 				new NpgsqlParameter(nameof(model.Adress), model.Adress),
 				new NpgsqlParameter(nameof(model.Phone), model.Phone),
 			};
-			return _dbConnection.Add(expression, parameters);
+				return _dbConnection.Add(expression, parameters);
+			}
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 		}
 
 		public Task<UserProfile> GetUserDataProfile(string email)

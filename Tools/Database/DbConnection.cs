@@ -45,7 +45,7 @@ namespace FoodSharing.Tools.Database
 
                 foreach (NpgsqlParameter parameter in parameters)
                 {
-                    cmd.Parameters.Add(parameter);
+                    cmd.Parameters.AddWithValue(parameter.ParameterName, parameter.Value ?? DBNull.Value);
                 }
                 await cmd.ExecuteNonQueryAsync();
                 

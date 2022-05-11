@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodSharing.Models.Users;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodSharing.Models
 {
@@ -17,6 +18,12 @@ namespace FoodSharing.Models
         [Display(Name = "Телефон")]
         public string Phone { get; set; }
 
+
+
+        //public UserAvatar UserAvatar { get; set; }
+        public IFormFile Avatar { get; set; }
+        public byte[] Image { get; set; }
+
         public UserProfileViewModel()
         {
 
@@ -32,5 +39,6 @@ namespace FoodSharing.Models
             Phone = phone;
         }
     }
+
 
 }

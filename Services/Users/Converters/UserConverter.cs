@@ -36,11 +36,11 @@ namespace FoodSharing.Services.Users.Converters
                 while (await reader.ReadAsync())
                 {
                     userProfile.Id = (Guid)reader["ID"];
-                    userProfile.FirstName = (string)reader["FirstName"];
-                    userProfile.LastName = (string)reader["LastName"];
+                    userProfile.FirstName = reader["FirstName"] is DBNull ? null : (string)reader["FirstName"];
+                    userProfile.LastName = reader["LastName"] is DBNull ? null : (string)reader["LastName"];
                     userProfile.Email = (string)reader["Email"];
-                    userProfile.Adress = (string)reader["Adress"];
-                    userProfile.Phone = (string)reader["Phone"];
+                    userProfile.Adress = reader["Adress"] is DBNull ? null : (string)reader["Adress"];
+                    userProfile.Phone = reader["Phone"] is DBNull ? null : (string)reader["Phone"];
                 }
             }
             else
@@ -53,7 +53,6 @@ namespace FoodSharing.Services.Users.Converters
         public static UserProfileViewModel MapToUserProfileView(UserProfile userProfile)
         {
             return new UserProfileViewModel(userProfile.Id, userProfile.FirstName, userProfile.LastName, userProfile.Email, userProfile.Adress, userProfile.Phone );
-           
         }
     }    
 }
