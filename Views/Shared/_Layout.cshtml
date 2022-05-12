@@ -1,63 +1,64 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FoodSharing</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FoodSharing.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - FoodSharing</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/FoodSharing.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FoodSharing</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+			<div class="container-fluid">
+				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FoodSharing</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <div class="nav-item p-2">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </div>
-                    <div class="nav-item p-2">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </div>
+				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<div class="nav-item p-2">
+						<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+					</div>
+					<div class="nav-item p-2">
+						<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NewOrder">Выставить товар</a>
+					</div>
 
-                    @if (User.Identity.Name == null)
-                    {
-                        <div class="nav-item p-2 ms-auto">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Вход</a>
-                        </div>
-                        <div class="nav-item p-2">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Registration">Регистрация</a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="nav-item p-2 ms-auto">
-                            <a class="nav-link active " asp-controller="Account" asp-action="Profile"> @(User.Identity.Name)</a>
-                        </div>
-                        <div class="nav-item p-2">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="LogOut">Выход</a>
-                        </div>
-                    }
-                </div>
-            </div>
-        </nav>
-    </header>
-    @RenderBody()
+					@if (User.Identity.Name == null)
+					{
+						<div class="nav-item p-2 ms-auto">
+							<button class="btn btn-outline-primary my-2 my-sm-0" onclick="location.href='@Url.Action("Login", "Auth")'"> Войти</button>
+						</div>
+						<div class="nav-item p-2">
+							<button class="btn btn-outline-primary my-2 my-sm-0" onclick="location.href='@Url.Action("Registration", "Auth")'"> Регистрация</button>
+						</div>
+					}
+					else
+					{
+						<div class="nav-item p-2 ms-auto">
+							<a class="nav-link active " asp-controller="Account" asp-action="Profile"> @(User.Identity.Name)</a>
+						</div>
+						<div class="nav-item p-2">
+							<button class="btn btn-outline-danger my-2 my-sm-0" onclick="location.href='@Url.Action("LogOut", "Auth")'"> Выход</button>
+						</div>	
+					}
+				</div>
+			</div>
+		</nav>
+	</header>
+	@RenderBody()
 
   @*  <footer class="border-top text-muted footer">
-        <div class="container">
-            &copy; 2022 - FoodSharing - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+		<div class="container">
+			&copy; 2022 - FoodSharing - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer>*@
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

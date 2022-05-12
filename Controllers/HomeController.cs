@@ -20,8 +20,8 @@ namespace FoodSharing.Controllers
             return View();
         }
 
-        [Route("/Home/Privacy")]
-        public IActionResult Privacy()
+       
+        public IActionResult NewOrder()
         {
             return View();
         }
