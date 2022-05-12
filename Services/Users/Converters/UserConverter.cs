@@ -41,6 +41,7 @@ namespace FoodSharing.Services.Users.Converters
                     userProfile.Email = (string)reader["Email"];
                     userProfile.Adress = reader["Adress"] is DBNull ? null : (string)reader["Adress"];
                     userProfile.Phone = reader["Phone"] is DBNull ? null : (string)reader["Phone"];
+                    userProfile.Avatar = reader["Avatar"] is DBNull ? null : (byte[])reader["Avatar"];
                 }
             }
             else
@@ -52,7 +53,8 @@ namespace FoodSharing.Services.Users.Converters
 
         public static UserProfileViewModel MapToUserProfileView(UserProfile userProfile)
         {
-            return new UserProfileViewModel(userProfile.Id, userProfile.FirstName, userProfile.LastName, userProfile.Email, userProfile.Adress, userProfile.Phone );
+
+            return new UserProfileViewModel(userProfile.Id, userProfile.FirstName, userProfile.LastName, userProfile.Email, userProfile.Adress, userProfile.Phone, userProfile.Avatar);
         }
     }    
 }

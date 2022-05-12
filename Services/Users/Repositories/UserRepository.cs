@@ -48,13 +48,14 @@ namespace FoodSharing.Services.Users.Repositories
         {
             try
             {
-				string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress,phone)
-				VALUES(@id, @firstname, @lastname, @email, @adress, @phone)
+				string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress, phone, avatar)
+				VALUES(@id, @firstname, @lastname, @email, @adress, @phone, @avatar)
 				ON CONFLICT (id) DO UPDATE SET
 					firstname = EXCLUDED.firstname,
 					lastname = EXCLUDED.lastname,
 					adress = EXCLUDED.adress,
-					phone = EXCLUDED.phone;";
+					phone = EXCLUDED.phone, 
+					avatar = EXCLUDED.avatar;";
 
 				NpgsqlParameter[] parameters = new[]
 				{
@@ -64,6 +65,7 @@ namespace FoodSharing.Services.Users.Repositories
 				new NpgsqlParameter(nameof(model.Email), model.Email),
 				new NpgsqlParameter(nameof(model.Adress), model.Adress),
 				new NpgsqlParameter(nameof(model.Phone), model.Phone),
+				new NpgsqlParameter(nameof(model.Avatar), model.Avatar),
 			};
 				return _dbConnection.Add(expression, parameters);
 			}
