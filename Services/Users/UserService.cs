@@ -35,5 +35,10 @@ namespace FoodSharing.Services.Users
 
             return UserConverter.MapToUserProfileView(userProfile);
         }
+
+        public Task AddNewUserProduct(ProductsViewModel model)
+        {
+            return _userRepository.AddNewUserProduct(model);
+        }
     }
 }

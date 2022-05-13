@@ -36,10 +36,7 @@ namespace FoodSharing.Models
         [ValidateNever]
         public byte[] Avatar { get; set; }
 
-        public UserProfileViewModel()
-        {
-
-        }
+        public UserProfileViewModel(){}
 
         public UserProfileViewModel(Guid id, string firstName, string lastName, string email, string adress, string phone, byte[] avatar)
         {

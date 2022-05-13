@@ -20,8 +20,12 @@ namespace FoodSharing.Controllers
             return View();
         }
 
-       
-        public IActionResult NewOrder()
+        public IActionResult Products()
+        {
+            return View();
+        }
+
+        public IActionResult NewProduct()
         {
             return View();
         }

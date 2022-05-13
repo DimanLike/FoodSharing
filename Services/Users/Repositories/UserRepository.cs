@@ -18,7 +18,7 @@ namespace FoodSharing.Services.Users.Repositories
 
 		public Task<User> GetUserByEmailAndPassword(string email)
 		{
-			string expression = @"SELECT * FROM usertest WHERE email = @email";
+			string expression = @"SELECT * FROM users WHERE email = @email";
 
 			NpgsqlParameter[] parameters = new[]
 			{
@@ -29,7 +29,8 @@ namespace FoodSharing.Services.Users.Repositories
 
 		public Task AddUserByEmailAndPassword(string email, string password)
 		{
-			string expression = @"INSERT INTO usertest (id, email, password, createdat) VALUES (@id, @email, @password, @createdat)";
+			string expression = @"INSERT INTO users (id, email, password, createdat) 
+								VALUES (@id, @email, @password, @createdat)";
 			Guid id = Guid.NewGuid();
 			DateTime createdAt = DateTime.Now; 
 
@@ -48,7 +49,7 @@ namespace FoodSharing.Services.Users.Repositories
         {
             try
             {
-				string expression = @"INSERT INTO profiletest(id, firstname, lastname, email, adress, phone, avatar)
+				string expression = @"INSERT INTO usersprofile(id, firstname, lastname, email, adress, phone, avatar)
 				VALUES(@id, @firstname, @lastname, @email, @adress, @phone, @avatar)
 				ON CONFLICT (id) DO UPDATE SET
 					firstname = EXCLUDED.firstname,
@@ -78,7 +79,7 @@ namespace FoodSharing.Services.Users.Repositories
 
 		public Task<UserProfile> GetUserDataProfile(string email)
         {
-			string expression = @"SELECT * FROM profiletest WHERE email = @email";
+			string expression = @"SELECT * FROM usersprofile WHERE email = @email";
 
 			NpgsqlParameter[] parameters = new[]
 			{
@@ -87,5 +88,28 @@ namespace FoodSharing.Services.Users.Repositories
 
 			return _dbConnection.Get(expression, UserConverter.MapToUserProfile, parameters);
 		}
+
+		public Task AddNewUserProduct(ProductsViewModel model)
+		{
+			string expression = @"INSERT INTO products (id, userid, name, description, category, quantity, image, createdat) 
+								VALUES (@id, @userid, @name, @description, @category, @quantity, @image, @createdat)";
+			model.Id = Guid.NewGuid();
+			model.CreatedAt = DateTime.Now;
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(model.Id), model.Id),
+				new NpgsqlParameter(nameof(model.UserId), model.UserId),
+				new NpgsqlParameter(nameof(model.Name), model.Name),
+				new NpgsqlParameter(nameof(model.Description), model.Description),
+				new NpgsqlParameter(nameof(model.Category), model.Category),
+				new NpgsqlParameter(nameof(model.Quantity), model.Quantity),
+				new NpgsqlParameter(nameof(model.Image), model.Image),
+				new NpgsqlParameter(nameof(model.CreatedAt), model.CreatedAt),
+			};
+
+			return _dbConnection.Add(expression, parameters);
+		}
+
 	}
 }
