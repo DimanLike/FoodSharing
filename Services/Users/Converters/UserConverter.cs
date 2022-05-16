@@ -120,6 +120,8 @@ namespace FoodSharing.Services.Users.Converters
                                          userProducts.CreatedAt);
         }
 
+
+
         public static UserProfileViewModel MapToUserProfileView(UserProfile userProfile)
         {
             return new UserProfileViewModel(userProfile.Id, 

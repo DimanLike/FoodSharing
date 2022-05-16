@@ -1,4 +1,5 @@
-﻿using FoodSharing.Models;
+﻿using AutoMapper;
+using FoodSharing.Models;
 using FoodSharing.Models.Products;
 using FoodSharing.Models.Users;
 using FoodSharing.Services.Users.Converters;
@@ -41,12 +42,22 @@ namespace FoodSharing.Services.Users
             return _userRepository.AddNewUserProduct(model);
         }
 
-        public async Task<ProductsViewModel> GetUserInventory(Guid userid)
+        public async Task<List<ProductsViewModel>> GetUserInventory(Guid userid)
 		{
-            UserProducts userProducts = await _userRepository.GetUserInventory(userid);
-            if (userProducts is null) return null;
+            List<UserProducts> userProducts = await _userRepository.GetUserInventory(userid);
+            if (userProducts is null) { return null; }
 
-            return UserConverter.MapToUserProductsView(userProducts);
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<UserProducts, ProductsViewModel>();
+            });
+            var mapper = configuration.CreateMapper();
+
+            var productsViewModel = mapper.Map<List<UserProducts>, List<ProductsViewModel>> (userProducts);
+
+            return productsViewModel;
         }
+
+
     }
 }
