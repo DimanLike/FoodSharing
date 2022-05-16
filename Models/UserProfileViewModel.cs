@@ -28,9 +28,6 @@ namespace FoodSharing.Models
         [Display(Name = "Телефон")]
         public string Phone { get; set; }
 
-
-
-        //public UserAvatar UserAvatar { get; set; }
         [ValidateNever]
         public IFormFile Image { get; set; }
         [ValidateNever]

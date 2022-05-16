@@ -1,4 +1,4 @@
-﻿@model ProductsViewModel
+﻿@model List<ProductsViewModel>
 @{
 	ViewData["Title"] = "Home Page";
 }
@@ -50,45 +50,58 @@
 						</div>
 					</div>
 				}
-				<div class="card">
-					<div class="card-body">
-						<form method="post" asp-controller="Products" asp-action="AddProduct" enctype="multipart/form-data">
-							<div class="row mb-4">
-								<label asp-for="Name" class="col-sm-3 col-form-label"></label>
-								<div class="col-sm-9">
-									<input asp-for="Name" type="text" class="form-control" placeholder="Введите название товара">
+				@if (Model is null)
+				{
+					<button class="btn btn-outline-primary my-2 my-sm-0" onclick="location.href='@Url.Action("GetInventoryProduct", "User")'">View products</button>
+				}
+				else
+				{
+					@foreach(var productView in Model)
+					{
+					<div class="card">
+						<div class="card-body">
+							<form method="post" asp-controller="Products" asp-action="AddProduct" enctype="multipart/form-data">
+								<div class="row mb-4">
+									@if (productView.Image != null)
+									{
+										<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))" class="img-fluid"/>
+									}
+									else
+									{ 
+										<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="img-fluid rounded"/>
+									}	
 								</div>
-							</div>
-							<div class="row mb-4">
-								<label asp-for="Quantity" class="col-sm-3 col-form-label"></label>
-								<div class="col-sm-9">
-									<input asp-for="Quantity" type="text" class="form-control" placeholder="">
+								<div class="row mb-4">
+									<label class="col-sm-3 col-form-label">Название</label>
+									<div class="col-sm-9">
+										<input readonly  type="text" class="form-control" value="@productView.Name">	
+									</div>
 								</div>
-							</div>
-							<div class="row mb-4">
-								<label asp-for="Description" class="col-sm-3 col-form-label"></label>
-								<div class="col-sm-9">
-									<textarea asp-for="Description" class="form-control">
-								</textarea>
+								<div class="row mb-4">
+									<label class="col-sm-3 col-form-label"> Количество</label>
+									<div class="col-sm-9">
+										<input readonly  type="text" class="form-control" value="@productView.Quantity"  >
+									</div>
 								</div>
-							</div>
-							<div class="row mb-4">
-								<div class="col-sm-3">
-									<label class="mb-0 h6">Фото</label>
+								<div class="row mb-4">
+									<label class="col-sm-3 col-form-label"> Описание</label>
+									<div class="col-sm-9">
+										<textarea readonly  class="form-control" value="@productView.Description">
+									</textarea>
+									</div>
 								</div>
-								<div class="col-sm-9 text-secondary">
-									<input asp-for="IFormFile" class="form-control" type="file">
+								<div class="row mb-4">
+									<label class="col-sm-3 col-form-label"> Категория</label>
+									<div class="col-sm-9">
+										<input type="text" readonly  class="form-control" value="@productView.Category">
+									</div>
 								</div>
-							</div>
-							<div class="row mb-4">
-								<label asp-for="Category" class="col-sm-3 col-form-label"></label>
-								<div class="col-sm-9">
-									<input asp-for="Category" type="text" class="form-control" placeholder="">
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
+							</form>
+						</div>
+						<div class="card-footer text-muted"> @productView.CreatedAt </div>
+					</div>	
+					}
+				}
 			</div>
 		</div>
 	</div>

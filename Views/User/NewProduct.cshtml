@@ -53,7 +53,7 @@
 			}
 				<div class="card">
 					<div class="card-body">
-						<form method="post" asp-controller="Products" asp-action="AddProduct" enctype="multipart/form-data">
+						<form method="post" asp-controller="User" asp-action="NewProduct" enctype="multipart/form-data">
 							<div class="row mb-4">
 								<label asp-for="Name" class="col-sm-3 col-form-label"></label>
 								<div class="col-sm-9">
@@ -100,7 +100,7 @@
 							</div>
 							<div class="row mb-2">
 								<div class="col-sm-9">
-									<button class="btn btn-primary" onclick="location.href='@Url.Action("AddProduct", "Products")'">Add product</button>
+									<button class="btn btn-primary" onclick="location.href='@Url.Action("AddProduct", "User")'">Add product</button>
 									<button type="reset" class="btn btn-outline-danger">Cancel</button>
 								</div>
 							</div>

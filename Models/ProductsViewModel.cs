@@ -20,13 +20,31 @@ namespace FoodSharing.Models
         public string Quantity { get; set; }
 
         [Display(Name = "Изображение")]
-        public byte[] Image { get; set; }
+        
         public DateTime CreatedAt { get; set; }
+        public byte[] Image { get; set; }
 
         public IFormFile IFormFile { get; set; }
 
         public ProductsViewModel(){}
 
-
+        public ProductsViewModel(Guid id,
+                                Guid userId,
+                                string name,
+                                string description,
+                                string category,
+                                string quantity,
+                                byte[] image,
+                                DateTime createdAt)
+        {
+            Id = id;
+            UserId = userId;
+            Name = name;
+            Description = description;
+            Category = category;
+            Quantity = quantity;
+            Image = image;
+            CreatedAt = createdAt;
+        }
     }
 }

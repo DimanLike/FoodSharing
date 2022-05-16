@@ -1,4 +1,5 @@
 ﻿using FoodSharing.Models;
+using FoodSharing.Models.Products;
 using FoodSharing.Models.Users;
 
 namespace FoodSharing.Services.Users.Interfaces
@@ -10,5 +11,7 @@ namespace FoodSharing.Services.Users.Interfaces
         Task AddUserDataProfile(UserProfileViewModel model);
         Task<UserProfile> GetUserDataProfile(string email);
         Task AddNewUserProduct(ProductsViewModel model);
+        Task<List<UserProducts>> GetUserInventory(Guid userid);
+
     }
 }

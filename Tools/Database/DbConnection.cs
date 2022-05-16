@@ -34,6 +34,29 @@ namespace FoodSharing.Tools.Database
             }
         }
 
+        public async Task<List<T>> GetList<T>(string expression, Func<NpgsqlDataReader, Task<List<T>>> mapper, NpgsqlParameter[] parameters = default)
+		{
+            await using var conn = new NpgsqlConnection(_connectionString);
+            try
+            {
+                await conn.OpenAsync();
+
+                await using var cmd = new NpgsqlCommand(expression, conn);
+
+                foreach (NpgsqlParameter parameter in parameters)
+                {
+                    cmd.Parameters.Add(parameter);
+                }
+
+                return await mapper(await cmd.ExecuteReaderAsync());
+            }
+            finally
+            {
+                await conn.CloseAsync();
+                await conn.DisposeAsync();
+            }
+        }
+
         public async Task Add(string expression, NpgsqlParameter[] parameters = default)
         {
             await using var conn = new NpgsqlConnection(_connectionString);

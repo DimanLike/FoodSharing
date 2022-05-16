@@ -1,4 +1,5 @@
 ﻿using FoodSharing.Models;
+using FoodSharing.Models.Products;
 using FoodSharing.Models.Users;
 using FoodSharing.Services.Users.Converters;
 using FoodSharing.Services.Users.Interfaces;
@@ -35,10 +36,17 @@ namespace FoodSharing.Services.Users
 
             return UserConverter.MapToUserProfileView(userProfile);
         }
-
         public Task AddNewUserProduct(ProductsViewModel model)
         {
             return _userRepository.AddNewUserProduct(model);
+        }
+
+        public async Task<ProductsViewModel> GetUserInventory(Guid userid)
+		{
+            UserProducts userProducts = await _userRepository.GetUserInventory(userid);
+            if (userProducts is null) return null;
+
+            return UserConverter.MapToUserProductsView(userProducts);
         }
     }
 }

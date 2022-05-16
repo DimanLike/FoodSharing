@@ -18,6 +18,8 @@ namespace FoodSharing.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        [Route("/User/NewProduct")]
         public IActionResult NewProduct()
         {
             return View();
@@ -25,10 +27,26 @@ namespace FoodSharing.Controllers
 
         public IActionResult Products()
         {
+        
             return View();
+
         }
 
-        public async Task<ActionResult> AddProduct(ProductsViewModel model)
+        public async Task<ActionResult> GetInventoryProduct(ProductsViewModel model)
+		{
+			string email = User.Identity.Name;
+			User user = await _userService.GetUserByEmailAndPassword(email);
+            var userid = user.Id;
+
+            List<ProductsViewModel> UserProducts = await _userService.GetUserInventory(userid);
+
+            return View("Products", UserProducts);
+
+        }
+
+        [HttpPost]
+        [Route("/User/NewProduct")]
+        public async Task<ActionResult> NewProduct(ProductsViewModel model)
         {
             string email = User.Identity.Name;
             User user = await _userService.GetUserByEmailAndPassword(email);
@@ -53,9 +71,6 @@ namespace FoodSharing.Controllers
             }
 
             return View(model);
-
-
-            return View();
         }
     }
 }

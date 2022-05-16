@@ -1,4 +1,5 @@
 ﻿using FoodSharing.Models;
+using FoodSharing.Models.Products;
 using FoodSharing.Models.Users;
 using FoodSharing.Services.Users.Converters;
 using FoodSharing.Services.Users.Interfaces;
@@ -109,6 +110,19 @@ namespace FoodSharing.Services.Users.Repositories
 			};
 
 			return _dbConnection.Add(expression, parameters);
+		}
+
+		public Task<List<UserProducts>> GetUserInventory(Guid userid)
+        {
+			string expression = @"SELECT * FROM products WHERE userid = @userid";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(userid), userid),
+			};
+
+			return _dbConnection.GetList(expression, UserConverter.MapToUserProducts, parameters);
+
 		}
 
 	}
