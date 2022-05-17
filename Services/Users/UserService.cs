@@ -45,7 +45,13 @@ namespace FoodSharing.Services.Users
         public async Task<List<ProductsViewModel>> GetUserInventory(Guid userid)
 		{
             List<UserProducts> userProducts = await _userRepository.GetUserInventory(userid);
+            List<ProductCategories> productCategories = await _userRepository.GetCategories();
             if (userProducts is null) { return null; }
+
+            //userProducts.Select(x => x.Category);
+            //_userRepository.GetCategories(categoryIds);
+            //List<ProductCategories> categories = new List<ProductCategories>();
+            
 
             var configuration = new MapperConfiguration(cfg =>
             {
@@ -55,7 +61,22 @@ namespace FoodSharing.Services.Users
 
             var productsViewModel = mapper.Map<List<UserProducts>, List<ProductsViewModel>> (userProducts);
 
+
+            //List<ProductsViewModel> a = userProducts.Select(x =>
+            //{
+            //    ProductCategories category = categories.FirstOrDefault(c => c.Id == x.Category);
+            //    return new ProductsViewModel();
+            //}).ToList();
+
+
+
             return productsViewModel;
+        }
+
+        public async Task<List<ProductCategories>> GetCategories()
+        {
+            List<ProductCategories> productCategories = await _userRepository.GetCategories();
+            return productCategories;
         }
 
 

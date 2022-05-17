@@ -43,9 +43,13 @@ namespace FoodSharing.Tools.Database
 
                 await using var cmd = new NpgsqlCommand(expression, conn);
 
-                foreach (NpgsqlParameter parameter in parameters)
+                if (parameters is not null)
                 {
-                    cmd.Parameters.Add(parameter);
+                    foreach (NpgsqlParameter parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+
                 }
 
                 return await mapper(await cmd.ExecuteReaderAsync());

@@ -92,8 +92,8 @@ namespace FoodSharing.Services.Users.Repositories
 
 		public Task AddNewUserProduct(ProductsViewModel model)
 		{
-			string expression = @"INSERT INTO products (id, userid, name, description, category, quantity, image, createdat) 
-								VALUES (@id, @userid, @name, @description, @category, @quantity, @image, @createdat)";
+			string expression = @"INSERT INTO products (id, userid, name, description, categoryid, quantity, image, createdat) 
+								VALUES (@id, @userid, @name, @description, @categoryid, @quantity, @image, @createdat)";
 			model.Id = Guid.NewGuid();
 			model.CreatedAt = DateTime.Now;
 
@@ -103,7 +103,7 @@ namespace FoodSharing.Services.Users.Repositories
 				new NpgsqlParameter(nameof(model.UserId), model.UserId),
 				new NpgsqlParameter(nameof(model.Name), model.Name),
 				new NpgsqlParameter(nameof(model.Description), model.Description),
-				new NpgsqlParameter(nameof(model.Category), model.Category),
+				new NpgsqlParameter(nameof(model.CategoryId), model.CategoryId),
 				new NpgsqlParameter(nameof(model.Quantity), model.Quantity),
 				new NpgsqlParameter(nameof(model.Image), model.Image),
 				new NpgsqlParameter(nameof(model.CreatedAt), model.CreatedAt),
@@ -123,6 +123,13 @@ namespace FoodSharing.Services.Users.Repositories
 
 			return _dbConnection.GetList(expression, UserConverter.MapToUserProducts, parameters);
 
+		}
+
+		public Task<List<ProductCategories>> GetCategories()
+        {
+			string expression = @"SELECT * FROM products_categories";
+
+			return _dbConnection.GetList(expression, UserConverter.MapToProductCategories);
 		}
 
 	}

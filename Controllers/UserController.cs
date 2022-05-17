@@ -20,14 +20,17 @@ namespace FoodSharing.Controllers
 
         [HttpGet]
         [Route("/User/NewProduct")]
-        public IActionResult NewProduct()
+        public async Task<IActionResult> NewProduct()
         {
-            return View();
+            ProductsViewModel model = new ProductsViewModel();
+            List<ProductCategories> productCategories = await _userService.GetCategories();
+            model.Categories = productCategories;
+
+            return View(model);
         }
 
-        public IActionResult Products()
+        public  IActionResult Products()
         {
-        
             return View();
 
         }
@@ -67,10 +70,11 @@ namespace FoodSharing.Controllers
             else
             {
                 TempData["UploadPhotoError"] = "Фото не было загружено";
-                return View(model);
+                return View("NewProduct", model);
             }
 
-            return View(model);
+            TempData["AddProductSeccess"] = "Товар был добавлен";
+            return RedirectToAction("NewProduct", "User");
         }
     }
 }

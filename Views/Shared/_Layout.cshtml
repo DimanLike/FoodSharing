@@ -29,10 +29,10 @@
 					@if (User.Identity.Name == null)
 					{
 						<div class="nav-item p-2 ms-auto">
-							<button class="btn btn-outline-primary my-2 my-sm-0" onclick="location.href='@Url.Action("Login", "Auth")'"> Войти</button>
+							<button class="btn btn-outline-primary " onclick="location.href='@Url.Action("Login", "Auth")'"> Войти</button>
 						</div>
 						<div class="nav-item p-2">
-							<button class="btn btn-outline-primary my-2 my-sm-0" onclick="location.href='@Url.Action("Registration", "Auth")'"> Регистрация</button>
+							<button class="btn btn-outline-primary " onclick="location.href='@Url.Action("Registration", "Auth")'"> Регистрация</button>
 						</div>
 					}
 					else
@@ -41,7 +41,7 @@
 							<a class="nav-link active " asp-controller="Account" asp-action="Profile"> @(User.Identity.Name)</a>
 						</div>
 						<div class="nav-item p-2">
-							<button class="btn btn-outline-danger my-2 my-sm-0" onclick="location.href='@Url.Action("LogOut", "Auth")'"> Выход</button>
+							<button class=" btn btn-outline-danger " onclick="location.href='@Url.Action("LogOut", "Auth")'"> Выход</button>
 						</div>	
 					}
 				</div>

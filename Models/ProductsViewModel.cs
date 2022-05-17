@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FoodSharing.Models.Users;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodSharing.Models
 {
@@ -15,6 +16,7 @@ namespace FoodSharing.Models
 
         [Display(Name = "Категория")]
         public string Category { get; set; }
+        public int CategoryId { get; set; }
 
         [Display(Name = "Количество")]
         public string Quantity { get; set; }
@@ -25,6 +27,8 @@ namespace FoodSharing.Models
         public byte[] Image { get; set; }
 
         public IFormFile IFormFile { get; set; }
+         
+        public List<ProductCategories> Categories { get; set; }
 
         public ProductsViewModel(){}
 
@@ -32,7 +36,7 @@ namespace FoodSharing.Models
                                 Guid userId,
                                 string name,
                                 string description,
-                                string category,
+                                int categoryId,
                                 string quantity,
                                 byte[] image,
                                 DateTime createdAt)
@@ -41,7 +45,7 @@ namespace FoodSharing.Models
             UserId = userId;
             Name = name;
             Description = description;
-            Category = category;
+            CategoryId = categoryId;
             Quantity = quantity;
             Image = image;
             CreatedAt = createdAt;

@@ -12,6 +12,10 @@ namespace FoodSharing.Services.Users.Interfaces
         Task<UserProfileViewModel> GetUserDataProfile(string email);
         Task AddNewUserProduct(ProductsViewModel model);
         Task<List<ProductsViewModel>> GetUserInventory(Guid userid);
-        
+
+        Task<List<ProductCategories>> GetCategories();
+
+
+
     }
 }

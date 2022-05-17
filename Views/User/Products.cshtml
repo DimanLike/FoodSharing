@@ -34,8 +34,22 @@
 		margin-bottom: 1.5rem;
 		box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
 	}
+
+	.crop {
+        width: 300px;
+        height: 300px;
+        overflow: hidden;
+    }
+
+	.image-container {
+		width: 300px;
+		height: 300px;
+		display: flex;
+		align-self: center;
+		align-items: center;
+	}
 </style>
-<div class="container">
+<div class="container wrap">
 	<div class="main-body">
 		<div class="row justify-content-center">
 			
@@ -59,18 +73,21 @@
 					@foreach(var productView in Model)
 					{
 					<div class="col-md-4">
-					<div class="card">
+					<div class="card ">
+						@if (productView.Image != null)
+						{
+							<div class="image-container">
+								<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))" class="img-fluid card-img-top mh-100 mw-100"/>
+							</div>
+						}
+						else
+						{ 
+							<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="img-fluid rounded"/>
+						}
 						<div class="card-body">
 							<form method="post" asp-controller="Products" asp-action="AddProduct" enctype="multipart/form-data">
 								<div class="row mb-4">
-									@if (productView.Image != null)
-									{
-										<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))" class="img-fluid"/>
-									}
-									else
-									{ 
-										<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="img-fluid rounded"/>
-									}	
+										
 								</div>
 								<div class="row mb-4">
 									<label class="col-sm-4 col-form-label">Название</label>

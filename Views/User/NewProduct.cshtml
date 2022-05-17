@@ -1,4 +1,5 @@
-﻿@model ProductsViewModel
+﻿@using FoodSharing.Models.Users
+@model ProductsViewModel
 @{
 	ViewData["Title"] = "NewProduct";
 }
@@ -41,16 +42,27 @@
 		<div class="row justify-content-center">
 			<div class="col-lg-6   ">
 				@if (TempData["UploadPhotoError"] != null)
-			{
-				<div class="row">
-					<div class="col-sm-12">
-						<div class=" mb-3 alert alert-warning alert-dismissible fade show" role="alert">
-							<strong>О нет!</strong> @TempData["UploadPhotoError"]
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				{
+					<div class="row">
+						<div class="col-sm-12">
+							<div class=" mb-3 alert alert-warning alert-dismissible fade show" role="alert">
+								<strong>О нет!</strong> @TempData["UploadPhotoError"]
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
 						</div>
 					</div>
-				</div>
-			}
+				}
+				@if (TempData["AddProductSeccess"] != null)
+				{
+					<div class="row">
+						<div class="col-sm-12">
+							<div class=" mb-3 alert alert-success alert-dismissible fade show">
+								<strong>Успешно!</strong> @TempData["AddProductSeccess"]
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+						</div>
+					</div>
+				}
 				<div class="card">
 					<div class="card-body">
 						<form method="post" asp-controller="User" asp-action="NewProduct" enctype="multipart/form-data">
@@ -78,23 +90,16 @@
 									<label class="mb-0 h6">Фото</label>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input asp-for="IFormFile"  class="form-control" type="file">
+									<input asp-for="IFormFile" class="form-control" type="file">
 								</div>
 							</div>
-
 							<div class="row mb-4">
-								<label asp-for="Category"  class="col-sm-3 col-form-label"></label>
+								<label asp-for="Category" class="col-sm-3 col-form-label"></label>
 								<div class="col-sm-9">
-									<select asp-for="Category" class="form-select" size="4">
-										<option value="1" >Хлебобулочные изделия</option>
-										<option value="2">Крупы</option>
-										<option value="3">Молочные продукты </option>
-										<option value="4">Фрукты </option>
-										<option value="6">Овощи </option>
-										<option value="7">Мясо </option>
-										<option value="8">Морепродукты </option>
-										<option value="9">Кондитерские изделия </option>
-										<option value="10">Полуфабрикаты </option>
+									<select asp-for="CategoryId"
+											asp-items="@(new SelectList(Model.Categories, nameof(ProductCategories.Id), nameof(ProductCategories.Name)))"
+											class="form-select">
+										<option selected>Выберите категорию продукта</option>
 									</select>
 								</div>
 							</div>
