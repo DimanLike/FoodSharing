@@ -31,7 +31,7 @@ namespace FoodSharing.Controllers
 
         public  IActionResult Products()
         {
-            return View();
+            return RedirectToAction("GetInventoryProduct", "User");
 
         }
 
@@ -44,7 +44,13 @@ namespace FoodSharing.Controllers
             List<ProductsViewModel> UserProducts = await _userService.GetUserInventory(userid);
 
             return View("Products", UserProducts);
+        }
 
+        [HttpGet]
+        public async Task<ActionResult> DeleteUserProduct(Guid id)
+        {
+            await _userService.DeleteProduct(id);
+            return RedirectToAction("Products", "User");
         }
 
         [HttpPost]

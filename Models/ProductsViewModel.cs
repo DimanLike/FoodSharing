@@ -15,7 +15,7 @@ namespace FoodSharing.Models
         public string Description { get; set; }
 
         [Display(Name = "Категория")]
-        public string Category { get; set; }
+        public string CategoryName { get; set; }
         public int CategoryId { get; set; }
 
         [Display(Name = "Количество")]
@@ -37,6 +37,7 @@ namespace FoodSharing.Models
                                 string name,
                                 string description,
                                 int categoryId,
+                                string categoryName,
                                 string quantity,
                                 byte[] image,
                                 DateTime createdAt)
@@ -46,6 +47,7 @@ namespace FoodSharing.Models
             Name = name;
             Description = description;
             CategoryId = categoryId;
+            CategoryName = categoryName;
             Quantity = quantity;
             Image = image;
             CreatedAt = createdAt;

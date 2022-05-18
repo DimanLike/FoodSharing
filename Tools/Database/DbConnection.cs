@@ -75,7 +75,6 @@ namespace FoodSharing.Tools.Database
                     cmd.Parameters.AddWithValue(parameter.ParameterName, parameter.Value ?? DBNull.Value);
                 }
                 await cmd.ExecuteNonQueryAsync();
-                
             }
             finally
             {
@@ -84,6 +83,8 @@ namespace FoodSharing.Tools.Database
             }
 
         }
+
+
 
     }
 }

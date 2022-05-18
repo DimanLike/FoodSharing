@@ -14,5 +14,8 @@ namespace FoodSharing.Services.Users.Interfaces
         Task<List<UserProducts>> GetUserInventory(Guid userid);
         Task<List<ProductCategories>> GetCategories();
 
+        Task<List<ProductCategories>> GetCategories(int[] ids);
+        Task DeleteProduct(Guid id);
+
     }
 }

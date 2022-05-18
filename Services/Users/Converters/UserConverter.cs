@@ -28,6 +28,8 @@ namespace FoodSharing.Services.Users.Converters
 
 			return user;
 		}
+
+
 		public static async Task<UserProfile> MapToUserProfile(NpgsqlDataReader reader)
 		{
 			UserProfile userProfile = new UserProfile();
@@ -132,7 +134,26 @@ namespace FoodSharing.Services.Users.Converters
 			return productCategories;
 		}
 
-	
+		public static async Task<ProductCategories> MapToProductCategory(NpgsqlDataReader reader)
+		{
+			ProductCategories productCategories = new ProductCategories();
+
+			if (reader.HasRows)
+			{
+				while (await reader.ReadAsync())
+				{
+					productCategories.Id = (int)reader["Id"];
+					productCategories.Name = (string)reader["Name"];
+					productCategories.CreatedAt = (DateTime)reader["CreatedAt"];
+				}
+			}
+			else
+			{
+				return null;
+			}
+
+			return productCategories;
+		}
 
 
 		public static ProductsViewModel MapToUserProductsView(UserProducts userProducts)
@@ -142,12 +163,11 @@ namespace FoodSharing.Services.Users.Converters
 										 userProducts.Name,
 										 userProducts.Description,
 										 userProducts.CategoryId,
+										 null,
 										 userProducts.Quantity,
 										 userProducts.Image,
 										 userProducts.CreatedAt);
 		}
-
-
 
 		public static UserProfileViewModel MapToUserProfileView(UserProfile userProfile)
 		{

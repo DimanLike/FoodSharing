@@ -122,7 +122,6 @@ namespace FoodSharing.Services.Users.Repositories
 			};
 
 			return _dbConnection.GetList(expression, UserConverter.MapToUserProducts, parameters);
-
 		}
 
 		public Task<List<ProductCategories>> GetCategories()
@@ -132,5 +131,30 @@ namespace FoodSharing.Services.Users.Repositories
 			return _dbConnection.GetList(expression, UserConverter.MapToProductCategories);
 		}
 
+		public Task<List<ProductCategories>> GetCategories(int[] ids)
+        {
+			string expression = @"SELECT * FROM products_categories WHERE id = ANY(@ids)";
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(ids), ids),
+			};
+            return _dbConnection.GetList(expression, UserConverter.MapToProductCategories, parameters);
+		}
+
+		public Task DeleteProduct(Guid id)
+        {
+			string expression = @"DELETE FROM products WHERE id = @id";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(id), id),
+			};
+
+			return _dbConnection.Add(expression, parameters);
+		}
+
+
+
+		
 	}
 }
