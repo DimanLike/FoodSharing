@@ -1,6 +1,7 @@
 ﻿using FoodSharing.Models;
 using FoodSharing.Models.Users;
 using FoodSharing.Services.Users.Interfaces;
+using FoodSharing.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,12 +20,11 @@ namespace FoodSharing.Controllers
 			_userService = userService;
 		}
 
-
 		[Route("Profile")]
-		public async Task<ActionResult> Profile(UserProfileViewModel model)
+		public async Task<ActionResult> Profile()
 		{
 			string claim = User.Identity.Name;
-			UserProfileViewModel userProfile = await _userService.GetUserDataProfile(claim);
+			UserProfileViewModel userProfile = await _userService.GetUserProfile(claim);
 
 			return View("Profile", userProfile);
 		}
@@ -32,16 +32,13 @@ namespace FoodSharing.Controllers
 		[HttpPost]
 		public async Task<ActionResult> EditProfile(UserProfileViewModel model)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View();
-			}
+			if (!ModelState.IsValid) return View();
 
 			string email = User.Identity.Name;
-			UserProfileViewModel user = await _userService.GetUserDataProfile(email);
+			UserProfileViewModel user = await _userService.GetUserProfile(email);
 			model.Id = user.Id;
 
-			await _userService.AddUserDataProfile(model);
+			await _userService.AddUserProfile(model);
 
 			return View("Profile", model);
 		}
@@ -50,25 +47,22 @@ namespace FoodSharing.Controllers
 		public async Task<ActionResult> SavePhoto(UserProfileViewModel model)
 		{
 			string email = User.Identity.Name;
-			UserProfileViewModel user = await _userService.GetUserDataProfile(email);
+
+			UserProfileViewModel user = await _userService.GetUserProfile(email);
 			model.Id = user.Id;
 
 			if (model.Image != null)
 			{
-				byte[] imageData = null;
-				using (var binaryReader = new BinaryReader(model.Image.OpenReadStream()))
-				{
-					imageData = binaryReader.ReadBytes((int)model.Image.Length);
-				}
-			   model.Avatar = imageData;
-				await _userService.AddUserDataProfile(model);
+				model.Avatar = FileTools.GetBytes(model.Image);
 
+				await _userService.AddUserProfile(model);
 			}
 			else
 			{
 				TempData["UploadPhotoError"] = "Фото не было загружено";
 				return View("Profile", model);
 			}
+
 			return View("Profile", model);
 		}
 	}

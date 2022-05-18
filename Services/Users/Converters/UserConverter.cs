@@ -1,5 +1,4 @@
 ﻿using FoodSharing.Models;
-using FoodSharing.Models.Products;
 using FoodSharing.Models.Users;
 using Npgsql;
 
@@ -29,7 +28,6 @@ namespace FoodSharing.Services.Users.Converters
 			return user;
 		}
 
-
 		public static async Task<UserProfile> MapToUserProfile(NpgsqlDataReader reader)
 		{
 			UserProfile userProfile = new UserProfile();
@@ -51,133 +49,14 @@ namespace FoodSharing.Services.Users.Converters
 			{
 				return null;
 			}
+
 			return userProfile;
-		}
-
-		public static async Task<UserProducts> MapToUserProduct(NpgsqlDataReader reader)
-		{
-			UserProducts userProducts = new UserProducts();
-
-			if (reader.HasRows)
-			{
-				while (await reader.ReadAsync())
-				{
-					userProducts.Id = (Guid)reader["Id"];
-					userProducts.UserId = (Guid)reader["UserId"];
-					userProducts.Name = (string)reader["Name"];
-					userProducts.Description = (string)reader["Description"];
-					userProducts.CategoryId = (int)reader["Category"];
-					userProducts.Quantity = (string)reader["Quantity"];
-					userProducts.Image = (byte[])reader["Image"];
-					userProducts.CreatedAt = (DateTime)reader["CreatedAt"];
-				}
-			}
-			else
-			{
-				return null;
-			}
-
-			return userProducts;
-		}
-
-		public static async Task<List<UserProducts>> MapToUserProducts(NpgsqlDataReader reader)
-		{
-			List<UserProducts> userProducts = new List<UserProducts>();
-
-			if (reader.HasRows)
-			{
-				while (await reader.ReadAsync())
-				{
-					UserProducts userProduct = new UserProducts();
-					
-					userProduct.Id = (Guid)reader["Id"];
-					userProduct.UserId = (Guid)reader["UserId"];
-					userProduct.Name = (string)reader["Name"];
-					userProduct.Description = (string)reader["Description"];
-					userProduct.CategoryId = (int)reader["CategoryId"];
-					userProduct.Quantity = (string)reader["Quantity"];
-					userProduct.Image = (byte[])reader["Image"];
-					userProduct.CreatedAt = (DateTime)reader["CreatedAt"];
-
-					userProducts.Add(userProduct);
-				}
-			}
-			else
-			{
-				return new List<UserProducts>();
-			}
-
-			return userProducts;
-		}
-
-		public static async Task<List<ProductCategories>> MapToProductCategories(NpgsqlDataReader reader)
-		{
-			List<ProductCategories> productCategories = new List<ProductCategories>();
-
-			if (reader.HasRows)
-			{
-				while (await reader.ReadAsync())
-				{
-					ProductCategories productCategori = new ProductCategories();
-
-					productCategori.Id = (int)reader["Id"];
-					productCategori.Name = (string)reader["Name"];
-					productCategori.CreatedAt = (DateTime)reader["CreatedAt"];
-
-					productCategories.Add(productCategori);
-				}
-			}
-			else
-			{
-				return new List<ProductCategories>();
-			}
-			return productCategories;
-		}
-
-		public static async Task<ProductCategories> MapToProductCategory(NpgsqlDataReader reader)
-		{
-			ProductCategories productCategories = new ProductCategories();
-
-			if (reader.HasRows)
-			{
-				while (await reader.ReadAsync())
-				{
-					productCategories.Id = (int)reader["Id"];
-					productCategories.Name = (string)reader["Name"];
-					productCategories.CreatedAt = (DateTime)reader["CreatedAt"];
-				}
-			}
-			else
-			{
-				return null;
-			}
-
-			return productCategories;
-		}
-
-
-		public static ProductsViewModel MapToUserProductsView(UserProducts userProducts)
-		{
-			return new ProductsViewModel(userProducts.Id,
-										 userProducts.UserId,
-										 userProducts.Name,
-										 userProducts.Description,
-										 userProducts.CategoryId,
-										 null,
-										 userProducts.Quantity,
-										 userProducts.Image,
-										 userProducts.CreatedAt);
 		}
 
 		public static UserProfileViewModel MapToUserProfileView(UserProfile userProfile)
 		{
-			return new UserProfileViewModel(userProfile.Id, 
-											userProfile.FirstName, 
-											userProfile.LastName, 
-											userProfile.Email, 
-											userProfile.Adress, 
-											userProfile.Phone, 
-											userProfile.Avatar);
+			return new UserProfileViewModel(userProfile.Id, userProfile.FirstName, userProfile.LastName, userProfile.Email,
+				userProfile.Adress, userProfile.Phone, userProfile.Avatar);
 		}
 	}    
 }

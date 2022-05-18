@@ -89,13 +89,13 @@ namespace FoodSharing.Controllers
 			
 			if (user is null)
 			{
-				await _userService.AddUserByEmailAndPassword(model.Email, model.Password);
+				await _userService.AddUser(model.Email, model.Password);
 
 				UserProfileViewModel userprofile = new UserProfileViewModel();
 				userprofile.Id = Guid.NewGuid();
 				userprofile.Email = model.Email;
 
-				await _userService.AddUserDataProfile(userprofile);
+				await _userService.AddUserProfile(userprofile);
 
 				await CookieEvents.Authenticate(model.Email, HttpContext);
 

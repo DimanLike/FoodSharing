@@ -1,0 +1,136 @@
+﻿@model List<ProductView>
+@{
+	ViewData["Title"] = "Home Page";
+}
+@*стили вынести в wwwroot*@
+<style>
+	body {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		background: #f7f7ff;
+	}
+
+	.card-body {
+		min-height: 1px;
+	}
+
+	ul.row {
+		list-style: none;
+		padding: 0;
+		margin-bottom: 0;
+	}
+
+	.card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		word-wrap: break-word;
+		background-color: #fff;
+		background-clip: border-box;
+		border: 0 solid transparent;
+		border-radius: .25rem;
+		margin-bottom: 1.5rem;
+		box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+	}
+
+	.crop {
+        width: 300px;
+        height: 300px;
+        overflow: hidden;
+    }
+
+	.image-container {
+		width: 300px;
+		height: 300px;
+		display: flex;
+		align-self: center;
+		align-items: center;
+	}
+</style>
+<div class="container wrap">
+	<div class="main-body">
+		<div class="row justify-content-center">
+		@if (Model is null)
+		{
+					
+		}
+		else
+		{
+			@foreach(var productView in Model)
+			{
+			<div class="col-md-4">
+				<div class="card ">
+					<div class="card-header bg-transparent d-grid gap-2 d-md-flex justify-content-md-end" >
+						<div class="collapse" id="collapse@(productView.Id)">
+							<button class=" btn btn-danger my-2 my-sm-0" onclick="location.href='@Url.Action("DeleteProduct", "Product", new { id = productView.Id })'">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+									<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+								</svg>
+								Delete
+							</button>
+							<button class="btn btn-success my-2 my-sm-0" >
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+									<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+									<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+								</svg>
+								Edit
+							</button>
+						</div>
+						<button class="btn btn-outline-info" data-bs-toggle="collapse" href="#collapse@(productView.Id)" role="button" aria-expanded="false" aria-controls="collapse@(productView.Id)" my-2 my-sm-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+								<path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+							</svg>
+						</button>
+					</div>
+				@if (productView.Image != null)
+				{
+					<div class="image-container">
+						<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))" 
+							class="img-fluid card-img-top mh-100 mw-100"/>
+					</div>
+				}
+				else
+				{ 
+					<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="img-fluid rounded"/>
+				}
+					<div class="card-body">
+						<form method="post" asp-controller="Product" asp-action="AddProduct" enctype="multipart/form-data">
+							<div class="row mb-4">
+								<label class="col-sm-4 col-form-label">Название</label>
+								<div class="col-sm-8">
+									<input readonly  type="text" class="form-control" value="@productView.Name">	
+								</div>
+							</div>
+							<div class="row mb-4">
+								<label class="col-sm-4 col-form-label"> Количество</label>
+								<div class="col-sm-8">
+									<input readonly  type="text" class="form-control" value="@productView.Quantity"  >
+								</div>
+							</div>
+							<div class="row mb-4">
+								<label class="col-sm-4 col-form-label"> Описание</label>
+								<div class="col-sm-8">
+									<textarea readonly type="text" class="form-control">@productView.Description</textarea>
+								</div>
+							</div>
+							<div class="row mb-4">
+								<label class="col-sm-4 col-form-label"> Категория</label>
+								<div class="col-sm-8">
+									<input type="text" readonly  class="form-control" value="@productView.CategoryName">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="card-footer text-muted">
+						@productView.CreatedAt
+					</div>
+				</div>	
+			</div>
+			}
+		}
+		</div>
+	</div>
+</div>

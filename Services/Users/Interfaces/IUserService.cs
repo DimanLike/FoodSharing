@@ -1,22 +1,16 @@
 ﻿using FoodSharing.Models;
-using FoodSharing.Models.Products;
 using FoodSharing.Models.Users;
 
 namespace FoodSharing.Services.Users.Interfaces
 {
     public interface IUserService
     {
+        // Users
+        Task AddUser(string email, string password);
         Task<User> GetUserByEmailAndPassword(string email);
-        Task AddUserByEmailAndPassword(string email, string password);
-        Task AddUserDataProfile(UserProfileViewModel model);
-        Task<UserProfileViewModel> GetUserDataProfile(string email);
-        Task AddNewUserProduct(ProductsViewModel model);
-        Task<List<ProductsViewModel>> GetUserInventory(Guid userid);
-        Task<List<ProductCategories>> GetCategories();
 
-        Task DeleteProduct(Guid id);
-
-
-
+        // UserProfile
+        Task AddUserProfile(UserProfileViewModel model);
+        Task<UserProfileViewModel> GetUserProfile(string email);
     }
 }

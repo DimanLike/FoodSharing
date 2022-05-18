@@ -1,7 +1,7 @@
-﻿@using FoodSharing.Models.Users
-@model ProductsViewModel
+﻿@using FoodSharing.Models.Products.ProductCategories
+@model ProductView
 @{
-	ViewData["Title"] = "NewProduct";
+    ViewData["Title"] = "EditProduct";
 }
 
 <style>
@@ -41,31 +41,31 @@
 	<div class="main-body">
 		<div class="row justify-content-center">
 			<div class="col-lg-6   ">
-				@if (TempData["UploadPhotoError"] != null)
-				{
-					<div class="row">
-						<div class="col-sm-12">
-							<div class=" mb-3 alert alert-warning alert-dismissible fade show" role="alert">
-								<strong>О нет!</strong> @TempData["UploadPhotoError"]
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
+			@if (TempData["UploadPhotoError"] != null)
+			{
+				<div class="row">
+					<div class="col-sm-12">
+						<div class=" mb-3 alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>О нет!</strong> @TempData["UploadPhotoError"]
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 						</div>
 					</div>
-				}
-				@if (TempData["AddProductSeccess"] != null)
-				{
-					<div class="row">
-						<div class="col-sm-12">
-							<div class=" mb-3 alert alert-success alert-dismissible fade show">
-								<strong>Успешно!</strong> @TempData["AddProductSeccess"]
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
+				</div>
+			}
+			@if (TempData["AddProductSeccess"] != null)
+			{
+				<div class="row">
+					<div class="col-sm-12">
+						<div class=" mb-3 alert alert-success alert-dismissible fade show">
+							<strong>Успешно!</strong> @TempData["AddProductSeccess"]
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 						</div>
 					</div>
-				}
+				</div>
+			}
 				<div class="card">
 					<div class="card-body">
-						<form method="post" asp-controller="User" asp-action="NewProduct" enctype="multipart/form-data">
+						<form method="post" asp-controller="Product" asp-action="NewProduct" enctype="multipart/form-data">
 							<div class="row mb-4">
 								<label asp-for="Name" class="col-sm-3 col-form-label"></label>
 								<div class="col-sm-9">
@@ -97,7 +97,7 @@
 								<label asp-for="CategoryName" class="col-sm-3 col-form-label"></label>
 								<div class="col-sm-9">
 									<select asp-for="CategoryId"
-											asp-items="@(new SelectList(Model.Categories, nameof(ProductCategories.Id), nameof(ProductCategories.Name)))"
+											asp-items="@(new SelectList(Model.ProductCategories, nameof(ProductCategory.Id), nameof(ProductCategory.Name)))"
 											class="form-select">
 										<option selected>Выберите категорию продукта</option>
 									</select>
@@ -105,7 +105,7 @@
 							</div>
 							<div class="row mb-2">
 								<div class="col-sm-9">
-									<button class="btn btn-primary" onclick="location.href='@Url.Action("AddProduct", "User")'">Add product</button>
+									<button class="btn btn-primary" onclick="location.href='@Url.Action("AddProduct", "Product")'">Add product</button>
 									<button type="reset" class="btn btn-outline-danger">Cancel</button>
 								</div>
 							</div>
