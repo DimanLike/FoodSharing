@@ -7,7 +7,7 @@ namespace FoodSharing.Services.Products.Converters
 {
     public static class ProductConverter
 	{
-		public static async Task<Product> MapToUserProduct(NpgsqlDataReader reader)
+		public static async Task<Product> MapToProduct(NpgsqlDataReader reader)
 		{
 			Product product = new Product();
 
@@ -19,7 +19,7 @@ namespace FoodSharing.Services.Products.Converters
 					product.UserId = (Guid)reader["UserId"];
 					product.Name = (string)reader["Name"];
 					product.Description = (string)reader["Description"];
-					product.CategoryId = (int)reader["Category"];
+					product.CategoryId = (int)reader["CategoryId"];
 					product.Quantity = (string)reader["Quantity"];
 					product.Image = (byte[])reader["Image"];
 					product.CreatedAt = (DateTime)reader["CreatedAt"];

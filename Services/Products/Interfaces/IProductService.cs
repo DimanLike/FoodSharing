@@ -8,9 +8,13 @@ namespace FoodSharing.Services.Products.Interfaces
         // Products
         Task AddProduct(ProductView model);
         Task DeleteProduct(Guid id);
-        Task<List<ProductView>> GetProductViews(Guid userid);
+        Task<List<ProductView>> GetProductsViews(Guid userid);
+        Task<ProductView> GetProduct(Guid productid);
+        Task EditProduct(ProductView model);
 
         // ProductCategories
         Task<List<ProductCategory>> GetProductCategories();
+        
+
     }
 }

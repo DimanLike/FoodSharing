@@ -4,68 +4,38 @@
     ViewData["Title"] = "EditProduct";
 }
 
-<style>
-	body {
-		width: 100%;
-		height: 100%;
-		padding: 0;
-		margin: 0;
-		background: #f7f7ff;
-	}
+<script type="text/javascript">
+    var loadFile = function (event) {
+        var reader = new FileReader();
 
-	.card-body {
-		min-height: 1px;
-	}
-
-	ul.row {
-		list-style: none;
-		padding: 0;
-		margin-bottom: 0;
-	}
-
-	.card {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		min-width: 0;
-		word-wrap: break-word;
-		background-color: #fff;
-		background-clip: border-box;
-		border: 0 solid transparent;
-		border-radius: .25rem;
-		margin-bottom: 1.5rem;
-		box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
-	}
-</style>
+        reader.onload = function () {
+            var output = document.getElementById('output');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+</script>
 <div class="container">
 	<div class="main-body">
 		<div class="row justify-content-center">
-			<div class="col-lg-6   ">
-			@if (TempData["UploadPhotoError"] != null)
-			{
-				<div class="row">
-					<div class="col-sm-12">
-						<div class=" mb-3 alert alert-warning alert-dismissible fade show" role="alert">
-							<strong>О нет!</strong> @TempData["UploadPhotoError"]
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-						</div>
-					</div>
-				</div>
-			}
-			@if (TempData["AddProductSeccess"] != null)
-			{
-				<div class="row">
-					<div class="col-sm-12">
-						<div class=" mb-3 alert alert-success alert-dismissible fade show">
-							<strong>Успешно!</strong> @TempData["AddProductSeccess"]
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-						</div>
-					</div>
-				</div>
-			}
+			<div class="col-lg-6">
 				<div class="card">
+					@if (Model.Image != null)
+				{
+					<div class="image-container ">
+						<img  id="output" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" 
+							class="img-fluid card-img-top mh-100 mw-100" />
+					</div>
+				}
+				else
+				{ 
+					<img id="output" src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="img-fluid rounded"/>
+				}
 					<div class="card-body">
-						<form method="post" asp-controller="Product" asp-action="NewProduct" enctype="multipart/form-data">
+						<form method="post" asp asp-controller="Product" asp-action="EditProduct" enctype="multipart/form-data">
+							<input asp-for="Id" hidden>
+							<input asp-for="IFormFile" type="file" class="form-control" hidden>
+
 							<div class="row mb-4">
 								<label asp-for="Name" class="col-sm-3 col-form-label"></label>
 								<div class="col-sm-9">
@@ -90,7 +60,7 @@
 									<label class="mb-0 h6">Фото</label>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input asp-for="IFormFile" class="form-control" type="file">
+									<input onchange="loadFile(event)" asp-for="IFormFile" class="form-control" type="file">
 								</div>
 							</div>
 							<div class="row mb-4">
@@ -103,11 +73,8 @@
 									</select>
 								</div>
 							</div>
-							<div class="row mb-2">
-								<div class="col-sm-9">
-									<button class="btn btn-primary" onclick="location.href='@Url.Action("AddProduct", "Product")'">Add product</button>
-									<button type="reset" class="btn btn-outline-danger">Cancel</button>
-								</div>
+							<div class="row mb-2 px-2">
+								<button class="btn btn-success">Save</button>
 							</div>
 						</form>
 					</div>
