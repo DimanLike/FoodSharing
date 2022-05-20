@@ -18,6 +18,9 @@ namespace FoodSharing.Services.Products.Interfaces
         Task<List<ProductCategory>> GetProductCategories(int[] ids);
         Task<ProductCategory> GetProductCategory(int id);
 
+        // Catalog
+        Task<List<Product>> GetCatalog();
+        Task<List<Product>> GetCatalog(int categoryId);
 
     }
 }

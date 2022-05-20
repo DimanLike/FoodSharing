@@ -80,6 +80,18 @@ namespace FoodSharing.Services.Users.Repositories
 			};
 
 			return _dbConnection.Get(expression, UserConverter.MapToUserProfile, parameters);
-		}		
+		}
+
+		public Task<List<User>> GetUsers(Guid[] ids)
+		{
+			string expression = @"SELECT * FROM users WHERE id = ANY(@ids)";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(ids), ids),
+			};
+
+			return _dbConnection.GetList(expression, UserConverter.MapToUsers, parameters);
+		}
 	}
 }

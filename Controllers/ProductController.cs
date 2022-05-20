@@ -1,4 +1,5 @@
 ﻿using FoodSharing.Models;
+using FoodSharing.Models.Products;
 using FoodSharing.Models.Products.ProductCategories;
 using FoodSharing.Models.Users;
 using FoodSharing.Services.Products.Interfaces;
@@ -111,5 +112,26 @@ namespace FoodSharing.Controllers
 			await _productService.EditProduct(model);
 			return RedirectToAction("GetProducts", "Product");
         }
+
+		[HttpGet]
+		public IActionResult Сatalog()
+		{
+			return RedirectToAction("GetCatalog", "Product");
+		}
+
+		[Route("/Products/Сatalog")]
+		public async Task<ActionResult> GetCatalog(CatalogListView model)
+        {
+			CatalogListView catalogListView = new CatalogListView();
+
+			catalogListView.CatalogViews = await _productService.GetCatalogViews(model.CategoryId);
+			catalogListView.ProductCategories = await _productService.GetProductCategories();
+
+
+			return View("Сatalog", catalogListView);
+
+        }
+
+
     }
 }

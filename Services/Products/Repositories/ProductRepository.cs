@@ -63,6 +63,25 @@ namespace FoodSharing.Services.Products.Repositories
 			return _dbConnection.GetList(expression, ProductConverter.MapToProducts, parameters);
 		}
 
+		public Task<List<Product>> GetCatalog(int categoryId)
+        {
+			string expression = @"SELECT * FROM products WHERE categoryId = @categoryId";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(categoryId), categoryId),
+			};
+
+			return _dbConnection.GetList(expression, ProductConverter.MapToProducts, parameters);
+		}
+
+		public Task<List<Product>> GetCatalog()
+		{
+			string expression = @"SELECT * FROM products";
+
+			return _dbConnection.GetList(expression, ProductConverter.MapToProducts);
+		}
+
 		public Task<Product> GetProduct(Guid id)
         {
 			string expression = @"SELECT * FROM products WHERE id = @id";
@@ -108,15 +127,6 @@ namespace FoodSharing.Services.Products.Repositories
 
 		public Task EditProduct(ProductView model)
 		{
-    //        string expression = @"INSERT INTO products(id, name, description, categoryid, quantity, image)
-				//VALUES(@id, @name, @description, @categoryid, @quantity, @image)
-				//ON CONFLICT (id) DO UPDATE SET
-				//	name = EXCLUDED.name,
-				//	description = EXCLUDED.description,
-				//	categoryid = EXCLUDED.categoryid,
-				//	quantity = EXCLUDED.quantity, 
-					//image = EXCLUDED.image;";
-
             string expression = @"UPDATE products SET 
 					name = @name,
 					description = @description,

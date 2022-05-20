@@ -1,0 +1,110 @@
+﻿@using FoodSharing.Models.Products
+@using FoodSharing.Models.Products.ProductCategories
+@model CatalogListView
+@{
+	ViewData["Title"] = "Сatalog";
+}
+<div class="row justify-content-center">
+	<div class="col-lg-8 ">
+		<div class="card">
+			<div class="card-body">
+				<form method="post" asp-controller="Product" asp-action="GetCatalog">
+					<div class="row g-2">
+						<div class="col-xl col-lg-6 flex-grow">
+							<div class="input-group">
+								<select class="form-select" style="max-width:40%">
+									<option>Country</option>
+									<option>Russia</option>
+									<option>France</option>
+									<option>Mexico</option>
+								</select>
+								<input type="text" placeholder="Type location" class="form-control" name="lorem">
+							</div>
+						</div>
+						<div class="col-auto">
+						<select asp-for="CategoryId" asp-items="@(new SelectList(Model.ProductCategories, "Id", nameof(ProductCategory.Name)))" class="form-select">
+							<option selected>Выберите категорию продукта</option>
+						</select>
+						</div>
+
+						<div class="col-auto">
+							<button class="btn w-100 btn-primary" onclick="location.href='@Url.Action("GetCatalog", "Product")'"> Поиск </button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</div>
+<div class="container wrap">
+	<div class="main-body">
+		<div class="row justify-content-center">
+			@if (Model is null)
+			{
+
+			}
+			else
+			{
+				@foreach (var catalogView in Model.CatalogViews)
+				{
+					<div class="col-md-4">
+						<div class="card ">
+							@if (catalogView.Image != null)
+							{
+								<div class="image-container">
+									<img src="data:image/jpeg;base64,@(Convert.ToBase64String(catalogView.Image))"
+							 class="img-fluid card-img-top mh-100 mw-100" />
+								</div>
+							}
+							else
+							{
+								<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="img-fluid rounded" />
+							}
+							<div class="card-body">
+								<form method="post" asp-controller="Product" asp-action="Сatalog" enctype="multipart/form-data">
+									<div class="row mb-4">
+										<label class="col-sm-4 col-form-label">Email</label>
+										<div class="col-sm-8">
+											<input readonly type="text" class="form-control" value="@catalogView.Email">
+										</div>
+									</div>
+									<div class="row mb-4">
+										<label class="col-sm-4 col-form-label">Название</label>
+										<div class="col-sm-8">
+											<input readonly type="text" class="form-control" value="@catalogView.Name">
+										</div>
+									</div>
+									<div class="row mb-4">
+										<label class="col-sm-4 col-form-label"> Количество</label>
+										<div class="col-sm-8">
+											<input readonly type="text" class="form-control" value="@catalogView.Quantity">
+										</div>
+									</div>
+									<div class="row mb-4">
+										<label class="col-sm-4 col-form-label"> Описание</label>
+										<div class="col-sm-8">
+											<textarea readonly type="text" class="form-control">@catalogView.Description</textarea>
+										</div>
+									</div>
+									<div class="row mb-4">
+										<label class="col-sm-4 col-form-label"> Категория</label>
+										<div class="col-sm-8">
+											<input type="text" readonly class="form-control" value="@catalogView.CategoryName">
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="card-footer text-muted">
+								@catalogView.CreatedAt
+							</div>
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+</div>
+
+
+

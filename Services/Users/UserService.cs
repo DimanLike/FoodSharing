@@ -36,5 +36,10 @@ namespace FoodSharing.Services.Users
 
 			return UserConverter.MapToUserProfileView(userProfile);
 		}
+
+		public async Task<List<User>> GetUsers(Guid[] ids)
+        {
+			return await _userRepository.GetUsers(ids);
+        }
 	}
 }

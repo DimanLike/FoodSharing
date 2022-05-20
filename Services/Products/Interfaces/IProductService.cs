@@ -1,4 +1,5 @@
 ﻿using FoodSharing.Models;
+using FoodSharing.Models.Products;
 using FoodSharing.Models.Products.ProductCategories;
 
 namespace FoodSharing.Services.Products.Interfaces
@@ -14,7 +15,9 @@ namespace FoodSharing.Services.Products.Interfaces
 
         // ProductCategories
         Task<List<ProductCategory>> GetProductCategories();
-        
+
+        //Catalog
+        Task<List<CatalogView>> GetCatalogViews(int id = default);
 
     }
 }

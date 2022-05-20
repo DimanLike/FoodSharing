@@ -28,6 +28,32 @@ namespace FoodSharing.Services.Users.Converters
 			return user;
 		}
 
+		public static async Task<List<User>> MapToUsers(NpgsqlDataReader reader)
+		{
+			List<User> users = new List<User>();
+
+			if (reader.HasRows)
+			{
+				while (await reader.ReadAsync())
+				{
+					User user = new User();
+
+					user.Id = (Guid)reader["Id"];
+					user.Email = (string)reader["Email"];
+					user.Password = (string)reader["Password"];
+					user.CreatedAt = (DateTime)reader["CreatedAt"];
+
+					users.Add(user);
+				}
+			}
+			else
+			{
+				return new List<User>();
+			}
+
+			return users;
+		}
+
 		public static async Task<UserProfile> MapToUserProfile(NpgsqlDataReader reader)
 		{
 			UserProfile userProfile = new UserProfile();
