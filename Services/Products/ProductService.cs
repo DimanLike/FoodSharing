@@ -56,7 +56,6 @@ namespace FoodSharing.Services.Products
 			if (categoryId == null || categoryId == 0)
 			{
 				products = await _productRepository.GetCatalog();
-				
 			}
 			else
 			{
@@ -76,7 +75,8 @@ namespace FoodSharing.Services.Products
 			{
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
 				User? user = Users.FirstOrDefault(c => c.Id == x.UserId);
-				return new CatalogView(x.Id, x.UserId, user?.Email ?? "", x.Name, x.Description, x.CategoryId, productCategory?.Name ?? "", x.Quantity, x.Image, x.CreatedAt);
+				return new CatalogView(x.Id, x.UserId, user?.Email ?? "", x.Name, 
+					x.Description, x.CategoryId, productCategory?.Name ?? "", x.Quantity, x.Image, x.CreatedAt);
 			}).ToList();
 		}
 

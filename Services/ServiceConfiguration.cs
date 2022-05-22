@@ -11,7 +11,7 @@ namespace FoodSharing.Services
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            // синглтоны располагай по алфавиту
+
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<IUserService, UserService>();
 
