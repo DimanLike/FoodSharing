@@ -1,165 +1,193 @@
 ﻿@model UserProfileViewModel
 
 @{
-    ViewData["Title"] = "Profile";
+	ViewData["Title"] = "Profile";
 }
 <style>
-    .card {
-        margin-bottom: 1.5rem;
-    }
+	.card {
+		margin-bottom: 1.5rem;
+	}
 
-    .card-body {
-        min-height: 1px;
-    }
+	.card-body {
+		min-height: 1px;
+	}
 
-    }
+	input[type="file"] {
+		display: none;
+	}
+	.custom-file-upload {
+		display: inline-block;
+		padding: 6px 12px;
+		cursor: pointer;
+		border-radius: 0.2rem;
+		color: #fff;
+		background-color: #6c757d;
+		border-color: #6c757d;
+		transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	}
 </style>
+
+<script type="text/javascript">
+	var loadFile = function(event) {
+		var reader = new FileReader();
+
+		reader.onload = function() {
+			var output = document.getElementById('output');
+			output.src = reader.result;
+		};
+		reader.readAsDataURL(event.target.files[0]);
+	};
+</script>
+
 <div class="container">
-    <div class="main-body">
-        <div class="row justify-content-center">
-            <div class="col-lg-4">
-                <div class="card" style="border-radius: 15px;">
-                    <div class="card-body p-4">
-                        <div class="d-flex text-black">
-                            <div class="flex-shrink-0">
-                                @if (Model.Avatar != null)
-                                {
-                                    <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Avatar))" class="img-fluid" style="width: 180px; height:180px; border-radius: 10px;" />
-                                }
-                                else
-                                {
-                                    <img src="https://www.abc.net.au/news/image/8314104-1x1-940x940.jpg" class="img-fluid" style="width: 180px; border-radius: 10px;">
-                                }
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h5 class="mb-1">@(Model.FirstName + " " + Model.LastName)</h5>
-                                <p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>
-                                <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
-                                    <div>
-                                        <p class="small text-muted mb-1">Articles</p>
-                                        <p class="mb-0">41</p>
-                                    </div>
-                                    <div class="px-3">
-                                        <p class="small text-muted mb-1">Followers</p>
-                                        <p class="mb-0">976</p>
-                                    </div>
-                                    <div>
-                                        <p class="small text-muted mb-1">Rating</p>
-                                        <p class="mb-0">8.5</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex pt-1">
-                                    <button type="button" class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
-                                    <button type="button" class="btn btn-primary flex-grow-1">Follow</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+	<div class="main-body">
+		<div class="row justify-content-center">
+			<div class="col-lg-4">
+				<div class="card" style="border-radius: 15px;">
+					<div class="card-body p-4">
+						<div class="text-black">
+							@*<div class="flex-shrink-0"> </div>*@
+							@if (Model.Avatar != null)
+							{
+								<img id="output" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Avatar))" class="img-fluid" style="width: 180px; height:180px; border-radius: 10px;" />
+							}
+							else
+							{
+								<img id="output" src="https://www.abc.net.au/news/image/8314104-1x1-940x940.jpg" class="img-fluid" style="width: 180px; border-radius: 10px;">
+							}
 
-                <div class="card" style="border-radius: 15px;">
-                    <div class="card-body p-4">
-                        <div class="d-flex text-black">
-                            <div class="flex-shrink-0">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="fs-6 mb-0">
-                                            <i class="bi bi-github"></i> Github
-                                        </h6>
-                                        <span class="text-secondary">bootdey</span>
-                                    </li>
+							<div class="flex-grow-1 ms-3">
+								<h5 class="mb-1">@(Model.FirstName + " " + Model.LastName)</h5>
+								<p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>
+								<div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
+									<div>
+										<p class="small text-muted mb-1">Articles</p>
+										<p class="mb-0">41</p>
+									</div>
+									<div class="px-3">
+										<p class="small text-muted mb-1">Followers</p>
+										<p class="mb-0">976</p>
+									</div>
+									<div>
+										<p class="small text-muted mb-1">Rating</p>
+										<p class="mb-0">8.5</p>
+									</div>
+								</div>
+								<div class="row mb-2 px-3 ">
+									<label for="file-upload" class="btn btn-secondary btn-sm" "  >
+										<i class="bi bi-camera-fill"></i>
+										Фото
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+				<div class="card" style="border-radius: 15px;">
+					<div class="card-body p-4">
+						<div class="d-flex text-black">
+							<div class="flex-shrink-0">
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+										<h6 class="fs-6 mb-0">
+											<i class="bi bi-github"></i> Github
+										</h6>
+										<span class="text-secondary">bootdey</span>
+									</li>
 
-            </div>
-            <div class="col-lg-6">
-                @if (TempData["UploadPhotoError"] != null)
-                {
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class=" mb-3 alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong>О нет!</strong> @TempData["UploadPhotoError"]
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        </div>
-                    </div>
-                }
-                <form method="post" asp-action="EditProfile" enctype="multipart/form-data">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <label asp-for="Email" class="mb-0 h6"></label>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input asp-for="Email" type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <label asp-for="FirstName" class="mb-0 h6"></label>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input asp-for="FirstName" type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <label asp-for="LastName" class="mb-0 h6"></label>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input asp-for="LastName" type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <label asp-for="Phone" class="mb-0 h6"></label>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input asp-for="Phone" type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <label asp-for="Adress" class="mb-0 h6"></label>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input asp-for="Adress" type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <label class="mb-0 h6">Фото</label>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input  asp-for="Image" class="form-control" type="file">
-                                </div>
-                            </div>
-                            <button  fortype="button" class="btn btn-secondary btn-sm">
-                                <i class="bi bi-camera-fill"></i>
-                                Small button
-                            </button>
-                    @*        <input type="file" id="upload" hidden/>
-                            <label for="upload">Choose file</label>*@
-                            <div class="row">
-                                <div class="col-sm-3">
-                                </div>
-                                <div class="col-sm-2 text-secondary">
-                                    <button class="btn btn-primary">Save</button>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                                </div>
-                                <div class="col-sm-2 text-secondary">
-                                    <button asp-action="SavePhoto" class="btn btn-primary">Photo</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+			</div>
+			<div class="col-lg-6">
+				@if (TempData["UploadPhotoError"] != null)
+				{
+				<div class="row">
+					<div class="col-sm-12">
+						<div class=" mb-3 alert alert-warning alert-dismissible fade show" role="alert">
+							<strong>О нет!</strong> @TempData["UploadPhotoError"]
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					</div>
+				</div>
+				}
+				@if (TempData["SaveChanges"] != null)
+				{
+				<div class="row">
+					<div class="col-sm-12">
+						<div class=" mb-3 alert alert-success alert-dismissible fade show">
+							<strong>Успешно!</strong> @TempData["SaveChanges"]
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					</div>
+				</div>
+				}
+
+				<form method="post" asp-action="EditProfile" enctype="multipart/form-data"> 
+					<div class="card">
+						<div class="card-body">
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<label asp-for="Email" class="mb-0 h6"></label>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input asp-for="Email" type="text" class="form-control">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<label asp-for="FirstName" class="mb-0 h6"></label>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input asp-for="FirstName" type="text" class="form-control">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<label asp-for="LastName" class="mb-0 h6"></label>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input asp-for="LastName" type="text" class="form-control">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<label asp-for="Phone" class="mb-0 h6"></label>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input asp-for="Phone" type="text" class="form-control">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<label asp-for="Adress" class="mb-0 h6"></label>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input asp-for="Adress" type="text" class="form-control">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<label class="mb-0 h6">Фото</label>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input asp-for="Image" class="form-control" type="file">
+								</div>
+							</div>
+
+							<input onchange="loadFile(event)" asp-for="Image" id="file-upload" type="file" />
+
+							<div class="row mb-2 px-2">
+								<button asp-action="EditProfile" class="btn btn-success">Save</button>
+							</div>
+
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -29,6 +29,7 @@ namespace FoodSharing.Controllers
 			return View("Profile", userProfile);
 		}
 
+
 		[HttpPost]
 		public async Task<ActionResult> EditProfile(UserProfileViewModel model)
 		{
@@ -37,10 +38,19 @@ namespace FoodSharing.Controllers
 			string email = User.Identity.Name;
 			UserProfileViewModel user = await _userService.GetUserProfile(email);
 			model.Id = user.Id;
+			if (model.Image != null)
+			{
+				model.Avatar = FileTools.GetBytes(model.Image);
+			}
+			else
+			{
+				model.Avatar = user.Avatar;
+			}
 
 			await _userService.AddUserProfile(model);
-
-			return View("Profile", model);
+			TempData["SaveChanges"] = "Изменения были применены";
+	
+			return RedirectToAction("Profile", "Account");
 		}
 
 		[HttpPost]
@@ -60,10 +70,12 @@ namespace FoodSharing.Controllers
 			else
 			{
 				TempData["UploadPhotoError"] = "Фото не было загружено";
+				model.Avatar = user.Avatar;
 				return View("Profile", model);
 			}
-
-			return View("Profile", model);
+			TempData["SaveChanges"] = "Изменения были применены";
+			//return View(model);
+			return RedirectToAction("Profile", "Profile");
 		}
 	}
 }

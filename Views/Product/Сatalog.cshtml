@@ -7,6 +7,7 @@
 <div class="row justify-content-center">
 	<div class="col-lg-8 ">
 		<div class="card">
+			
 			<div class="card-body">
 				<form method="post" asp-controller="Product" asp-action="GetCatalog">
 					<div class="row g-2">
@@ -50,6 +51,12 @@
 				{
 					<div class="col-md-4">
 						<div class="card ">
+							<div class="card-header mb-2 px-4">
+							<button class="btn btn-outline-info"  role="button" style="width: -webkit-fill-available;" onclick="location.href='@Url.Action("ProductInfo", "Catalog")'">
+								Подробнее
+									<i class="bi bi-pencil-fill"></i>
+								</button>
+							</div>
 							@if (catalogView.Image != null)
 							{
 								<div class="image-container">
