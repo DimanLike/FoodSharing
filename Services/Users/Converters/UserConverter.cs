@@ -63,6 +63,7 @@ namespace FoodSharing.Services.Users.Converters
 				while (await reader.ReadAsync())
 				{
 					userProfile.Id = (Guid)reader["ID"];
+					userProfile.UserId = (Guid)reader["UserId"];
 					userProfile.FirstName = reader["FirstName"] is DBNull ? null : (string)reader["FirstName"];
 					userProfile.LastName = reader["LastName"] is DBNull ? null : (string)reader["LastName"];
 					userProfile.Email = (string)reader["Email"];
@@ -81,7 +82,7 @@ namespace FoodSharing.Services.Users.Converters
 
 		public static UserProfileViewModel MapToUserProfileView(UserProfile userProfile)
 		{
-			return new UserProfileViewModel(userProfile.Id, userProfile.FirstName, userProfile.LastName, userProfile.Email,
+			return new UserProfileViewModel(userProfile.Id, userProfile.UserId, userProfile.FirstName, userProfile.LastName, userProfile.Email,
 				userProfile.Adress, userProfile.Phone, userProfile.Avatar);
 		}
 	}    

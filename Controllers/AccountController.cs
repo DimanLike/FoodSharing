@@ -23,8 +23,9 @@ namespace FoodSharing.Controllers
 		[Route("Profile")]
 		public async Task<ActionResult> Profile()
 		{
-			string claim = User.Identity.Name;
-			UserProfileViewModel userProfile = await _userService.GetUserProfile(claim);
+			string email = User.Identity.Name;
+			User user = await _userService.GetUserByEmail(email);
+			UserProfileViewModel userProfile = await _userService.GetUserProfile(user.Id);
 
 			return View("Profile", userProfile);
 		}
@@ -36,15 +37,16 @@ namespace FoodSharing.Controllers
 			if (!ModelState.IsValid) return View();
 
 			string email = User.Identity.Name;
-			UserProfileViewModel user = await _userService.GetUserProfile(email);
-			model.Id = user.Id;
+			User user = await _userService.GetUserByEmail(email);
+			UserProfileViewModel userProfile = await _userService.GetUserProfile(user.Id);
+			model.Id = userProfile.Id;
 			if (model.Image != null)
 			{
 				model.Avatar = FileTools.GetBytes(model.Image);
 			}
 			else
 			{
-				model.Avatar = user.Avatar;
+				model.Avatar = userProfile.Avatar;
 			}
 
 			await _userService.AddUserProfile(model);
@@ -57,9 +59,9 @@ namespace FoodSharing.Controllers
 		public async Task<ActionResult> SavePhoto(UserProfileViewModel model)
 		{
 			string email = User.Identity.Name;
-
-			UserProfileViewModel user = await _userService.GetUserProfile(email);
-			model.Id = user.Id;
+			User user = await _userService.GetUserByEmail(email);
+			UserProfileViewModel userProfile = await _userService.GetUserProfile(user.Id);
+			model.Id = userProfile.Id;
 
 			if (model.Image != null)
 			{
@@ -70,7 +72,7 @@ namespace FoodSharing.Controllers
 			else
 			{
 				TempData["UploadPhotoError"] = "Фото не было загружено";
-				model.Avatar = user.Avatar;
+				model.Avatar = userProfile.Avatar;
 				return View("Profile", model);
 			}
 			TempData["SaveChanges"] = "Изменения были применены";

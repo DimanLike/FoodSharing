@@ -1,0 +1,145 @@
+﻿@model ProductInfoViewModel
+@{
+	ViewData["Title"] = "ProductInfo";
+}
+
+<style>
+	.table {
+		margin-bottom: 0rem;
+	}
+	.image-container1 {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-self: center;
+    align-items: center;
+	}
+</style>
+
+<div class="container">
+	<div class="main-body">
+		<div class="row justify-content-center">
+
+			<div class="col-lg-8">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<article class="gallery-wrap">
+									<img class="rounded img-fluid w-50" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.productView.Image))">
+								
+
+							</article>
+							<div style="padding-top: 15px;"  >
+								<h5 >Описание</h5>
+
+								<p> @Model.productView.Description </p>
+								@*<div class="mb-3">
+								<span class="tag">
+								<span class="badge text-bg-light">Light</span>
+								</span>
+								<span class="tag">
+								<span class="badge text-bg-light">Light</span>
+								</span>
+								<span class="tag">
+								<span class="badge text-bg-light">Light</span>
+								</span>
+								<span class="tag">
+								<span class="badge text-bg-light">Light</span>
+								</span>
+								</div>*@
+								<table class="table table-striped">
+									<tbody>
+										<tr>
+											<td width="200">
+												<i class="fa-fw me-2 text-muted fa fa-home">
+
+												</i>
+												<b class="text-dark"><i class="bi bi-basket-fill"></i> Категория</b>
+											</td>
+											<td> @Model.productView.CategoryName </td>
+										</tr>
+										<tr>
+											<td>
+												<i class="fa-fw me-2 text-muted fa fa-building">
+
+												</i>
+												<b class="text-dark"><i class="bi bi-123"></i> Количество</b>
+											</td>
+											<td> @Model.productView.Quantity</td>
+										</tr>
+										@*<tr>
+											<td>
+												<i class="fa-fw me-2 text-muted fa fa-ruler-combined">
+
+												</i>
+												<b class="text-dark">Area size</b>
+											</td>
+											<td> 120 sq.ft </td>
+										</tr>
+										<tr>
+											<td>
+												<i class="fa-fw me-2 text-muted fa fa-couch">
+
+												</i>
+												<b class="text-dark">Furniture</b>
+											</td>
+											<td> Sofa, armchairs </td>
+										</tr>*@
+									</tbody>
+								</table>
+							</div>
+						</div> 
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="card">
+					<div class="card-body">
+						<a href="#" class="btn btn-light float-end">
+							<i class="fa fa-heart me-2"></i> Save
+						</a>
+						<time datetime="2022-02-14 20:00" class="text-muted"> @Model.productView.CreatedAt </time>
+						<b class="clearfix"></b>
+@*						<div class="price mt-2 h5"> $32,000 </div>*@
+						<h3>@Model.productView.Name </h3>
+						<hr>
+						<p>
+							<i class="fa fa-map-marker-alt text-muted">
+
+							</i> @Model.userProfileViewModel.Adress
+						</p>
+@*						<article class="bg-gray overflow-hidden position-relative rounded" style="height: 130px">
+							<img src="bootstrap5-ecommerce/images/misc/map.jpg" class="img-fluid opacity">
+							<a href="#" class="center-xy btn btn-light">Show on map</a>
+						</article>*@
+						<br>
+						
+						<div class="card-body" style="border: 1px solid rgba(81,88,94,.12);">
+							<div class="icontext mb-3 w-100">
+								<img class="icon icon-sm rounded-circle img-fluid" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.userProfileViewModel.Avatar))">
+								<div class="text">
+									<h6 class="title">@Model.userProfileViewModel.FirstName + @Model.userProfileViewModel.LastName</h6>
+									@*<p class="text-muted">Real estate broker </p>*@
+								</div>
+							</div>
+							<div>
+								<a href="#" class="btn w-100 btn-lg btn-success mb-2">
+									<i class="fa fa-phone me-2">
+
+									</i> Показать номер
+								</a>
+								<a href="#" class="btn w-100 btn-lg btn-warning">
+									<i class="fa fa-comment-dots me-2">
+
+									</i> Сообщение
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

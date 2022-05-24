@@ -8,6 +8,7 @@ namespace FoodSharing.Models
     {
    
         public Guid Id { get; set; }
+        public Guid UserId { get; set; }
 
         [Display(Name = "Имя")]
         [ValidateNever]
@@ -35,9 +36,10 @@ namespace FoodSharing.Models
 
         public UserProfileViewModel(){}
 
-        public UserProfileViewModel(Guid id, string firstName, string lastName, string email, string adress, string phone, byte[] avatar)
+        public UserProfileViewModel(Guid id, Guid userId, string firstName, string lastName, string email, string adress, string phone, byte[] avatar)
         {
             Id = id;
+            UserId = userId;
             FirstName = firstName;
             LastName = lastName;
             Email = email;

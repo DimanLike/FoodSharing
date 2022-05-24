@@ -31,7 +31,7 @@ namespace FoodSharing.Controllers
 		{
 			string email = User.Identity.Name;
 
-			User user = await _userService.GetUserByEmailAndPassword(email);
+			User user = await _userService.GetUserByEmail(email);
 			Guid userId = user.Id;
 
 			List<ProductView> productViews = await _productService.GetProductsViews(userId);
@@ -65,7 +65,7 @@ namespace FoodSharing.Controllers
 		{
 			string email = User.Identity.Name;
 
-			User user = await _userService.GetUserByEmailAndPassword(email);
+			User user = await _userService.GetUserByEmail(email);
 			model.UserId = user.Id;
 
 			if (model.IFormFile != null)
@@ -91,7 +91,7 @@ namespace FoodSharing.Controllers
 			string email = User.Identity.Name;
 			ProductView model = new ProductView();
 
-			User user = await _userService.GetUserByEmailAndPassword(email);
+			User user = await _userService.GetUserByEmail(email);
 			List<ProductCategory> productCategories = await _productService.GetProductCategories();
 
 			model = await _productService.GetProduct(id);

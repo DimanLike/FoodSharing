@@ -19,9 +19,9 @@ namespace FoodSharing.Services.Users
 			return _userRepository.AddUser(email, password);
 		}
 
-		public Task<User> GetUserByEmailAndPassword(string email)
+		public Task<User> GetUserByEmail(string email)
 		{
-			return _userRepository.GetUserByEmailAndPassword(email);
+			return _userRepository.GetUserByEmail(email);
 		}
 
 		public Task AddUserProfile(UserProfileViewModel model)
@@ -29,9 +29,9 @@ namespace FoodSharing.Services.Users
 			return _userRepository.AddUserProfile(model);
 		}
 
-		public async Task<UserProfileViewModel> GetUserProfile(string email)
+		public async Task<UserProfileViewModel> GetUserProfile(Guid userid)
 		{
-			UserProfile userProfile = await _userRepository.GetUserProfile(email);
+			UserProfile userProfile = await _userRepository.GetUserProfile(userid);
 			if (userProfile is null) return null;
 
 			return UserConverter.MapToUserProfileView(userProfile);

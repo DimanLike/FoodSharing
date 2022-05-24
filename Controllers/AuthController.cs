@@ -54,7 +54,7 @@ namespace FoodSharing.Controllers
 			string email = form["email"];
 			string password = form["password"];
 
-			User user = await _userService.GetUserByEmailAndPassword(email); 
+			User user = await _userService.GetUserByEmail(email); 
 			if (user is null)
             {
 				TempData["LoginError"] = "Пользователь не найден";
@@ -85,15 +85,18 @@ namespace FoodSharing.Controllers
 				return View("Registration", model);
 			}
 
-			User user = await _userService.GetUserByEmailAndPassword(model.Email);
+			User user = await _userService.GetUserByEmail(model.Email);
 			
 			if (user is null)
 			{
 				await _userService.AddUser(model.Email, model.Password);
 
+				user = await _userService.GetUserByEmail(model.Email);
+
 				UserProfileViewModel userprofile = new UserProfileViewModel();
 				userprofile.Id = Guid.NewGuid();
 				userprofile.Email = model.Email;
+				userprofile.UserId = user.Id;
 
 				await _userService.AddUserProfile(userprofile);
 

@@ -4,6 +4,14 @@
 @{
 	ViewData["Title"] = "Сatalog";
 }
+@*<style>{
+	.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+</style>*@
+
 <div class="row justify-content-center">
 	<div class="col-lg-8 ">
 		<div class="card">
@@ -52,7 +60,7 @@
 					<div class="col-md-4">
 						<div class="card ">
 							<div class="card-header mb-2 px-4">
-							<button class="btn btn-outline-info"  role="button" style="width: -webkit-fill-available;" onclick="location.href='@Url.Action("ProductInfo", "Catalog")'">
+							<button class="btn btn-outline-info"  role="button" style="width: -webkit-fill-available;"  onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = catalogView.Id })'">
 								Подробнее
 									<i class="bi bi-pencil-fill"></i>
 								</button>
@@ -61,12 +69,12 @@
 							{
 								<div class="image-container">
 									<img src="data:image/jpeg;base64,@(Convert.ToBase64String(catalogView.Image))"
-							 class="img-fluid card-img-top mh-100 mw-100" />
+							 class="img-fluid card-img-top mx-auto d-block" />
 								</div>
 							}
 							else
 							{
-								<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="img-fluid rounded" />
+								<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="rounded card-img-top " />
 							}
 							<div class="card-body">
 								<form method="post" asp-controller="Product" asp-action="Сatalog" enctype="multipart/form-data">

@@ -34,7 +34,7 @@ namespace FoodSharing.Services.Users.Repositories
 			return _dbConnection.Add(expression, parameters);
 		}
 
-		public Task<User> GetUserByEmailAndPassword(string email)
+		public Task<User> GetUserByEmail(string email)
 		{
 			string expression = @"SELECT * FROM users WHERE email = @email";
 
@@ -47,8 +47,8 @@ namespace FoodSharing.Services.Users.Repositories
 
 		public Task AddUserProfile(UserProfileViewModel model)
         {
-			string expression = @"INSERT INTO usersprofile(id, firstname, lastname, email, adress, phone, avatar)
-				VALUES(@id, @firstname, @lastname, @email, @adress, @phone, @avatar)
+			string expression = @"INSERT INTO usersprofile(id, userid, firstname, lastname, email, adress, phone, avatar)
+				VALUES(@id, @userid, @firstname, @lastname, @email, @adress, @phone, @avatar)
 				ON CONFLICT (id) DO UPDATE SET
 					firstname = EXCLUDED.firstname,
 					lastname = EXCLUDED.lastname,
@@ -59,6 +59,7 @@ namespace FoodSharing.Services.Users.Repositories
 			NpgsqlParameter[] parameters = new[]
 			{
 				new NpgsqlParameter(nameof(model.Id), model.Id),
+				new NpgsqlParameter(nameof(model.UserId), model.UserId),
 				new NpgsqlParameter(nameof(model.FirstName), model.FirstName),
 				new NpgsqlParameter(nameof(model.LastName), model.LastName),
 				new NpgsqlParameter(nameof(model.Email), model.Email),
@@ -70,13 +71,13 @@ namespace FoodSharing.Services.Users.Repositories
 			return _dbConnection.Add(expression, parameters);
 		}
 
-		public Task<UserProfile> GetUserProfile(string email)
+		public Task<UserProfile> GetUserProfile(Guid userid)
         {
-			string expression = @"SELECT * FROM usersprofile WHERE email = @email";
+			string expression = @"SELECT * FROM usersprofile WHERE userid = @userid";
 
 			NpgsqlParameter[] parameters = new[]
 			{
-				new NpgsqlParameter(nameof(email), email),
+				new NpgsqlParameter(nameof(userid), userid),
 			};
 
 			return _dbConnection.Get(expression, UserConverter.MapToUserProfile, parameters);
