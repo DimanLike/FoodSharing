@@ -12,6 +12,7 @@ namespace FoodSharing.Controllers
         private IUserService _userService;
         private IProductService _productService;
 
+
         public CatalogController(IConfiguration config, IUserService userService, IProductService productService )
         {
             _config = config;
@@ -34,8 +35,8 @@ namespace FoodSharing.Controllers
             productView = await _productService.GetProduct(id);
             userProfileViewModel = await _userService.GetUserProfile(productView.UserId);
 
-            model.productView = productView;
-            model.userProfileViewModel = userProfileViewModel;
+            model.ProductView = productView;
+            model.UserProfileViewModel = userProfileViewModel;
 
             return View(model);
         }

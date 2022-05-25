@@ -1,0 +1,150 @@
+﻿@model ProfileInfoView
+@{
+	ViewData["Title"] = "OurProfile";
+}
+
+@*CSS*@
+<style>
+	.card {
+		margin-bottom: 1.5rem;
+	}
+
+	.card-body {
+		min-height: 1px;
+	}
+
+	input[type="file"] {
+		display: none;
+	}
+
+	.custom-file-upload {
+		display: inline-block;
+		padding: 6px 12px;
+		cursor: pointer;
+		border-radius: 0.2rem;
+		color: #fff;
+		background-color: #6c757d;
+		border-color: #6c757d;
+		transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	}
+</style>
+
+
+<div class="container">
+	<div class="main-body">
+		<div class="row justify-content-center">
+			<div class="col-lg-4">
+				<div class="card" style="border-radius: 15px;">
+					<div class="card-body p-4">
+						<div class="text-black">
+							<div style=" text-align: center;">
+								@if (Model.UserProfileView.Avatar != null)
+								{
+									<img id="output" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.UserProfileView.Avatar ))" class="img-fluid" style="width: 180px; height:180px; border-radius: 10px;" />
+								}
+								else
+								{
+									<img id="output" src="https://www.abc.net.au/news/image/8314104-1x1-940x940.jpg" class="img-fluid" style="width: 180px; border-radius: 10px;">
+								}
+							</div>
+
+							<div class="flex-grow-1 ms-3">
+								<h5 class="mb-1">@(Model.UserProfileView.FirstName + " " + Model.UserProfileView.LastName)</h5>
+								<p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>
+								<div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
+									<div>
+										<p class="small text-muted mb-1">Articles</p>
+										<p class="mb-0">41</p>
+									</div>
+									<div class="px-3">
+										<p class="small text-muted mb-1">Followers</p>
+										<p class="mb-0">976</p>
+									</div>
+									<div>
+										<p class="small text-muted mb-1">Rating</p>
+										<p class="mb-0">8.5</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			@*Card two*@
+			<div class="col-lg-8">
+				<div class="container wrap">
+					<div class="main-body">
+						<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3  ">
+							@if (Model is null)
+							{
+
+							}
+							else
+							{
+								@foreach (var productView in Model.ProductViews)
+								{
+									<div class="col-lg-4">
+										<div class="card" style="cursor: pointer;" onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = productView.Id })'">
+											<div class="card-header mb-2 px-4">
+												<button class="btn btn-outline-info" role="button" style="width: -webkit-fill-available;" onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = productView.Id })'">
+													Подробнее
+													<i class="bi bi-pencil-fill"></i>
+												</button>
+											</div>
+											@if (productView.Image != null)
+											{
+												<div class="image-container">
+													<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
+											 class="img-fluid card-img-top mx-auto d-block" />
+												</div>
+											}
+											else
+											{
+												<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="rounded card-img-top " />
+											}
+											<div class="card-body">
+												<div class="row mb-4">
+													<label class="col-sm-4 col-form-label">Название</label>
+													<div class="col-sm-8">
+														<input readonly type="text" class="form-control" value="@productView.Name">
+													</div>
+												</div>
+												<div class="row mb-4">
+													<label class="col-sm-4 col-form-label"> Количество</label>
+													<div class="col-sm-8">
+														<input readonly type="text" class="form-control" value="@productView.Quantity">
+													</div>
+												</div>
+												<div class="row mb-4">
+													<label class="col-sm-4 col-form-label"> Описание</label>
+													<div class="col-sm-8">
+														<textarea readonly type="text" class="form-control">@productView.Description</textarea>
+													</div>
+												</div>
+												<div class="row mb-4">
+													<label class="col-sm-4 col-form-label"> Категория</label>
+													<div class="col-sm-8">
+														<input type="text" readonly class="form-control" value="@productView.CategoryName">
+													</div>
+												</div>
+
+											</div>
+											<div class="card-footer text-muted">
+												@productView.CreatedAt
+											</div>
+										</div>
+									</div>
+								}
+							}
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+

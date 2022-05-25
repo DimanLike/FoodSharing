@@ -30,6 +30,14 @@ namespace FoodSharing.Controllers
 			return View("Profile", userProfile);
 		}
 
+        [HttpGet]
+		public async Task<ActionResult> ProfileInfo(Guid userid)
+        {
+			ProfileInfoView profileInfoView = await _userService.GetUserProfileInfo(userid);
+
+			return View(profileInfoView);
+        }
+
 
 		[HttpPost]
 		public async Task<ActionResult> EditProfile(UserProfileViewModel model)

@@ -2,10 +2,8 @@
 {
     public class ProductInfoViewModel
     {
-        public UserProfileViewModel userProfileViewModel { get; set; }
+        public UserProfileViewModel UserProfileViewModel { get; set; }
 
-        public CatalogView catalogView { get; set; }
-
-        public ProductView productView { get; set; }
+        public ProductView ProductView { get; set; }
     }
 }

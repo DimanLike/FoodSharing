@@ -13,5 +13,8 @@ namespace FoodSharing.Services.Users.Interfaces
         // UserProfile
         Task AddUserProfile(UserProfileViewModel model);
         Task<UserProfileViewModel> GetUserProfile(Guid userid);
+
+        // ProfileInfo
+        Task<ProfileInfoView> GetUserProfileInfo(Guid userid);
     }
 }

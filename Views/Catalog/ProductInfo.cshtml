@@ -14,6 +14,19 @@
     align-self: center;
     align-items: center;
 	}
+	.icontext {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+	}
+	.icontext .text {
+    width: 100%;
+    line-height: 1.25;
+}
+	.icontext p {
+    margin-bottom: 0;
+}
+
 </style>
 
 <div class="container">
@@ -22,17 +35,19 @@
 
 			<div class="col-lg-8">
 				<div class="card">
+					<div style=" text-align: center;">
+						<img class="rounded img-fluid w-50 " style="align-items: center" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ProductView.Image))">
+					</div>
+					
 					<div class="card-body">
 						<div class="row">
-							<article class="gallery-wrap">
-									<img class="rounded img-fluid w-50" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.productView.Image))">
-								
-
-							</article>
+							@*<article class="gallery-wrap">
+									
+							</article>*@
 							<div style="padding-top: 15px;"  >
 								<h5 >Описание</h5>
 
-								<p> @Model.productView.Description </p>
+								<p> @Model.ProductView.Description </p>
 								@*<div class="mb-3">
 								<span class="tag">
 								<span class="badge text-bg-light">Light</span>
@@ -56,7 +71,7 @@
 												</i>
 												<b class="text-dark"><i class="bi bi-basket-fill"></i> Категория</b>
 											</td>
-											<td> @Model.productView.CategoryName </td>
+											<td> @Model.ProductView.CategoryName </td>
 										</tr>
 										<tr>
 											<td>
@@ -65,7 +80,7 @@
 												</i>
 												<b class="text-dark"><i class="bi bi-123"></i> Количество</b>
 											</td>
-											<td> @Model.productView.Quantity</td>
+											<td> @Model.ProductView.Quantity</td>
 										</tr>
 										@*<tr>
 											<td>
@@ -99,15 +114,15 @@
 						<a href="#" class="btn btn-light float-end">
 							<i class="fa fa-heart me-2"></i> Save
 						</a>
-						<time datetime="2022-02-14 20:00" class="text-muted"> @Model.productView.CreatedAt </time>
+						<time datetime="2022-02-14 20:00" class="text-muted"> @Model.ProductView.CreatedAt </time>
 						<b class="clearfix"></b>
 @*						<div class="price mt-2 h5"> $32,000 </div>*@
-						<h3>@Model.productView.Name </h3>
+						<h3>@Model.ProductView.Name </h3>
 						<hr>
 						<p>
 							<i class="fa fa-map-marker-alt text-muted">
 
-							</i> @Model.userProfileViewModel.Adress
+							</i> @Model.UserProfileViewModel.Adress
 						</p>
 @*						<article class="bg-gray overflow-hidden position-relative rounded" style="height: 130px">
 							<img src="bootstrap5-ecommerce/images/misc/map.jpg" class="img-fluid opacity">
@@ -115,12 +130,12 @@
 						</article>*@
 						<br>
 						
-						<div class="card-body" style="border: 1px solid rgba(81,88,94,.12);">
+						<div class="card-body" style="border: 1px solid rgba(81,88,94,.12);" onclick="location.href='@Url.Action("ProfileInfo", "Account", new { UserId = Model.UserProfileViewModel.UserId })'">
 							<div class="icontext mb-3 w-100">
-								<img class="icon icon-sm rounded-circle img-fluid" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.userProfileViewModel.Avatar))">
+								<img class="icon rounded-circle img-fluid me-2" width="50"src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.UserProfileViewModel.Avatar))">
 								<div class="text">
-									<h6 class="title">@Model.userProfileViewModel.FirstName + @Model.userProfileViewModel.LastName</h6>
-									@*<p class="text-muted">Real estate broker </p>*@
+									<h6 class="title">@Model.UserProfileViewModel.FirstName + @Model.UserProfileViewModel.LastName</h6>
+									<p class="text-muted">Real estate broker </p>
 								</div>
 							</div>
 							<div>

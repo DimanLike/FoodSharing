@@ -11,12 +11,12 @@ namespace FoodSharing.Services.Products
 	public class ProductService : IProductService
 	{
 		private readonly IProductRepository _productRepository;
-		private readonly IUserService _userService;
+		private readonly IUserRepository _userRepository;
 
-		public ProductService(IProductRepository productRepository, IUserService userService)
+		public ProductService(IProductRepository productRepository, IUserRepository userRepository)
 		{
 			_productRepository = productRepository;
-			_userService = userService;
+			_userRepository = userRepository;
 		}
 
 		public Task AddProduct(ProductView model)
@@ -53,14 +53,11 @@ namespace FoodSharing.Services.Products
 
 			List<Product> products = new List<Product>();
 
-			if (categoryId == null || categoryId == 0)
-			{
+			if (categoryId == null || categoryId == 0) 
 				products = await _productRepository.GetCatalog();
-			}
-			else
-			{
+			else 
 				products = await _productRepository.GetCatalog(categoryId);
-			}
+			
 
 			if (products is null) return new List<CatalogView>();
 
@@ -69,7 +66,8 @@ namespace FoodSharing.Services.Products
 			List<ProductCategory> productCategories = new List<ProductCategory>();
 			productCategories = await _productRepository.GetProductCategories(categoryIds);
 			
-            List<User> Users = await _userService.GetUsers(userIds);
+            //List<User> Users = await _userService.GetUsers(userIds);
+			List<User> Users = await _userRepository.GetUsers(userIds);
 
 			return products.Select(x =>
 			{
@@ -97,7 +95,6 @@ namespace FoodSharing.Services.Products
 			productsViewModel.CategoryName = productCategory.Name;
 
 			return productsViewModel;
-
 		}
 
 		public async Task EditProduct(ProductView model)

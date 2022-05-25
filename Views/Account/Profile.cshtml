@@ -46,16 +46,16 @@
 				<div class="card" style="border-radius: 15px;">
 					<div class="card-body p-4">
 						<div class="text-black">
-							@*<div class="flex-shrink-0"> </div>*@
+							<div style=" text-align: center;" class="mb-2"> 
 							@if (Model.Avatar != null)
 							{
-								<img id="output" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Avatar))" class="img-fluid" style="width: 180px; height:180px; border-radius: 10px;" />
+								<img id="output" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Avatar))" class="img-fluid" style="width: 180px; height:180px; border-radius: 20px;" />
 							}
 							else
 							{
 								<img id="output" src="https://www.abc.net.au/news/image/8314104-1x1-940x940.jpg" class="img-fluid" style="width: 180px; border-radius: 10px;">
 							}
-
+							</div>
 							<div class="flex-grow-1 ms-3">
 								<h5 class="mb-1">@(Model.FirstName + " " + Model.LastName)</h5>
 								<p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>

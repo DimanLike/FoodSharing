@@ -14,7 +14,7 @@
 
 <div class="row justify-content-center">
 	<div class="col-lg-8 ">
-		<div class="card">
+		<div class="card"  >
 			
 			<div class="card-body">
 				<form method="post" asp-controller="Product" asp-action="GetCatalog">
@@ -48,7 +48,7 @@
 </div>
 <div class="container wrap">
 	<div class="main-body">
-		<div class="row justify-content-center">
+		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3  ">
 			@if (Model is null)
 			{
 
@@ -57,8 +57,8 @@
 			{
 				@foreach (var catalogView in Model.CatalogViews)
 				{
-					<div class="col-md-4">
-						<div class="card ">
+					<div class="col-lg-4">
+						<div class="card" style="cursor: pointer;" onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = catalogView.Id })'">
 							<div class="card-header mb-2 px-4">
 							<button class="btn btn-outline-info"  role="button" style="width: -webkit-fill-available;"  onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = catalogView.Id })'">
 								Подробнее
