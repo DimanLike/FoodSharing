@@ -33,9 +33,9 @@
 							</div>
 							@if (productView.Image != null)
 							{
-								<div class="image-container">
-									<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
-							 class="img-fluid card-img-top mh-100 mw-100" />
+								<div style=" text-align: center;">
+									<img  src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
+							 class="img-fluid card-img-top  " />
 								</div>
 							}
 							else

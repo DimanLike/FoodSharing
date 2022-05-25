@@ -27,6 +27,7 @@
 		border-color: #6c757d;
 		transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	}
+
 </style>
 
 
@@ -71,8 +72,6 @@
 				</div>
 			</div>
 
-
-
 			@*Card two*@
 			<div class="col-lg-8">
 				<div class="container wrap">
@@ -86,56 +85,26 @@
 							{
 								@foreach (var productView in Model.ProductViews)
 								{
-									<div class="col-lg-4">
-										<div class="card" style="cursor: pointer;" onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = productView.Id })'">
-											<div class="card-header mb-2 px-4">
-												<button class="btn btn-outline-info" role="button" style="width: -webkit-fill-available;" onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = productView.Id })'">
-													Подробнее
-													<i class="bi bi-pencil-fill"></i>
-												</button>
-											</div>
-											@if (productView.Image != null)
-											{
-												<div class="image-container">
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="card">
+
+												<div style=" text-align: center;">
 													<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
-											 class="img-fluid card-img-top mx-auto d-block" />
-												</div>
-											}
-											else
-											{
-												<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="rounded card-img-top " />
-											}
-											<div class="card-body">
-												<div class="row mb-4">
-													<label class="col-sm-4 col-form-label">Название</label>
-													<div class="col-sm-8">
-														<input readonly type="text" class="form-control" value="@productView.Name">
-													</div>
-												</div>
-												<div class="row mb-4">
-													<label class="col-sm-4 col-form-label"> Количество</label>
-													<div class="col-sm-8">
-														<input readonly type="text" class="form-control" value="@productView.Quantity">
-													</div>
-												</div>
-												<div class="row mb-4">
-													<label class="col-sm-4 col-form-label"> Описание</label>
-													<div class="col-sm-8">
-														<textarea readonly type="text" class="form-control">@productView.Description</textarea>
-													</div>
-												</div>
-												<div class="row mb-4">
-													<label class="col-sm-4 col-form-label"> Категория</label>
-													<div class="col-sm-8">
-														<input type="text" readonly class="form-control" value="@productView.CategoryName">
-													</div>
+												 class="img-fluid card-img-top mx-auto d-block"  />
 												</div>
 
+											<div class="card-body border-top">
+											<div class="info-wrap ">
+												<a  class="float-end btn btn-light btn-icon">
+													<i class="bi bi-heart"></i>
+												</a>
+												<p class="title ">@productView.Name</p>
+												<small class="text-muted">@productView.Quantity</small>
+												
 											</div>
-											<div class="card-footer text-muted">
-												@productView.CreatedAt
 											</div>
-										</div>
+										</div> 
 									</div>
 								}
 							}
@@ -147,4 +116,6 @@
 		</div>
 	</div>
 </div>
+
+
 
