@@ -1,5 +1,4 @@
-﻿using FoodSharing.Models;
-using FoodSharing.Models.Users;
+﻿using FoodSharing.Models.Users;
 
 namespace FoodSharing.Services.Users.Interfaces
 {
@@ -8,10 +7,12 @@ namespace FoodSharing.Services.Users.Interfaces
         // Users
         Task AddUser(string email, string password);
         Task<User> GetUserByEmail(string email);
+        Task<User> GetUserById(Guid userid);
+
         Task<List<User>> GetUsers(Guid[] ids);
 
         // UserProfile
-        Task AddUserProfile(UserProfileViewModel model);
+        Task AddUserProfile(UserProfileView model);
         Task<UserProfile> GetUserProfile(Guid userid);
     }
 }

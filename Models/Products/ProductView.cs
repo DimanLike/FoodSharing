@@ -26,15 +26,17 @@ namespace FoodSharing.Models
 		public DateTime CreatedAt { get; set; }
 		public IFormFile IFormFile { get; set; }
 		public List<ProductCategory> ProductCategories { get; set; }
+		public string Email { get; set; }
 
 		// здесь пустой конструктор нужен, потому что мы создали конструктор с параметрами, поэтому пустой конструктор по умолчанию не создастся
 		public ProductView(){}
 
-		public ProductView(Guid id, Guid userId, string name, string description, int categoryId, string categoryName, string quantity,
+		public ProductView(Guid id, Guid userId, string email,  string name, string description, int categoryId, string categoryName, string quantity,
 			byte[] image, DateTime createdAt)
 		{
 			Id = id;
 			UserId = userId;
+			Email = email;
 			Name = name;
 			Description = description;
 			CategoryId = categoryId;

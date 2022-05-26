@@ -5,7 +5,7 @@
 
 <div class="container wrap">
 	<div class="main-body">
-		<div class="row justify-content-center">
+		<div class="row">
 			@if (Model is null)
 			{
 
@@ -15,7 +15,7 @@
 				@foreach (var productView in Model)
 				{
 					<div class="col-md-4">
-						<div class="card ">
+						<div class="card " style="border-radius: 15px;">
 							<div class="card-header bg-transparent d-grid gap-2 d-md-flex justify-content-md-end">
 								<div class="collapse" id="collapse@(productView.Id)">
 									<button class=" btn btn-danger my-2 my-sm-0" onclick="location.href='@Url.Action("DeleteProduct", "Product", new { id = productView.Id })'">

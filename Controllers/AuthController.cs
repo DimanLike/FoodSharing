@@ -10,7 +10,7 @@ using FoodSharing.Tools.Authorization;
 
 namespace FoodSharing.Controllers
 {
-	[AllowAnonymous]
+    [AllowAnonymous]
 	public class AuthController : Controller
 	{
 		private readonly IConfiguration _config;
@@ -78,7 +78,7 @@ namespace FoodSharing.Controllers
 		[HttpPost]
 		[Route("RegisterUser")]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> RegisterUser(RegistrationViewModel model)
+		public async Task<ActionResult> RegisterUser(RegistrationView model)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -93,7 +93,7 @@ namespace FoodSharing.Controllers
 
 				user = await _userService.GetUserByEmail(model.Email);
 
-				UserProfileViewModel userprofile = new UserProfileViewModel();
+				UserProfileView userprofile = new UserProfileView();
 				userprofile.Id = Guid.NewGuid();
 				userprofile.Email = model.Email;
 				userprofile.UserId = user.Id;

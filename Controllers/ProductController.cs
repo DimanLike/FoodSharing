@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodSharing.Controllers
 {
-	public class ProductController : Controller
+    public class ProductController : Controller
 	{
 		private readonly IConfiguration _config;
 		private readonly IProductService _productService;
@@ -132,6 +132,22 @@ namespace FoodSharing.Controllers
 
         }
 
+		[HttpGet]
+		public async Task<ActionResult> ProductInfo(Guid id)
+		{
+			ProductInfoView model = new ProductInfoView();
+			UserProfileView userProfileViewModel = new UserProfileView();
+			ProductView productView = new ProductView();
 
-    }
+			productView = await _productService.GetProduct(id);
+			userProfileViewModel = await _userService.GetUserProfile(productView.UserId);
+
+			model.ProductView = productView;
+			model.UserProfileViewModel = userProfileViewModel;
+
+			return View(model);
+		}
+
+
+	}
 }

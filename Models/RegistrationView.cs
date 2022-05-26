@@ -2,7 +2,7 @@
 
 namespace FoodSharing.Models
 {
-    public class RegistrationViewModel
+    public class RegistrationView
     {
         [Required(ErrorMessage = "Email не может быть пустым")]
         [Display(Name ="Адрес электронной почты")]

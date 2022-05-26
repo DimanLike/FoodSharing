@@ -39,18 +39,6 @@ namespace FoodSharing.Services.Products.Repositories
 			return _dbConnection.Add(expression, parameters);
 		}
 
-		public Task DeleteProduct(Guid id)
-		{
-			string expression = @"DELETE FROM products WHERE id = @id";
-
-			NpgsqlParameter[] parameters = new[]
-			{
-				new NpgsqlParameter(nameof(id), id),
-			};
-
-			return _dbConnection.Add(expression, parameters);
-		}
-
 		public Task<List<Product>> GetProducts(Guid userid)
 		{
 			string expression = @"SELECT * FROM products WHERE userid = @userid";
@@ -146,5 +134,19 @@ namespace FoodSharing.Services.Products.Repositories
 
 			return _dbConnection.Add(expression, parameters);
 		}
+
+		public Task DeleteProduct(Guid id)
+		{
+			string expression = @"DELETE FROM products WHERE id = @id";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(id), id),
+			};
+
+			return _dbConnection.Add(expression, parameters);
+		}
+
+
 	}
 }

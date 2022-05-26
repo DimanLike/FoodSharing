@@ -1,10 +1,9 @@
-﻿using FoodSharing.Models;
-using FoodSharing.Models.Users;
+﻿using FoodSharing.Models.Users;
 using Npgsql;
 
 namespace FoodSharing.Services.Users.Converters
 {
-	public static class UserConverter
+    public static class UserConverter
 	{
 		public static async Task<User> MapToUser(NpgsqlDataReader reader)
 		{
@@ -80,9 +79,9 @@ namespace FoodSharing.Services.Users.Converters
 			return userProfile;
 		}
 
-		public static UserProfileViewModel MapToUserProfileView(UserProfile userProfile)
+		public static UserProfileView MapToUserProfileView(UserProfile userProfile)
 		{
-			return new UserProfileViewModel(userProfile.Id, userProfile.UserId, userProfile.FirstName, userProfile.LastName, userProfile.Email,
+			return new UserProfileView(userProfile.Id, userProfile.UserId, userProfile.FirstName, userProfile.LastName, userProfile.Email,
 				userProfile.Adress, userProfile.Phone, userProfile.Avatar);
 		}
 	}    

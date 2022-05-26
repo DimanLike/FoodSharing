@@ -11,8 +11,8 @@ namespace FoodSharing.Services.Users.Interfaces
         Task<List<User>> GetUsers(Guid[] ids);
 
         // UserProfile
-        Task AddUserProfile(UserProfileViewModel model);
-        Task<UserProfileViewModel> GetUserProfile(Guid userid);
+        Task AddUserProfile(UserProfileView model);
+        Task<UserProfileView> GetUserProfile(Guid userid);
 
         // ProfileInfo
         Task<ProfileInfoView> GetUserProfileInfo(Guid userid);

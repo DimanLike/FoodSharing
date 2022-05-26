@@ -6,7 +6,7 @@ using FoodSharing.Services.Users.Interfaces;
 
 namespace FoodSharing.Services.Users
 {
-	public class UserService : IUserService
+    public class UserService : IUserService
 	{
 		private readonly IUserRepository _userRepository;
 		private IProductService _productService;
@@ -28,12 +28,17 @@ namespace FoodSharing.Services.Users
 			return _userRepository.GetUserByEmail(email);
 		}
 
-		public Task AddUserProfile(UserProfileViewModel model)
+		public Task<User> GetUserById(Guid userid)
+        {
+			return _userRepository.GetUserById(userid);
+        }
+
+		public Task AddUserProfile(UserProfileView model)
 		{
 			return _userRepository.AddUserProfile(model);
 		}
 
-		public async Task<UserProfileViewModel> GetUserProfile(Guid userid)
+		public async Task<UserProfileView> GetUserProfile(Guid userid)
 		{
 			UserProfile userProfile = await _userRepository.GetUserProfile(userid);
 			if (userProfile is null) return null;
@@ -52,7 +57,7 @@ namespace FoodSharing.Services.Users
             UserProfile userProfile = await _userRepository.GetUserProfile(userid);
 			List<ProductView> productView = await _productService.GetProductsViews(userid);
 
-			UserProfileViewModel userProfileViewModel = UserConverter.MapToUserProfileView(userProfile);
+			UserProfileView userProfileViewModel = UserConverter.MapToUserProfileView(userProfile);
 
 			profileInfoView.ProductViews = productView;
 			profileInfoView.UserProfileView = userProfileViewModel;

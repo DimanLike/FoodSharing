@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodSharing.Controllers
 {
-	[Authorize]
+    [Authorize]
 	public class AccountController : Controller
 	{
 		private readonly IConfiguration _config;
@@ -25,7 +25,7 @@ namespace FoodSharing.Controllers
 		{
 			string email = User.Identity.Name;
 			User user = await _userService.GetUserByEmail(email);
-			UserProfileViewModel userProfile = await _userService.GetUserProfile(user.Id);
+			UserProfileView userProfile = await _userService.GetUserProfile(user.Id);
 
 			return View("Profile", userProfile);
 		}
@@ -40,13 +40,13 @@ namespace FoodSharing.Controllers
 
 
 		[HttpPost]
-		public async Task<ActionResult> EditProfile(UserProfileViewModel model)
+		public async Task<ActionResult> EditProfile(UserProfileView model)
 		{
 			if (!ModelState.IsValid) return View();
 
 			string email = User.Identity.Name;
 			User user = await _userService.GetUserByEmail(email);
-			UserProfileViewModel userProfile = await _userService.GetUserProfile(user.Id);
+			UserProfileView userProfile = await _userService.GetUserProfile(user.Id);
 			model.Id = userProfile.Id;
 			if (model.Image != null)
 			{
@@ -64,11 +64,11 @@ namespace FoodSharing.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> SavePhoto(UserProfileViewModel model)
+		public async Task<ActionResult> SavePhoto(UserProfileView model)
 		{
 			string email = User.Identity.Name;
 			User user = await _userService.GetUserByEmail(email);
-			UserProfileViewModel userProfile = await _userService.GetUserProfile(user.Id);
+			UserProfileView userProfile = await _userService.GetUserProfile(user.Id);
 			model.Id = userProfile.Id;
 
 			if (model.Image != null)

@@ -109,10 +109,5 @@ namespace FoodSharing.Services.Products.Converters
 			return productCategories;
 		}
 
-		public static ProductView MapToUserProductsView(Product product)
-		{
-			return new ProductView(product.Id, product.UserId, product.Name, product.Description, product.CategoryId, null,
-				product.Quantity, product.Image, product.CreatedAt);
-		}
 	}
 }

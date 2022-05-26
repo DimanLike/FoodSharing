@@ -14,7 +14,7 @@
 
 <div class="row justify-content-center">
 	<div class="col-lg-8 ">
-		<div class="card"  >
+		<div class="card" style="border-radius: 15px;" >
 			
 			<div class="card-body">
 				<form method="post" asp-controller="Product" asp-action="GetCatalog">
@@ -58,13 +58,8 @@
 				@foreach (var catalogView in Model.CatalogViews)
 				{
 					<div class="col-lg-4">
-						<div class="card" style="cursor: pointer;" onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = catalogView.Id })'">
-							<div class="card-header mb-2 px-4">
-							<button class="btn btn-outline-info"  role="button" style="width: -webkit-fill-available;"  onclick="location.href='@Url.Action("ProductInfo", "Catalog", new { id = catalogView.Id })'">
-								Подробнее
-									<i class="bi bi-pencil-fill"></i>
-								</button>
-							</div>
+						<div class="card" style="cursor: pointer; border-radius: 15px; " onclick="location.href='@Url.Action("ProductInfo", "Product", new { id = catalogView.Id })'">
+						
 							@if (catalogView.Image != null)
 							{
 								<div class="image-container">

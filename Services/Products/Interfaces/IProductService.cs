@@ -17,7 +17,7 @@ namespace FoodSharing.Services.Products.Interfaces
         Task<List<ProductCategory>> GetProductCategories();
 
         //Catalog
-        Task<List<CatalogView>> GetCatalogViews(int id = default);
+        Task<List<ProductView>> GetCatalogViews(int id = default);
 
     }
 }

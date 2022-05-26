@@ -37,29 +37,27 @@ namespace FoodSharing.Services.Products
 			int[] categoryIds = products.Select(x => x.CategoryId).ToArray();
 			List<ProductCategory> productCategories = await _productRepository.GetProductCategories(categoryIds);
 
+			Guid[] userIds = products.Select(x => x.UserId).ToArray();
+			List<User> users = await _userRepository.GetUsers(userIds);
+
 			return products.Select(x =>
 			{
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
+				User? user = users.FirstOrDefault(c => c.Id == x.UserId);
 
-				return new ProductView(x.Id, x.UserId, x.Name, x.Description, x.CategoryId,
-
+				return new ProductView(x.Id, x.UserId, user?.Email ?? "",  x.Name, x.Description, x.CategoryId,
 					productCategory?.Name ?? "", x.Quantity, x.Image, x.CreatedAt);
 			}).ToList();
 
 		}
 
-		public async Task<List<CatalogView>> GetCatalogViews(int categoryId = default)
+		public async Task<List<ProductView>> GetCatalogViews(int categoryId = default)
 		{
+			List<Product> products = (categoryId == null || categoryId == 0)
+				? await _productRepository.GetCatalog()
+				: await _productRepository.GetCatalog(categoryId);
 
-			List<Product> products = new List<Product>();
-
-			if (categoryId == null || categoryId == 0) 
-				products = await _productRepository.GetCatalog();
-			else 
-				products = await _productRepository.GetCatalog(categoryId);
-			
-
-			if (products is null) return new List<CatalogView>();
+			if (products.Count == 0) return new List<ProductView>();
 
 			int[] categoryIds = products.Select(x => x.CategoryId).ToArray();
 			Guid[] userIds = products.Select(x => x.UserId).ToArray();
@@ -73,7 +71,8 @@ namespace FoodSharing.Services.Products
 			{
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
 				User? user = Users.FirstOrDefault(c => c.Id == x.UserId);
-				return new CatalogView(x.Id, x.UserId, user?.Email ?? "", x.Name, 
+
+				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, 
 					x.Description, x.CategoryId, productCategory?.Name ?? "", x.Quantity, x.Image, x.CreatedAt);
 			}).ToList();
 		}

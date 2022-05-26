@@ -1,12 +1,11 @@
-﻿using FoodSharing.Models.Users;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace FoodSharing.Models
+namespace FoodSharing.Models.Users
 {
-    public class UserProfileViewModel
+    public class UserProfileView
     {
-   
+
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
 
@@ -34,9 +33,9 @@ namespace FoodSharing.Models
         [ValidateNever]
         public byte[] Avatar { get; set; }
 
-        public UserProfileViewModel(){}
+        public UserProfileView() { }
 
-        public UserProfileViewModel(Guid id, Guid userId, string firstName, string lastName, string email, string adress, string phone, byte[] avatar)
+        public UserProfileView(Guid id, Guid userId, string firstName, string lastName, string email, string adress, string phone, byte[] avatar)
         {
             Id = id;
             UserId = userId;
