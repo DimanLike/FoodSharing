@@ -3,7 +3,6 @@ using FoodSharing.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -13,10 +12,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options => options.LoginPath = "/Login");
 
 builder.Services.AddAuthorization();
+builder.Services.AddSignalR();
 
 ServiceConfiguration.ConfigureServices(builder.Services);
 
 var app = builder.Build();
+
 
 
 // Configure the HTTP request pipeline.
@@ -36,16 +37,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<ChatHub>("/chat");
-});
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}"
 );
-
+app.MapHub<ChatHub>("/ChatView");
 app.MapControllers();
 
 app.Run();
