@@ -23,10 +23,15 @@
 	.icontext .text {
     width: 100%;
     line-height: 1.25;
-}
+	}
 	.icontext p {
     margin-bottom: 0;
-}
+	}
+
+	.hover-effect:hover {
+	box-shadow: 0 2px 6px 0 rgb(206 206 238 / 54%);
+	transition: 0.5s;
+	}		
 
 </style>
 
@@ -42,9 +47,6 @@
 					
 					<div class="card-body">
 						<div class="row">
-							@*<article class="gallery-wrap">
-									
-							</article>*@
 							<div style="padding-top: 15px;"  >
 								<h5 >Описание</h5>
 
@@ -117,7 +119,7 @@
 						</a>
 						<time datetime="2022-02-14 20:00" class="text-muted"> @Model.ProductView.CreatedAt </time>
 						<b class="clearfix"></b>
-@*						<div class="price mt-2 h5"> $32,000 </div>*@
+						@*<div class="price mt-2 h5"> $32,000 </div>*@
 						<h3>@Model.ProductView.Name </h3>
 						<hr>
 						<p>
@@ -125,14 +127,14 @@
 
 							</i> @Model.UserProfileViewModel.Adress
 						</p>
-@*						<article class="bg-gray overflow-hidden position-relative rounded" style="height: 130px">
+						@*<article class="bg-gray overflow-hidden position-relative rounded" style="height: 130px">
 							<img src="bootstrap5-ecommerce/images/misc/map.jpg" class="img-fluid opacity">
 							<a href="#" class="center-xy btn btn-light">Show on map</a>
 						</article>*@
 						<br>
 						
-						<div class="card-body" style="border: 1px solid rgba(81,88,94,.12);" onclick="location.href='@Url.Action("ProfileInfo", "Account", new { UserId = Model.UserProfileViewModel.UserId })'">
-							<div class="icontext mb-3 w-100">
+						<div class="card-body hover-effect" style="border: 1px solid rgba(81,88,94,.12); cursor: pointer; border-radius: 0.45rem;"  onclick="location.href='@Url.Action("ProfileInfo", "Account", new { UserId = Model.UserProfileViewModel.UserId })'">
+							<div class="icontext mb-3 w-100 ">
 								<img class="icon rounded-circle img-fluid me-2" width="50"src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.UserProfileViewModel.Avatar))">
 								<div class="text">
 									<h6 class="title">@Model.UserProfileViewModel.FirstName + @Model.UserProfileViewModel.LastName</h6>

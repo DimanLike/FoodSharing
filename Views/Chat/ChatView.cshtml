@@ -1,32 +1,38 @@
-﻿
-@page
-    <div class="container">
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-2">User</div>
-            <div class="col-4"><input type="text" id="userInput" /></div>
-        </div>
-        <div class="row">
-            <div class="col-2">Message</div>
-            <div class="col-4"><input type="text" id="messageInput" /></div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
-                <input type="button" id="sendButton" value="Send Message" />
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <hr />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <ul id="messagesList"></ul>
-        </div>
-    </div>
+﻿@page
+
+
+<style>
+	.chat-form{
+		height: 400px;
+	}
+</style>
+
+<div class="row justify-content-center">
+	<div class="col-lg-4">
+		<div class="card" style="border-radius: 15px;">
+			<div class="card-body p-4">
+
+				<div class="container chat-form mb-3" style="border: 1px solid rgba(81,88,94,.12); border-radius: 0.45rem; ">
+					<ul id="messagesList"></ul>
+				</div>
+
+				<div class="icontext mb-3 w-100 ">
+					<textarea class="form-control" type="text" id="messageInput" placeholder="Сообщение"></textarea>
+				</div>
+				<div class="icontext mb-3 w-100 ">
+					<textarea class="form-control" type="text" id="userInput" placeholder="Юзер"></textarea>
+				</div>
+				<div class="row mb-2 px-2">
+					<button class="btn btn-success" id="sendButton">Отправить сообщение</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 
