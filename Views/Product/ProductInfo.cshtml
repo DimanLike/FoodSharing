@@ -133,8 +133,8 @@
 						</article>*@
 						<br>
 						
-						<div class="card-body hover-effect" style="border: 1px solid rgba(81,88,94,.12); cursor: pointer; border-radius: 0.45rem;"  onclick="location.href='@Url.Action("ProfileInfo", "Account", new { UserId = Model.UserProfileViewModel.UserId })'">
-							<div class="icontext mb-3 w-100 ">
+						<div class="card-body hover-effect" style="border: 1px solid rgba(81,88,94,.12); cursor: pointer; border-radius: 0.45rem;"  >
+							<div class="icontext mb-3 w-100 " onclick="location.href='@Url.Action("ProfileInfo", "Account", new { UserId = Model.UserProfileViewModel.UserId })'">
 								<img class="icon rounded-circle img-fluid me-2" width="50"src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.UserProfileViewModel.Avatar))">
 								<div class="text">
 									<h6 class="title">@Model.UserProfileViewModel.FirstName + @Model.UserProfileViewModel.LastName</h6>
@@ -147,7 +147,7 @@
 
 									</i> Показать номер
 								</a>
-								<a href="#" class="btn w-100 btn-lg btn-warning">
+								<a href="#" class="btn w-100 btn-lg btn-warning" onclick="location.href='@Url.Action("ChatMessage", "Chat", new { UserId = Model.UserProfileViewModel.UserId })'">
 									<i class="fa fa-comment-dots me-2">
 
 									</i> Сообщение

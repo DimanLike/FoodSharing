@@ -1,5 +1,4 @@
-﻿@page
-
+﻿@model ProfileInfoView
 
 <style>
 	.chat-form{
@@ -19,11 +18,11 @@
 				<div class="icontext mb-3 w-100 ">
 					<textarea class="form-control" type="text" id="messageInput" placeholder="Сообщение"></textarea>
 				</div>
-				<div class="icontext mb-3 w-100 ">
+				@*<div class="icontext mb-3 w-100 ">
 					<textarea class="form-control" type="text" id="userInput" placeholder="Юзер"></textarea>
-				</div>
+				</div>*@
 				<div class="row mb-2 px-2">
-					<button class="btn btn-success" id="sendButton">Отправить сообщение</button>
+					<button class="btn btn-success" name="@Model.UserProfileView.UserId"  id="sendButton">Отправить сообщение</button>
 				</div>
 			</div>
 		</div>

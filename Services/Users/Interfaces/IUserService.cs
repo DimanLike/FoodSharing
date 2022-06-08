@@ -8,6 +8,8 @@ namespace FoodSharing.Services.Users.Interfaces
         // Users
         Task AddUser(string email, string password);
         Task<User> GetUserByEmail(string email);
+
+        Task<User> GetUserById(Guid userid);
         Task<List<User>> GetUsers(Guid[] ids);
 
         // UserProfile

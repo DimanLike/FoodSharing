@@ -1,13 +1,27 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/ChatView").build();
+var connection = new signalR.HubConnectionBuilder()
+    .withUrl("/ChatMessage")
+    .build();
+
 document.getElementById("sendButton").disabled = true;
 
 connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
     document.getElementById("messagesList").appendChild(li);
 
-    li.textContent = `${user} says ${message}`;
+    li.textContent = `${user} : ${message}`;
+});
+
+connection.on('Notify', function (message) {
+
+    // добавляет элемент для диагностического сообщения
+    let notifyElem = document.createElement("li");
+    notifyElem.appendChild(document.createTextNode(message));
+    let elem = document.createElement("li");
+    elem.appendChild(notifyElem);
+    var firstElem = document.getElementById("messagesList").firstChild;
+    document.getElementById("messagesList").insertBefore(elem, firstElem);
 });
 
 connection.start().then(function () {
@@ -17,9 +31,13 @@ connection.start().then(function () {
 });
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
+    var messageInput = document.getElementById("messageInput");
+    var message = messageInput.value;
+
+    var sendButton = document.getElementById("sendButton");
+    var userTo = sendButton.name;
+
+    connection.invoke("SendMessage", message, userTo ).catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();
