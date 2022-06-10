@@ -6,7 +6,7 @@ var connection = new signalR.HubConnectionBuilder()
 
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message) {
+connection.on("Receive", function (user, message) {
     var li = document.createElement("li");
     document.getElementById("messagesList").appendChild(li);
 
