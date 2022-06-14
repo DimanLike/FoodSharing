@@ -1,4 +1,6 @@
 ﻿using FoodSharing.Models;
+using FoodSharing.Models.Chat;
+using FoodSharing.Services.Chat.Interfaces;
 using FoodSharing.Services.Users.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +13,13 @@ namespace FoodSharing.Controllers
 
         private readonly IConfiguration _config;
         private IUserService _userService;
+        private IChatService _chatService;
 
-        public ChatController(IConfiguration config, IUserService userService)
+        public ChatController(IConfiguration config, IUserService userService, IChatService chatService)
         {
             _config = config;
             _userService = userService;
+            _chatService = chatService;
         }
 
         public IActionResult Index()
@@ -24,12 +28,25 @@ namespace FoodSharing.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ChatMessage( Guid userId)
+        public async Task<IActionResult> ChatMessage(Guid userId)
         {
-            ProfileInfoView profileInfoView = await _userService.GetUserProfileInfo(userId);
+            if (userId != Guid.Empty)
+            {
+                MessegesHistoryView messegesHistory = new MessegesHistoryView();
+                messegesHistory.FromUserId = await _userService.GetUserIdByEmail(User.Identity.Name);
+                messegesHistory.FromUser = User.Identity.Name;
+                messegesHistory.ToUserId = userId;
+                messegesHistory.ToUser = await _userService.GetUserEmailById(userId);
 
+                messegesHistory.Messages = await _chatService.GetMessages(messegesHistory.FromUserId, messegesHistory.ToUserId);
+                messegesHistory.Messages.OrderBy(x => x.CreatedAt).ToList();
 
-            return View(profileInfoView);
+                return View(messegesHistory);
+                
+            }
+
+            return View();
+
         }
 
 

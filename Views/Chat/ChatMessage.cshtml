@@ -1,4 +1,5 @@
-﻿@model ProfileInfoView
+﻿@using FoodSharing.Models.Chat
+@model MessegesHistoryView
 
 <style>
 	.chat-form{
@@ -12,24 +13,27 @@
 			<div class="card-body p-4">
 
 				<div class="container chat-form mb-3" style="border: 1px solid rgba(81,88,94,.12); border-radius: 0.45rem; ">
-					<ul id="messagesList"></ul>
+					<ul id="messagesList">
+						@foreach (var Message in Model.Messages)
+				{
+					<li>  @Model.FromUser ___  @Message.Content </li>
+				}
+
+					</ul>
+				
 				</div>
 
 				<div class="icontext mb-3 w-100 ">
 					<textarea class="form-control" type="text" id="messageInput" placeholder="Сообщение"></textarea>
 				</div>
-				@*<div class="icontext mb-3 w-100 ">
-					<textarea class="form-control" type="text" id="userInput" placeholder="Юзер"></textarea>
-				</div>*@
+
 				<div class="row mb-2 px-2">
-					<button class="btn btn-success" name="@Model.UserProfileView.UserId"  id="sendButton">Отправить сообщение</button>
+					<button class="btn btn-success" name="@Model.ToUser"  id="sendButton">Отправить сообщение</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
 
 
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>

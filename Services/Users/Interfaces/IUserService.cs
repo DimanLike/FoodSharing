@@ -9,6 +9,8 @@ namespace FoodSharing.Services.Users.Interfaces
         Task AddUser(string email, string password);
         Task<User> GetUserByEmail(string email);
 
+        Task<Guid> GetUserIdByEmail(string email);
+        Task<string> GetUserEmailById(Guid userid);
         Task<User> GetUserById(Guid userid);
         Task<List<User>> GetUsers(Guid[] ids);
 

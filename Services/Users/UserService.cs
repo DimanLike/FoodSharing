@@ -28,6 +28,18 @@ namespace FoodSharing.Services.Users
 			return _userRepository.GetUserByEmail(email);
 		}
 
+		public async Task<Guid> GetUserIdByEmail(string email)
+        {
+			User user = await _userRepository.GetUserByEmail(email);
+			return user.Id;
+        }
+
+		public async Task<string> GetUserEmailById(Guid userid)
+		{
+			User user = await _userRepository.GetUserById(userid);
+			return user.Email;
+		}
+
 		public Task<User> GetUserById(Guid userid)
         {
 			return _userRepository.GetUserById(userid);
