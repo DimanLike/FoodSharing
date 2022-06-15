@@ -2,70 +2,94 @@
 @model MessegesHistoryView
 
 <style>
-	.chat-form{
-		height: 400px;
-	}
-	.left{
-		border-radius: 15px;
-		background-color: rgba(57, 192, 237,.2);
-	}
-	.right{
-		border-radius: 15px;
-		background-color: #fbfbfb;
-	}
-	.image-avatar{
-		width: 45px;
-		height: 100%;
+        .chat-form{
+            height: 400px;
+        }
+        .left{
+            border-radius: 15px;
+            background-color: #fbfbfb;
+        }
+        .right{
+            border-radius: 15px;
+            background-color: rgba(57, 192, 237,.2);
 
-	}
+        }
+        .image-avatar{
+            width: 45px;
+            height: 100%;
+        }
+        .section::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .section::-webkit-scrollbar-track {
+      background-color: #ffffff;
+      border-radius: 100px;
+    }
+
+    .section::-webkit-scrollbar-thumb {
+      border-radius: 100px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+      background-color: #8070d4;
+    }
+    .card-footer{
+    background-color: hsla(0,0%,100%,0);
+    border-top: 2px solid #f5f5f5;
+    }
+    .btn-send{
+        border-radius: 20px;
+    }
 </style>
 
 <div class="row justify-content-center">
-	<div class="col-lg-4">
-		<div class="card" style="border-radius: 15px;">
-			<div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
-				 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
-				<i class="fas fa-angle-left"></i>
-				<p class="mb-0 fw-bold">Live chat</p>
-				<i class="fas fa-times"></i>
-			</div>
+    <div class="col-lg-4 ">
+        <div class="card " style="border-radius: 15px;">
+            <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
+                 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <i class="fas fa-angle-left"></i>
+                <p class="mb-0 fw-bold">Live chat</p>
+                <i class="fas fa-times"></i>
+            </div>
 
-			<div class="card-body p-4" >
-				<div id="chatmessage" >
-				@foreach (var Message in Model.Messages)
-				{
-					@if (Model.FromUserId == Message.FromUserId)
-					{
-						<div class="d-flex flex-row justify-content-end mb-4">
-							<div class="p-3 me-3 left">
-								<p class="small mb-0">@Message.Content</p>
-							</div>
-							<img class="image-avatar rounded-circle " src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.FromUserAvatar ))">
-						</div>
-					}
-					else
-					{
-						<div class="d-flex flex-row justify-content-start mb-4">
-							<img class="image-avatar rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ToUserAvatar ))">
-							<div class="p-3 ms-3 border right">
-								<p class="small mb-0">@Message.Content</p>
-							</div>
-						</div>
-					}
-				}
-				</div>
-				
 
-				<div class="icontext mb-3 w-100 ">
-					<textarea class="form-control" type="text" id="messageInput" placeholder="Сообщение"></textarea>
-				</div>
+            <div id="chatmessage" class="section card-body p-4" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px; overflow: auto;">
+                @foreach (var Message in Model.Messages)
+                {
+                    @if (Model.FromUserId == Message.FromUserId)
+                    {
+                        <div class="d-flex flex-row justify-content-end mb-4">
+                            <div class="p-3 me-3 right">
+                                <p class="small mb-0">@Message.Content</p>
+                            </div>
+                            <img class="image-avatar rounded-circle " src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.FromUserAvatar ))">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-row justify-content-start mb-4">
+                            <img class="image-avatar rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ToUserAvatar ))">
+                            <div class="p-3 ms-3 border left">
+                                <p class="small mb-0">@Message.Content</p>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
 
-				<div class="row mb-2 px-2">
-					<button class="btn btn-success" name="@Model.ToUserId" id="sendButton">Отправить сообщение</button>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="card-footer">
+                <div class="icontext mb-3 w-100 ">
+                    <textarea class="form-control" type="text" id="messageInput" placeholder="Сообщение"></textarea>
+                </div>
+
+                <div class="row mb-2 px-2">
+                    <button class="btn-send btn btn-success" name="@Model.ToUserId" id="sendButton">Отправить сообщение</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 </div>
 
 

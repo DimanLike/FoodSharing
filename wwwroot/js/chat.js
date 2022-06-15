@@ -39,23 +39,24 @@ connection.on("Receive", function (user, messages, avatar, sender) {
    
     //left
     if (user == sender) {
-
-        document.getElementById("chatmessage").appendChild(divconteiner);
-        divconteiner.appendChild(img);
-        divconteiner.appendChild(divcontent);
-        divcontent.appendChild(p);   
-
-    } //right
-    else
-    {
         divconteiner.classList.remove("justify-content-start");
         divconteiner.classList.add("justify-content-end");
         divcontent.classList.remove("ms-3");
         divcontent.classList.add("me-3");
+        divcontent.classList.add("right");
         document.getElementById("chatmessage").appendChild(divconteiner);
         divconteiner.appendChild(divcontent);
         divcontent.appendChild(p);
-        divconteiner.appendChild(img);  
+        divconteiner.appendChild(img); 
+    } //right
+    else
+    {
+        document.getElementById("chatmessage").appendChild(divconteiner);
+        divconteiner.appendChild(img);
+        divcontent.classList.remove("right");
+        divcontent.classList.add("left");
+        divconteiner.appendChild(divcontent);
+        divcontent.appendChild(p);     
     }
 });
 

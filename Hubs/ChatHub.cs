@@ -41,22 +41,12 @@ namespace FoodSharing.Hubs
 			string avatar = Convert.ToBase64String(await _userService.GetAvatar(messages.FromUserId));
 			string sender = userFromEmail;
 
-			if (userFromEmail != userToEmail)
-            {
-				sender = userToEmail;
-				await Clients.User(userToEmail).SendAsync("Receive", userFromEmail, messages, avatar, sender);
-            }
-			await Clients.User(userFromEmail).SendAsync("Receive", userFromEmail, messages, avatar, sender);
 			
+			sender = userToEmail;
+			await Clients.User(userToEmail).SendAsync("Receive", userFromEmail, messages, avatar, sender);
+			sender = userFromEmail;
+			await Clients.User(userFromEmail).SendAsync("Receive", userFromEmail, messages, avatar, sender);
 
-			// var li = document.createElement("li");
-			//var ToUserEmail = messages
-			//document.getElementById("messagesList").appendChild(li);
-
-			//li.textContent = `${user} : ${messages.content}`;
-
-
-			//await Clients.Client(id).SendAsync("Receive", userFromEmail, message);
 		}
 
 		public override async Task OnConnectedAsync()
