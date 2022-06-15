@@ -6,6 +6,6 @@ namespace FoodSharing.Services.Chat.Interfaces
     {
         Task Send(Messages model);
 
-        Task<List<Messages>> GetMessages(Guid fromuserid, Guid touserid);
+        Task<List<MessagesView>> GetMessages(Guid fromuserid, Guid touserid);
     }
 }

@@ -104,5 +104,7 @@ namespace FoodSharing.Services.Users.Repositories
 
 			return _dbConnection.GetList(expression, UserConverter.MapToUsers, parameters);
 		}
+
+		
 	}
 }

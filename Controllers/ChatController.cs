@@ -33,12 +33,15 @@ namespace FoodSharing.Controllers
             if (userId != Guid.Empty)
             {
                 MessegesHistoryView messegesHistory = new MessegesHistoryView();
+
                 messegesHistory.FromUserId = await _userService.GetUserIdByEmail(User.Identity.Name);
-                messegesHistory.FromUser = User.Identity.Name;
                 messegesHistory.ToUserId = userId;
-                messegesHistory.ToUser = await _userService.GetUserEmailById(userId);
+
+                messegesHistory.FromUserAvatar = await _userService.GetAvatar(messegesHistory.FromUserId);
+                messegesHistory.ToUserAvatar = await _userService.GetAvatar(messegesHistory.ToUserId);
 
                 messegesHistory.Messages = await _chatService.GetMessages(messegesHistory.FromUserId, messegesHistory.ToUserId);
+
                 messegesHistory.Messages.OrderBy(x => x.CreatedAt).ToList();
 
                 return View(messegesHistory);

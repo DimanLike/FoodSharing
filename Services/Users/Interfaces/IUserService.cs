@@ -20,5 +20,8 @@ namespace FoodSharing.Services.Users.Interfaces
 
         // ProfileInfo
         Task<ProfileInfoView> GetUserProfileInfo(Guid userid);
+
+        //other
+        Task<byte[]> GetAvatar(Guid userid);
     }
 }

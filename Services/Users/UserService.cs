@@ -58,6 +58,13 @@ namespace FoodSharing.Services.Users
 			return UserConverter.MapToUserProfileView(userProfile);
 		}
 
+		public async Task<byte[]> GetAvatar(Guid userid)
+		{
+			UserProfile userProfile = await _userRepository.GetUserProfile(userid);
+			if (userProfile is null) return null;
+			return userProfile.Avatar;
+		}
+
 		public async Task<List<User>> GetUsers(Guid[] ids)
         {
 			return await _userRepository.GetUsers(ids);
@@ -76,5 +83,7 @@ namespace FoodSharing.Services.Users
 
 			return profileInfoView;
 		}
+
+
     }
 }

@@ -24,22 +24,37 @@ namespace FoodSharing.Hubs
 
 		public async Task SendMessage(string message, string userTo) 
 		{
+			Guid userToId = new Guid(userTo);
 			string userFromEmail = Context.User.Identity.Name; // отправителя
-			string userToEmail = userTo; // почта получателя
+			string userToEmail = await _userService.GetUserEmailById(userToId); // почта получателя
 
-			
+
 			Messages messages = new Messages();
 			messages.Id = Guid.NewGuid();
 			messages.FromUserId = await _userService.GetUserIdByEmail(userFromEmail);
-			messages.ToUserId = await _userService.GetUserIdByEmail(userTo);
+			messages.ToUserId = userToId;
 			messages.Content = message;
 			messages.CreatedAt = DateTime.Now;
 
 			await _chatService.Send(messages);
 
+			string avatar = Convert.ToBase64String(await _userService.GetAvatar(messages.FromUserId));
+			string sender = userFromEmail;
+
 			if (userFromEmail != userToEmail)
-				await Clients.User(userToEmail).SendAsync("Receive", userFromEmail, message);
-			await Clients.User(userFromEmail).SendAsync("Receive", userFromEmail, message);
+            {
+				sender = userToEmail;
+				await Clients.User(userToEmail).SendAsync("Receive", userFromEmail, messages, avatar, sender);
+            }
+			await Clients.User(userFromEmail).SendAsync("Receive", userFromEmail, messages, avatar, sender);
+			
+
+			// var li = document.createElement("li");
+			//var ToUserEmail = messages
+			//document.getElementById("messagesList").appendChild(li);
+
+			//li.textContent = `${user} : ${messages.content}`;
+
 
 			//await Clients.Client(id).SendAsync("Receive", userFromEmail, message);
 		}

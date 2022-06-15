@@ -7,11 +7,56 @@ var connection = new signalR.HubConnectionBuilder()
 
 document.getElementById("sendButton").disabled = true;
 
-connection.on("Receive", function (user, message) {
-    var li = document.createElement("li");
-    document.getElementById("messagesList").appendChild(li);
+connection.on("Receive", function (user, messages, avatar, sender) {
+    var divconteiner = document.createElement("div");
+    var divcontent = document.createElement("div");
+    var img = document.createElement("img");
+    var p = document.createElement("p");
+    const cls_divconteiner = ["flex-row", "justify-content-start", "mb-4"];
+    const cls_img = ["rounded-circle"];
+    const cls_divcontent = ["ms-3", "left"];
+    const cls_p = ["mb-0"];
 
-    li.textContent = `${user} : ${message}`;
+    divconteiner.className = "d-flex";
+    divconteiner.classList.add(...cls_divconteiner);
+ 
+    img.className = "image-avatar";
+    img.classList.add(...cls_img);
+
+    divcontent.className = "p-3";
+    divcontent.classList.add(...cls_divcontent);
+
+    p.className = "small";
+    p.classList.add(...cls_p);
+
+    divconteiner.id = "divconteiner";
+    divcontent.id = "divcontent"
+    img.id = "img";
+    p.id = "p"
+
+    p.textContent = `${messages.content}`;
+    img.src = `data:image/jpeg;base64,${avatar}`;
+   
+    //left
+    if (user == sender) {
+
+        document.getElementById("chatmessage").appendChild(divconteiner);
+        divconteiner.appendChild(img);
+        divconteiner.appendChild(divcontent);
+        divcontent.appendChild(p);   
+
+    } //right
+    else
+    {
+        divconteiner.classList.remove("justify-content-start");
+        divconteiner.classList.add("justify-content-end");
+        divcontent.classList.remove("ms-3");
+        divcontent.classList.add("me-3");
+        document.getElementById("chatmessage").appendChild(divconteiner);
+        divconteiner.appendChild(divcontent);
+        divcontent.appendChild(p);
+        divconteiner.appendChild(img);  
+    }
 });
 
 connection.on('Notify', function (message) {
