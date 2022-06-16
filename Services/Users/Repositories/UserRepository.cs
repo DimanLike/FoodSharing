@@ -55,7 +55,7 @@ namespace FoodSharing.Services.Users.Repositories
 			return _dbConnection.Get(expression, UserConverter.MapToUser, parameters);
 		}
 
-		public Task AddUserProfile(UserProfileView model)
+		public Task SaveUserProfile(UserProfileView model)
         {
 			string expression = @"INSERT INTO usersprofile(id, userid, firstname, lastname, email, adress, phone, avatar)
 				VALUES(@id, @userid, @firstname, @lastname, @email, @adress, @phone, @avatar)

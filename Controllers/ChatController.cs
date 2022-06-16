@@ -1,7 +1,5 @@
-﻿using FoodSharing.Models;
-using FoodSharing.Models.Chat;
+﻿using FoodSharing.Models.Chat;
 using FoodSharing.Services.Chat.Interfaces;
-using FoodSharing.Services.Users.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,15 +8,12 @@ namespace FoodSharing.Controllers
     [Authorize]
     public class ChatController : Controller
     {
-
         private readonly IConfiguration _config;
-        private IUserService _userService;
         private IChatService _chatService;
 
-        public ChatController(IConfiguration config, IUserService userService, IChatService chatService)
+        public ChatController(IConfiguration config, IChatService chatService)
         {
             _config = config;
-            _userService = userService;
             _chatService = chatService;
         }
 
@@ -30,28 +25,11 @@ namespace FoodSharing.Controllers
         [HttpGet]
         public async Task<IActionResult> ChatMessage(Guid userId)
         {
-            if (userId != Guid.Empty)
-            {
-                MessegesHistoryView messegesHistory = new MessegesHistoryView();
+            if (userId == Guid.Empty) return View();
 
-                messegesHistory.FromUserId = await _userService.GetUserIdByEmail(User.Identity.Name);
-                messegesHistory.ToUserId = userId;
+            MessagesHistoryView messegesHistory = await _chatService.GetMessagesHistory(userId, User.Identity.Name);
 
-                messegesHistory.FromUserAvatar = await _userService.GetAvatar(messegesHistory.FromUserId);
-                messegesHistory.ToUserAvatar = await _userService.GetAvatar(messegesHistory.ToUserId);
-
-                messegesHistory.Messages = await _chatService.GetMessages(messegesHistory.FromUserId, messegesHistory.ToUserId);
-
-                messegesHistory.Messages.OrderBy(x => x.CreatedAt).ToList();
-
-                return View(messegesHistory);
-                
-            }
-
-            return View();
-
+            return View(messegesHistory);
         }
-
-
     }
 }

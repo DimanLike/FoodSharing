@@ -1,17 +1,11 @@
 ﻿namespace FoodSharing.Models.Chat
 {
-    public class MessegesHistoryView
+    public class MessagesHistoryView
     {
-        public List<MessagesView> Messages { get; set; }
-
+        public List<MessageView> Messages { get; set; }
         public Guid ToUserId { get; set; }
-
         public byte[] ToUserAvatar { get; set; }
-
         public Guid FromUserId { get; set; }
-
         public byte[] FromUserAvatar { get; set; }
-
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using FoodSharing.Models;
-using FoodSharing.Models.Products;
+﻿using FoodSharing.Models.Products;
 using FoodSharing.Models.Products.ProductCategories;
 using Npgsql;
 
@@ -55,10 +54,6 @@ namespace FoodSharing.Services.Products.Converters
 					products.Add(product);
 				}
 			}
-			else
-			{
-				return new List<Product>();
-			}
 
 			return products;
 		}
@@ -79,10 +74,6 @@ namespace FoodSharing.Services.Products.Converters
 
 					productCategories.Add(productCategory);
 				}
-			}
-			else
-			{
-				return new List<ProductCategory>();
 			}
 
 			return productCategories;
@@ -108,6 +99,5 @@ namespace FoodSharing.Services.Products.Converters
 
 			return productCategories;
 		}
-
 	}
 }

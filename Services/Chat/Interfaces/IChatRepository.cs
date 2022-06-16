@@ -4,9 +4,9 @@ namespace FoodSharing.Services.Chat.Interfaces
 {
     public interface IChatRepository
     {
-        Task<List<Messages>> GetMessages(Guid fromuserid, Guid touserid);
+        Task<List<Message>> GetMessages(Guid fromuserid, Guid touserid);
 
-        Task Send(Messages model);
+        Task Send(Message model);
 
     }
 

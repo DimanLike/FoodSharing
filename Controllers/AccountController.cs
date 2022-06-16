@@ -1,10 +1,8 @@
 ﻿using FoodSharing.Models;
 using FoodSharing.Models.Users;
 using FoodSharing.Services.Users.Interfaces;
-using FoodSharing.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace FoodSharing.Controllers
 {
@@ -23,9 +21,7 @@ namespace FoodSharing.Controllers
 		[Route("Profile")]
 		public async Task<ActionResult> Profile()
 		{
-			string email = User.Identity.Name;
-			User user = await _userService.GetUserByEmail(email);
-			UserProfileView userProfile = await _userService.GetUserProfile(user.Id);
+			UserProfileView userProfile = await _userService.GetUserProfile(User.Identity.Name);
 
 			return View("Profile", userProfile);
 		}
@@ -38,26 +34,12 @@ namespace FoodSharing.Controllers
 			return View(profileInfoView);
         }
 
-
 		[HttpPost]
 		public async Task<ActionResult> EditProfile(UserProfileView model)
 		{
 			if (!ModelState.IsValid) return View();
 
-			string email = User.Identity.Name;
-			User user = await _userService.GetUserByEmail(email);
-			UserProfileView userProfile = await _userService.GetUserProfile(user.Id);
-			model.Id = userProfile.Id;
-			if (model.Image != null)
-			{
-				model.Avatar = FileTools.GetBytes(model.Image);
-			}
-			else
-			{
-				model.Avatar = userProfile.Avatar;
-			}
-
-			await _userService.AddUserProfile(model);
+			await _userService.SaveUserProfile(model, User.Identity.Name);
 			TempData["SaveChanges"] = "Изменения были применены";
 	
 			return RedirectToAction("Profile", "Account");
@@ -67,24 +49,20 @@ namespace FoodSharing.Controllers
 		public async Task<ActionResult> SavePhoto(UserProfileView model)
 		{
 			string email = User.Identity.Name;
-			User user = await _userService.GetUserByEmail(email);
-			UserProfileView userProfile = await _userService.GetUserProfile(user.Id);
+			UserProfileView userProfile = await _userService.GetUserProfile(email);
 			model.Id = userProfile.Id;
 
-			if (model.Image != null)
+			if (model.Image is null)
 			{
-				model.Avatar = FileTools.GetBytes(model.Image);
-
-				await _userService.AddUserProfile(model);
-			}
-			else
-			{
-				TempData["UploadPhotoError"] = "Фото не было загружено";
 				model.Avatar = userProfile.Avatar;
+
+				TempData["UploadPhotoError"] = "Фото не было загружено";
 				return View("Profile", model);
 			}
+
+			await _userService.SaveUserProfile(model, email);
+
 			TempData["SaveChanges"] = "Изменения были применены";
-			//return View(model);
 			return RedirectToAction("Profile", "Profile");
 		}
 	}

@@ -1,7 +1,5 @@
-﻿using FoodSharing.Models.Users;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.Mvc;
 using FoodSharing.Services.Users.Interfaces;
 using FoodSharing.Services.Chat.Interfaces;
 using FoodSharing.Models.Chat;
@@ -28,25 +26,21 @@ namespace FoodSharing.Hubs
 			string userFromEmail = Context.User.Identity.Name; // отправителя
 			string userToEmail = await _userService.GetUserEmailById(userToId); // почта получателя
 
+			Message messageModel = new Message();
+			messageModel.Id = Guid.NewGuid();
+			messageModel.FromUserId = await _userService.GetUserIdByEmail(userFromEmail);
+			messageModel.ToUserId = userToId;
+			messageModel.Content = message;
+			messageModel.CreatedAt = DateTime.Now;
 
-			Messages messages = new Messages();
-			messages.Id = Guid.NewGuid();
-			messages.FromUserId = await _userService.GetUserIdByEmail(userFromEmail);
-			messages.ToUserId = userToId;
-			messages.Content = message;
-			messages.CreatedAt = DateTime.Now;
+			await _chatService.Send(messageModel);
 
-			await _chatService.Send(messages);
+			string avatar = Convert.ToBase64String(await _userService.GetAvatar(messageModel.FromUserId));
+            string sender = userToEmail;
 
-			string avatar = Convert.ToBase64String(await _userService.GetAvatar(messages.FromUserId));
-			string sender = userFromEmail;
-
-			
-			sender = userToEmail;
-			await Clients.User(userToEmail).SendAsync("Receive", userFromEmail, messages, avatar, sender);
+            await Clients.User(userToEmail).SendAsync("Receive", userFromEmail, message, avatar, sender);
 			sender = userFromEmail;
-			await Clients.User(userFromEmail).SendAsync("Receive", userFromEmail, messages, avatar, sender);
-
+			await Clients.User(userFromEmail).SendAsync("Receive", userFromEmail, message, avatar, sender);
 		}
 
 		public override async Task OnConnectedAsync()
@@ -60,6 +54,5 @@ namespace FoodSharing.Hubs
 			await Clients.All.SendAsync("Notify", $"{Context.User.Identity.Name} покинул в чат");
 			await base.OnDisconnectedAsync(exception);
 		}
-
 	}
 }

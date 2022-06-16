@@ -5,6 +5,7 @@ using FoodSharing.Models.Products.ProductCategories;
 using FoodSharing.Models.Users;
 using FoodSharing.Services.Products.Interfaces;
 using FoodSharing.Services.Users.Interfaces;
+using FoodSharing.Tools;
 
 namespace FoodSharing.Services.Products
 {
@@ -19,8 +20,10 @@ namespace FoodSharing.Services.Products
 			_userRepository = userRepository;
 		}
 
-		public Task AddProduct(ProductView model)
+		public Task SaveProduct(ProductView model)
 		{
+			model.Image = FileTools.GetBytes(model.IFormFile);
+
 			return _productRepository.AddProduct(model);
 		}
 
@@ -48,7 +51,6 @@ namespace FoodSharing.Services.Products
 				return new ProductView(x.Id, x.UserId, user?.Email ?? "",  x.Name, x.Description, x.CategoryId,
 					productCategory?.Name ?? "", x.Quantity, x.Image, x.CreatedAt);
 			}).ToList();
-
 		}
 
 		public async Task<List<ProductView>> GetCatalogViews(int categoryId = default)
@@ -64,7 +66,6 @@ namespace FoodSharing.Services.Products
 			List<ProductCategory> productCategories = new List<ProductCategory>();
 			productCategories = await _productRepository.GetProductCategories(categoryIds);
 			
-            //List<User> Users = await _userService.GetUsers(userIds);
 			List<User> Users = await _userRepository.GetUsers(userIds);
 
 			return products.Select(x =>

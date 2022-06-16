@@ -45,10 +45,6 @@ namespace FoodSharing.Services.Users.Converters
 					users.Add(user);
 				}
 			}
-			else
-			{
-				return new List<User>();
-			}
 
 			return users;
 		}

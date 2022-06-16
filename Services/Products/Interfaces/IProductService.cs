@@ -7,7 +7,7 @@ namespace FoodSharing.Services.Products.Interfaces
     public interface IProductService
     {
         // Products
-        Task AddProduct(ProductView model);
+        Task SaveProduct(ProductView model);
         Task DeleteProduct(Guid id);
         Task<List<ProductView>> GetProductsViews(Guid userid);
         Task<ProductView> GetProduct(Guid productid);

@@ -29,12 +29,9 @@ namespace FoodSharing.Controllers
 
 		public async Task<ActionResult> GetProducts(ProductView model)
 		{
-			string email = User.Identity.Name;
+			User user = await _userService.GetUserByEmail(User.Identity.Name);
 
-			User user = await _userService.GetUserByEmail(email);
-			Guid userId = user.Id;
-
-			List<ProductView> productViews = await _productService.GetProductsViews(userId);
+			List<ProductView> productViews = await _productService.GetProductsViews(user.Id);
 
 			return View("Products", productViews);
 		}
@@ -63,22 +60,16 @@ namespace FoodSharing.Controllers
 		[Route("/Products/NewProduct")]
 		public async Task<ActionResult> NewProduct(ProductView model)
 		{
-			string email = User.Identity.Name;
-
-			User user = await _userService.GetUserByEmail(email);
-			model.UserId = user.Id;
-
-			if (model.IFormFile != null)
-			{
-				model.Image = FileTools.GetBytes(model.IFormFile);
-
-				await _productService.AddProduct(model);
-			}
-			else
+			if (model.IFormFile is null)
 			{
 				TempData["UploadPhotoError"] = "Фото не было загружено";
 				return View("NewProduct", model);
 			}
+
+			User user = await _userService.GetUserByEmail(User.Identity.Name);
+			model.UserId = user.Id;
+
+			await _productService.SaveProduct(model);
 
 			TempData["AddProductSeccess"] = "Товар был добавлен";
 			return RedirectToAction("NewProduct", "Product");
@@ -88,13 +79,10 @@ namespace FoodSharing.Controllers
 		[Route("/Products/EditProduct")]
 		public async Task<ActionResult> EditProduct(Guid id)
 		{
-			string email = User.Identity.Name;
-			ProductView model = new ProductView();
-
-			User user = await _userService.GetUserByEmail(email);
+			User user = await _userService.GetUserByEmail(User.Identity.Name);
 			List<ProductCategory> productCategories = await _productService.GetProductCategories();
 
-			model = await _productService.GetProduct(id);
+			ProductView model = await _productService.GetProduct(id);
 			model.ProductCategories = productCategories;
 			model.UserId = user.Id;
 
@@ -127,27 +115,18 @@ namespace FoodSharing.Controllers
 			catalogListView.CatalogViews = await _productService.GetCatalogViews(model.CategoryId);
 			catalogListView.ProductCategories = await _productService.GetProductCategories();
 
-
 			return View("Сatalog", catalogListView);
-
         }
 
 		[HttpGet]
 		public async Task<ActionResult> ProductInfo(Guid id)
 		{
-			ProductInfoView model = new ProductInfoView();
-			UserProfileView userProfileViewModel = new UserProfileView();
-			ProductView productView = new ProductView();
+			ProductView productView = await _productService.GetProduct(id);
+			UserProfileView userProfileViewModel = await _userService.GetUserProfile(productView.UserId);
 
-			productView = await _productService.GetProduct(id);
-			userProfileViewModel = await _userService.GetUserProfile(productView.UserId);
-
-			model.ProductView = productView;
-			model.UserProfileViewModel = userProfileViewModel;
+			ProductInfoView model = new ProductInfoView(userProfileViewModel, productView);
 
 			return View(model);
 		}
-
-
 	}
 }

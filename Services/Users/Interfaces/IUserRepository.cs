@@ -12,7 +12,7 @@ namespace FoodSharing.Services.Users.Interfaces
         Task<List<User>> GetUsers(Guid[] ids);
 
         // UserProfile
-        Task AddUserProfile(UserProfileView model);
+        Task SaveUserProfile(UserProfileView model);
         Task<UserProfile> GetUserProfile(Guid userid);
     }
 }

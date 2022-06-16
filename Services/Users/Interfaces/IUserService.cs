@@ -7,6 +7,7 @@ namespace FoodSharing.Services.Users.Interfaces
     {
         // Users
         Task AddUser(string email, string password);
+        Task RegisterUser(RegistrationView registrationView);
         Task<User> GetUserByEmail(string email);
 
         Task<Guid> GetUserIdByEmail(string email);
@@ -16,7 +17,9 @@ namespace FoodSharing.Services.Users.Interfaces
 
         // UserProfile
         Task AddUserProfile(UserProfileView model);
+        Task SaveUserProfile(UserProfileView model, string email);
         Task<UserProfileView> GetUserProfile(Guid userid);
+        Task<UserProfileView> GetUserProfile(string email);
 
         // ProfileInfo
         Task<ProfileInfoView> GetUserProfileInfo(Guid userid);

@@ -7,7 +7,7 @@ var connection = new signalR.HubConnectionBuilder()
 
 document.getElementById("sendButton").disabled = true;
 
-connection.on("Receive", function (user, messages, avatar, sender) {
+connection.on("Receive", function (user, message, avatar, sender) {
     var divconteiner = document.createElement("div");
     var divcontent = document.createElement("div");
     var img = document.createElement("img");
@@ -34,7 +34,7 @@ connection.on("Receive", function (user, messages, avatar, sender) {
     img.id = "img";
     p.id = "p"
 
-    p.textContent = `${messages.content}`;
+    p.textContent = `${message}`;
     img.src = `data:image/jpeg;base64,${avatar}`;
    
     //left

@@ -15,7 +15,7 @@ namespace FoodSharing.Services.Chat.Repositories
             _dbConnection = new DbConnection(config.GetConnectionString("DefaultConnection"));
         }
 
-        public Task Send (Messages model)
+        public Task Send (Message model)
         {
 			string expression = @"INSERT INTO messages (id, fromuserid, touserid, content, createdat) 
 								VALUES (@id, @fromuserid, @touserid, @content, @createdat)";
@@ -31,7 +31,7 @@ namespace FoodSharing.Services.Chat.Repositories
 			return _dbConnection.Add(expression, parameters);
 		}
 
-		public Task<List<Messages>> GetMessages(Guid fromuserid, Guid touserid)
+		public Task<List<Message>> GetMessages(Guid fromuserid, Guid touserid)
 		{
 			string expression = @"SELECT * FROM messages WHERE (fromuserid = @fromuserid AND touserid = @touserid) OR (fromuserid = @touserid AND touserid = @fromuserid) ";
 

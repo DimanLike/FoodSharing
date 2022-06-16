@@ -5,16 +5,15 @@ namespace FoodSharing.Services.Chat.Converters
 {
     public class ChatConverter
     {
-
-		public static async Task<List<Messages>> MapToMessages(NpgsqlDataReader reader)
+		public static async Task<List<Message>> MapToMessages(NpgsqlDataReader reader)
 		{
-			List<Messages> messages = new List<Messages>();
+			List<Message> messages = new List<Message>();
 
 			if (reader.HasRows)
 			{
 				while (await reader.ReadAsync())
 				{
-					Messages message = new Messages();
+					Message message = new Message();
 
 					message.Id = (Guid)reader["Id"];
 					message.FromUserId = (Guid)reader["FromUserId"];
@@ -24,10 +23,6 @@ namespace FoodSharing.Services.Chat.Converters
 
 					messages.Add(message);
 				}
-			}
-			else
-			{
-				return new List<Messages>();
 			}
 
 			return messages;

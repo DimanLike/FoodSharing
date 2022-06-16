@@ -3,6 +3,7 @@ using FoodSharing.Models.Users;
 using FoodSharing.Services.Products.Interfaces;
 using FoodSharing.Services.Users.Converters;
 using FoodSharing.Services.Users.Interfaces;
+using FoodSharing.Tools;
 
 namespace FoodSharing.Services.Users
 {
@@ -10,7 +11,6 @@ namespace FoodSharing.Services.Users
 	{
 		private readonly IUserRepository _userRepository;
 		private IProductService _productService;
-
 
 		public UserService(IUserRepository userRepository, IProductService productService)
 		{
@@ -21,6 +21,17 @@ namespace FoodSharing.Services.Users
 		public Task AddUser(string email, string password)
 		{
 			return _userRepository.AddUser(email, password);
+		}
+		
+		public async Task RegisterUser(RegistrationView registrationView)
+		{
+			await AddUser(registrationView.Email, registrationView.Password);
+
+			UserProfileView userprofile = new UserProfileView();
+			userprofile.Id = Guid.NewGuid();
+			userprofile.Email = registrationView.Email;
+
+			await AddUserProfile(userprofile);
 		}
 
 		public Task<User> GetUserByEmail(string email)
@@ -47,12 +58,40 @@ namespace FoodSharing.Services.Users
 
 		public Task AddUserProfile(UserProfileView model)
 		{
-			return _userRepository.AddUserProfile(model);
+			return _userRepository.SaveUserProfile(model);
+		}
+
+		public async Task SaveUserProfile(UserProfileView model, string email)
+		{
+			UserProfileView userProfile = await GetUserProfile(email);
+
+			model.Id = userProfile.Id;
+
+			if (model.Image != null)
+			{
+				model.Avatar = FileTools.GetBytes(model.Image);
+			}
+			else
+			{
+				model.Avatar = userProfile.Avatar;
+			}
+
+			await _userRepository.SaveUserProfile(model);
 		}
 
 		public async Task<UserProfileView> GetUserProfile(Guid userid)
 		{
 			UserProfile userProfile = await _userRepository.GetUserProfile(userid);
+			if (userProfile is null) return null;
+
+			return UserConverter.MapToUserProfileView(userProfile);
+		}
+
+		public async Task<UserProfileView> GetUserProfile(string email)
+		{
+			User user = await GetUserByEmail(email);
+			UserProfile userProfile = await _userRepository.GetUserProfile(user.Id);
+
 			if (userProfile is null) return null;
 
 			return UserConverter.MapToUserProfileView(userProfile);

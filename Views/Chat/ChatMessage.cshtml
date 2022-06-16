@@ -1,41 +1,38 @@
 ﻿@using FoodSharing.Models.Chat
-@model MessegesHistoryView
+@model MessagesHistoryView
 
 <style>
-        .chat-form{
-            height: 400px;
-        }
-        .left{
-            border-radius: 15px;
-            background-color: #fbfbfb;
-        }
-        .right{
-            border-radius: 15px;
-            background-color: rgba(57, 192, 237,.2);
-
-        }
-        .image-avatar{
-            width: 45px;
-            height: 100%;
-        }
-        .section::-webkit-scrollbar {
-      width: 10px;
+    .chat-form{
+        height: 400px;
     }
-
+    .left{
+        border-radius: 15px;
+        background-color: #fbfbfb;
+    }
+    .right{
+        border-radius: 15px;
+        background-color: rgba(57, 192, 237,.2);
+    }
+    .image-avatar{
+        width: 45px;
+        height: 100%;
+    }
+    .section::-webkit-scrollbar {
+        width: 10px;
+    }
     .section::-webkit-scrollbar-track {
-      background-color: #ffffff;
-      border-radius: 100px;
+        background-color: #ffffff;
+        border-radius: 100px;
     }
-
     .section::-webkit-scrollbar-thumb {
-      border-radius: 100px;
-      border: 2px solid transparent;
-      background-clip: content-box;
-      background-color: #8070d4;
+        border-radius: 100px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+        background-color: #8070d4;
     }
     .card-footer{
-    background-color: hsla(0,0%,100%,0);
-    border-top: 2px solid #f5f5f5;
+        background-color: hsla(0,0%,100%,0);
+        border-top: 2px solid #f5f5f5;
     }
     .btn-send{
         border-radius: 20px;
@@ -52,15 +49,14 @@
                 <i class="fas fa-times"></i>
             </div>
 
-
             <div id="chatmessage" class="section card-body p-4" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px; overflow: auto;">
-                @foreach (var Message in Model.Messages)
+                @foreach (MessageView message in Model.Messages)
                 {
-                    @if (Model.FromUserId == Message.FromUserId)
+                    @if (Model.FromUserId == message.FromUserId)
                     {
                         <div class="d-flex flex-row justify-content-end mb-4">
                             <div class="p-3 me-3 right">
-                                <p class="small mb-0">@Message.Content</p>
+                                <p class="small mb-0">@message.Content</p>
                             </div>
                             <img class="image-avatar rounded-circle " src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.FromUserAvatar ))">
                         </div>
@@ -70,7 +66,7 @@
                         <div class="d-flex flex-row justify-content-start mb-4">
                             <img class="image-avatar rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ToUserAvatar ))">
                             <div class="p-3 ms-3 border left">
-                                <p class="small mb-0">@Message.Content</p>
+                                <p class="small mb-0">@message.Content</p>
                             </div>
                         </div>
                     }
@@ -86,8 +82,6 @@
                     <button class="btn-send btn btn-success" name="@Model.ToUserId" id="sendButton">Отправить сообщение</button>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
@@ -95,4 +89,3 @@
 
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
-
