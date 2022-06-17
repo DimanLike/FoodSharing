@@ -1,6 +1,7 @@
 ﻿using FoodSharing.Models.Chat;
 using FoodSharing.Services.Chat.Interfaces;
 using FoodSharing.Services.Users.Interfaces;
+using System.Linq;
 
 namespace FoodSharing.Services.Chat
 {
@@ -34,6 +35,20 @@ namespace FoodSharing.Services.Chat
             }).ToList();
         }
 
+        public async Task<MessageView> GetMessage(Guid fromuserid, Guid touserid)
+        {
+            List<Message> messages = await _chatRepository.GetMessages(fromuserid, touserid);
+
+            Message message = messages.OrderBy(x => x.CreatedAt).Last();
+
+            string toUserEmail = await _userService.GetUserEmailById(message.ToUserId);
+            string fromUserEmail = await _userService.GetUserEmailById(message.FromUserId);
+
+            MessageView messageView = new MessageView(message.Id, message.FromUserId, fromUserEmail, message.ToUserId, toUserEmail, message.Content, message.CreatedAt);
+
+            if (messages.Count == 0) return new MessageView();
+        }
+
         public async Task<MessagesHistoryView> GetMessagesHistory(Guid userId, string email)
         {
             MessagesHistoryView messegesHistory = new MessagesHistoryView();
@@ -47,6 +62,44 @@ namespace FoodSharing.Services.Chat
             messegesHistory.Messages = (await GetMessages(messegesHistory.FromUserId, messegesHistory.ToUserId)).OrderBy(x => x.CreatedAt).ToList();
 
             return messegesHistory;
+        }
+
+        public async Task<MessageHistoryView> GetLastMessage(Guid userId, string email)
+        {
+            MessageHistoryView messegesHistory = new MessageHistoryView();
+
+            messegesHistory.FromUserId = await _userService.GetUserIdByEmail(email);
+            messegesHistory.ToUserId = userId;
+
+            messegesHistory.FromUserAvatar = await _userService.GetAvatar(messegesHistory.FromUserId);
+            messegesHistory.ToUserAvatar = await _userService.GetAvatar(messegesHistory.ToUserId);
+
+            messegesHistory.Messages = (await GetMessages(messegesHistory.FromUserId, messegesHistory.ToUserId)).OrderBy(x => x.CreatedAt).ToList();
+            messegesHistory.Messages = messegesHistory.Messages.Last();
+
+            return messegesHistory;
+        }
+
+        public async Task<List<MessagesHistoryView>> GetTalkers(Guid userid)
+        {
+            List<Guid> userids = await _chatRepository.GetTalkers(userid);
+            string email = await _userService.GetUserEmailById(userid);
+            List<MessagesHistoryView> messages = new List<MessagesHistoryView>();
+
+           foreach (Guid user in userids)
+            {
+                MessagesHistoryView messagesuser = await GetMessagesHistory(user, email);
+                messages.Add(messagesuser);
+            }
+            if (messages is null)
+            {
+                return new List<MessagesHistoryView>();
+            }
+                 else
+            {
+                return messages;
+            }
+
         }
     }
 }

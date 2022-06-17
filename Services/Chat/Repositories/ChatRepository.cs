@@ -43,5 +43,16 @@ namespace FoodSharing.Services.Chat.Repositories
 			return _dbConnection.GetList(expression, ChatConverter.MapToMessages, parameters);
 		}
 
+		public Task<List<Guid>> GetTalkers(Guid userid)
+        {
+			string expression = @"SELECT touserid FROM messages WHERE ( fromuserid = @userid OR touserid = @userid ) GROUP BY touserid";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(userid), userid),
+			};
+
+			return _dbConnection.GetList(expression, ChatConverter.MapToGuid, parameters);
+		}
 	}
 }

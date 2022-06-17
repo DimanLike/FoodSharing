@@ -137,7 +137,7 @@
 							<div class="icontext mb-3 w-100 " onclick="location.href='@Url.Action("ProfileInfo", "Account", new { UserId = Model.UserProfileViewModel.UserId })'">
 								<img class="icon rounded-circle img-fluid me-2" width="50"src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.UserProfileViewModel.Avatar))">
 								<div class="text">
-									<h6 class="title">@Model.UserProfileViewModel.FirstName + @Model.UserProfileViewModel.LastName</h6>
+									<h6 class="title">@($"{Model.UserProfileViewModel.FirstName} {Model.UserProfileViewModel.LastName}")</h6>
 									<p class="text-muted">Real estate broker </p>
 								</div>
 							</div>

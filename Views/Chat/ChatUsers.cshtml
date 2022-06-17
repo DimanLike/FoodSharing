@@ -1,5 +1,4 @@
 ﻿@using FoodSharing.Models.Chat
-@using System.Globalization
 @model MessagesHistoryView
 
 <style>
@@ -44,8 +43,6 @@
     }
 </style>
 
-
-
 <div class="row justify-content-center">
     <div class="col-lg-4 ">
         <div class="card " style="border-radius: 15px;">
@@ -57,14 +54,14 @@
             </div>
 
             <div id="chatmessage" class="section card-body p-4"  style="position: relative; height: 400px; overflow: auto;">
-                @foreach (MessageView message in Model.Messages)
-                {
-                    @if (Model.FromUserId == message.FromUserId)
+                 @foreach (MessagesHistoryView message in Model)
+                 {
+                       @if (Model.FromUserId == message.FromUserId)
                     {
                         <div class="d-flex flex-row justify-content-end mb-4">
                             <div class="p-3 me-3 right">
-                                <p class="small mb-0">@message.Content</p>
-                                 <p class="message-time mb-0">@message.CreatedAt.ToString("HH:mm")</p>
+                                <p class="small mb-0">@message.Messages.Last().Content</p>
+                                 <p class="message-time mb-0">@message.Messages.Last().CreatedAt.ToString("HH:mm")</p>
                             </div>
                             <img class="image-avatar rounded-circle " src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.FromUserAvatar ))">
                         </div>
@@ -74,12 +71,12 @@
                         <div class="d-flex flex-row justify-content-start mb-4">
                             <img class="image-avatar rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ToUserAvatar ))">
                             <div class="p-3 ms-3 border left">
-                                <p class="small mb-0">@message.Content</p>
-                                <p class="message-time mb-0">@message.CreatedAt.ToString("HH:mm")</p>
+                                <p class="small mb-0">@message.Messages.Last().Content</p>
+                                <p class="message-time mb-0">@message.Messages.Last().CreatedAt.ToString("HH:mm")</p>
                             </div>
                         </div>
                     }
-                }
+                 }
             </div>
 
             <div class="card-footer">
@@ -88,13 +85,10 @@
                 </div>
 
                 <div class="row mb-2 px-2">
-                    <button class="btn-send btn btn-success" name="@Model.ToUserId" id="sendButton">Отправить сообщение</button>
+                    <button class="btn-send btn btn-success"  id="sendButton">Отправить сообщение</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="~/js/ChatMessage.js"></script>
-<script src="~/lib/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>

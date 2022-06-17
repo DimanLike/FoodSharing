@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Chat\Talkers.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Auth\Index.cshtml" />
     <Content Remove="Views\Auth\Index1.cshtml" />
     <Content Remove="Views\Auth\_Layout.cshtml" />
@@ -15,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Microsoft.AspNet.SignalR.JS" Version="2.4.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.6" />
     <PackageReference Include="Npgsql" Version="6.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>

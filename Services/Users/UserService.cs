@@ -26,10 +26,12 @@ namespace FoodSharing.Services.Users
 		public async Task RegisterUser(RegistrationView registrationView)
 		{
 			await AddUser(registrationView.Email, registrationView.Password);
+			Guid userId = await GetUserIdByEmail(registrationView.Email);
 
 			UserProfileView userprofile = new UserProfileView();
 			userprofile.Id = Guid.NewGuid();
 			userprofile.Email = registrationView.Email;
+			userprofile.UserId = userId;
 
 			await AddUserProfile(userprofile);
 		}

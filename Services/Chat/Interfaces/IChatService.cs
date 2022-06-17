@@ -8,5 +8,7 @@ namespace FoodSharing.Services.Chat.Interfaces
 
         Task<List<MessageView>> GetMessages(Guid fromuserid, Guid touserid);
         Task<MessagesHistoryView> GetMessagesHistory(Guid userId, string email);
+        Task<MessageView> GetMessage(Guid fromuserid, Guid touserid);
+        Task<List<MessagesHistoryView>> GetTalkers(Guid userid);
     }
 }

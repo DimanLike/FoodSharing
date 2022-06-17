@@ -8,6 +8,8 @@ namespace FoodSharing.Services.Chat.Interfaces
 
         Task Send(Message model);
 
+        Task<List<Guid>> GetTalkers(Guid userid);
+
     }
 
 }
