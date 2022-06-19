@@ -1,46 +1,67 @@
 ﻿@using FoodSharing.Models.Chat
-@model MessagesHistoryView
+@model AllDialogsView
 
 <style>
-    .chat-form{
+    .chat-form {
         height: 400px;
     }
-    .left{
+
+    .left {
         border-radius: 15px;
         background-color: #fbfbfb;
     }
-    .right{
+
+    .user-button {
         border-radius: 15px;
         background-color: rgba(57, 192, 237,.2);
+        cursor: pointer;
+        
     }
-    .image-avatar{
-        width: 45px;
+
+    .image-avatar {
+        width: 55px;
         height: 100%;
+        align-self: center;
     }
+
     .section::-webkit-scrollbar {
         width: 10px;
     }
+
     .section::-webkit-scrollbar-track {
         background-color: #ffffff;
         border-radius: 100px;
     }
+
     .section::-webkit-scrollbar-thumb {
         border-radius: 100px;
         border: 2px solid transparent;
         background-clip: content-box;
         background-color: #8070d4;
     }
-    .card-footer{
+
+    .card-footer {
         background-color: hsla(0,0%,100%,0);
         border-top: 2px solid #f5f5f5;
     }
-    .btn-send{
+
+    .btn-send {
         border-radius: 20px;
     }
-    .message-time{
-      font-size: 0.750em;  
-      color : #9c9c9c;
+
+    .message-time {
+        font-size: 0.750em;
+        color: #9c9c9c;
     }
+
+    .email{
+        font-weight: bold;
+        color: mediumslateblue;
+    }
+    
+    .user-button:hover {
+        background-color: rgba(57, 150, 237,.2);
+	}
 </style>
 
 <div class="row justify-content-center">
@@ -53,40 +74,38 @@
                 <i class="fas fa-times"></i>
             </div>
 
-            <div id="chatmessage" class="section card-body p-4"  style="position: relative; height: 400px; overflow: auto;">
-                 @foreach (MessagesHistoryView message in Model)
-                 {
-                       @if (Model.FromUserId == message.FromUserId)
+            <div id="chatmessage" class="section card-body p-4" style="position: relative; height: 400px; overflow: auto;">
+                @foreach (Dialog message in Model.Dialog)
+                {
+                    @if (Model.User == message.FromUserName)
                     {
-                        <div class="d-flex flex-row justify-content-end mb-4">
-                            <div class="p-3 me-3 right">
-                                <p class="small mb-0">@message.Messages.Last().Content</p>
-                                 <p class="message-time mb-0">@message.Messages.Last().CreatedAt.ToString("HH:mm")</p>
+                        <div class="d-flex flex-row  mb-2 user-button hover-effect:hover" onclick="location.href='@Url.Action("ChatMessage", "Chat", new { UserId = @message.ToUserId})'">
+                            <img class="image-avatar rounded-circle ms-3 " src="data:image/jpeg;base64,@(Convert.ToBase64String(@message.ToUserAvatar))">
+                            <div class="p-3 me-3 ">
+                                <p class="small mb-0 email">@message.ToUserName</p>
+                                <p class="small mb-0">@($"Вы: {@message.Content}")</p>                                    
                             </div>
-                            <img class="image-avatar rounded-circle " src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.FromUserAvatar ))">
+                            <div class="p-3 me-3 justify-content-end" style="margin-left: auto;">
+                                    <p class="message-time mb-0  ">@message.CreatedAt.ToString("HH:mm")</p>
+                            </div>
                         </div>
                     }
                     else
                     {
-                        <div class="d-flex flex-row justify-content-start mb-4">
-                            <img class="image-avatar rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ToUserAvatar ))">
-                            <div class="p-3 ms-3 border left">
-                                <p class="small mb-0">@message.Messages.Last().Content</p>
-                                <p class="message-time mb-0">@message.Messages.Last().CreatedAt.ToString("HH:mm")</p>
+                        <div class="d-flex flex-row mb-2 user-button hover-effect:hover" onclick="location.href='@Url.Action("ChatMessage", "Chat", new { UserId = @message.FromUserId})'">
+                            <img class="image-avatar rounded-circle ms-3" src="data:image/jpeg;base64,@(Convert.ToBase64String(@message.FromUserAvatar))">
+                            <div class="p-3 me-3">
+                                <p class="small mb-0 email">@message.FromUserName</p>
+                                <p class="small mb-0">@message.Content </p>                                
+                            </div>
+                            <div class="p-3 me-3 justify-content-end" style="margin-left: auto;">
+                                    <p class="message-time mb-0 ">@message.CreatedAt.ToString("HH:mm")</p>
                             </div>
                         </div>
+
                     }
-                 }
-            </div>
 
-            <div class="card-footer">
-                <div class="icontext mb-3 w-100 ">
-                    <textarea class="form-control" type="text" id="messageInput" placeholder="Сообщение"></textarea>
-                </div>
-
-                <div class="row mb-2 px-2">
-                    <button class="btn-send btn btn-success"  id="sendButton">Отправить сообщение</button>
-                </div>
+                }
             </div>
         </div>
     </div>

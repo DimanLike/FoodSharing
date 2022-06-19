@@ -10,6 +10,10 @@ namespace FoodSharing.Services.Chat.Interfaces
 
         Task<List<Guid>> GetTalkers(Guid userid);
 
+        Task<List<Message>> GetAllMessages(Guid fromuserid);
+
+        Task<List<Guid>> GetToTalkers(Guid userid);
+        Task<List<Guid>> GetFromTalkers(Guid userid);
     }
 
 }

@@ -59,6 +59,7 @@
             <div id="chatmessage" class="section card-body p-4"  style="position: relative; height: 400px; overflow: auto;">
                 @foreach (MessageView message in Model.Messages)
                 {
+
                     @if (Model.FromUserId == message.FromUserId)
                     {
                         <div class="d-flex flex-row justify-content-end mb-4">

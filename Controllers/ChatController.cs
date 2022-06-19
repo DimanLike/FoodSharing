@@ -38,7 +38,10 @@ namespace FoodSharing.Controllers
         public async Task<IActionResult> ChatUsers()
         {           
             Guid UserId = await _userService.GetUserIdByEmail(User.Identity.Name);
-            List<MessagesHistoryView> messages = await _chatService.GetTalkers(UserId);
+
+            AllDialogsView messages = await _chatService.GetTalkers(UserId);
+            messages.User = User.Identity.Name;
+
             return View(messages);
         }
 

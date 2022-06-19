@@ -43,9 +43,20 @@ namespace FoodSharing.Services.Chat.Repositories
 			return _dbConnection.GetList(expression, ChatConverter.MapToMessages, parameters);
 		}
 
+		public Task<List<Message>> GetAllMessages(Guid fromuserid)
+		{
+			string expression = @"SELECT * FROM messages WHERE (fromuserid = @fromuserid OR touserid = @fromuserid) ";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(fromuserid), fromuserid),
+			};
+			return _dbConnection.GetList(expression, ChatConverter.MapToMessages, parameters);
+		}
+
 		public Task<List<Guid>> GetTalkers(Guid userid)
         {
-			string expression = @"SELECT touserid FROM messages WHERE ( fromuserid = @userid OR touserid = @userid ) GROUP BY touserid";
+			string expression = @"SELECT touserid FROM messages WHERE ( fromuserid = @userid OR touserid = @userid ) GROUP BY touserid HAVING touserid <> @userid ";
 
 			NpgsqlParameter[] parameters = new[]
 			{
@@ -54,5 +65,32 @@ namespace FoodSharing.Services.Chat.Repositories
 
 			return _dbConnection.GetList(expression, ChatConverter.MapToGuid, parameters);
 		}
+
+		public Task<List<Guid>> GetToTalkers(Guid userid)
+		{
+			string expression = @"SELECT touserid FROM messages WHERE ( fromuserid = @userid OR touserid = @userid ) GROUP BY touserid HAVING touserid <> @userid ";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(userid), userid),		
+			};
+
+			return _dbConnection.GetList(expression, ChatConverter.MapToGuid, parameters);
+		}
+
+		public Task<List<Guid>> GetFromTalkers(Guid userid)
+		{
+			string expression = @"SELECT fromuserid FROM messages WHERE ( fromuserid = @userid OR touserid = @userid ) GROUP BY fromuserid HAVING fromuserid <> @userid ";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(userid), userid),
+			};
+
+			return _dbConnection.GetList(expression, ChatConverter.MapFromGuid, parameters);
+		}
+
+
+
 	}
 }

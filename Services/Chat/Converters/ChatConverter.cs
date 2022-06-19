@@ -42,5 +42,20 @@ namespace FoodSharing.Services.Chat.Converters
 
 			return guids;
 		}
+
+		public static async Task<List<Guid>> MapFromGuid(NpgsqlDataReader reader )
+		{
+			List<Guid> guids = new List<Guid>();
+
+			while (await reader.ReadAsync())
+			{
+				Guid guid = new Guid();
+				guid = (Guid)reader["FromUserId"];
+
+				guids.Add(guid);
+			}
+
+			return guids;
+		}
 	}
 }

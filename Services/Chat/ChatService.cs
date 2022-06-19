@@ -35,20 +35,6 @@ namespace FoodSharing.Services.Chat
             }).ToList();
         }
 
-        public async Task<MessageView> GetMessage(Guid fromuserid, Guid touserid)
-        {
-            List<Message> messages = await _chatRepository.GetMessages(fromuserid, touserid);
-
-            Message message = messages.OrderBy(x => x.CreatedAt).Last();
-
-            string toUserEmail = await _userService.GetUserEmailById(message.ToUserId);
-            string fromUserEmail = await _userService.GetUserEmailById(message.FromUserId);
-
-            MessageView messageView = new MessageView(message.Id, message.FromUserId, fromUserEmail, message.ToUserId, toUserEmail, message.Content, message.CreatedAt);
-
-            if (messages.Count == 0) return new MessageView();
-        }
-
         public async Task<MessagesHistoryView> GetMessagesHistory(Guid userId, string email)
         {
             MessagesHistoryView messegesHistory = new MessagesHistoryView();
@@ -64,42 +50,67 @@ namespace FoodSharing.Services.Chat
             return messegesHistory;
         }
 
-        public async Task<MessageHistoryView> GetLastMessage(Guid userId, string email)
+        public async Task<Dialog> GetDialog(Guid fromuserid, Guid touserid)
         {
-            MessageHistoryView messegesHistory = new MessageHistoryView();
+            List<Message> messages = await _chatRepository.GetMessages(fromuserid, touserid);
 
-            messegesHistory.FromUserId = await _userService.GetUserIdByEmail(email);
-            messegesHistory.ToUserId = userId;
+            Message message = messages.OrderBy(x => x.CreatedAt).Last();
 
-            messegesHistory.FromUserAvatar = await _userService.GetAvatar(messegesHistory.FromUserId);
-            messegesHistory.ToUserAvatar = await _userService.GetAvatar(messegesHistory.ToUserId);
+            string toUserEmail = await _userService.GetUserEmailById(message.ToUserId);
+            string fromUserEmail = await _userService.GetUserEmailById(message.FromUserId);
 
-            messegesHistory.Messages = (await GetMessages(messegesHistory.FromUserId, messegesHistory.ToUserId)).OrderBy(x => x.CreatedAt).ToList();
-            messegesHistory.Messages = messegesHistory.Messages.Last();
+            byte[] toUserAvatar = await _userService.GetAvatar(message.ToUserId);
 
-            return messegesHistory;
+            byte[] fromUserAvatar = await _userService.GetAvatar(message.FromUserId);
+
+            Dialog dialog = new Dialog(message.Id, message.FromUserId, fromUserEmail, fromUserAvatar, message.ToUserId, toUserEmail, toUserAvatar, message.Content, message.CreatedAt);
+
+            if (dialog is null)
+                return new Dialog();
+            else
+                return dialog;
         }
 
-        public async Task<List<MessagesHistoryView>> GetTalkers(Guid userid)
+        public async Task<AllDialogsView> GetTalkers(Guid userid)
         {
-            List<Guid> userids = await _chatRepository.GetTalkers(userid);
+            List<Guid> userids = await GetTalkersId(userid);
             string email = await _userService.GetUserEmailById(userid);
-            List<MessagesHistoryView> messages = new List<MessagesHistoryView>();
 
-           foreach (Guid user in userids)
+            AllDialogsView allDialogs = new AllDialogsView();
+
+            foreach (Guid user in userids)
             {
-                MessagesHistoryView messagesuser = await GetMessagesHistory(user, email);
-                messages.Add(messagesuser);
+                Dialog dialog = await GetDialog(user, userid);
+                if (allDialogs.Dialog is null)
+                    allDialogs.Dialog = new List<Dialog>() { dialog };
+                else
+                    allDialogs.Dialog.Add(dialog);
             }
-            if (messages is null)
+            if (allDialogs is null)
             {
-                return new List<MessagesHistoryView>();
+                return new AllDialogsView();
             }
-                 else
+            else
             {
-                return messages;
+                return allDialogs;
             }
 
         }
+
+        public async Task<List<Guid>> GetTalkersId(Guid userid)
+        {
+            List<Message> messages = await _chatRepository.GetAllMessages(userid);
+
+            List<Guid> toTalkers = await _chatRepository.GetToTalkers(userid);
+            List<Guid> fromTalkers = await _chatRepository.GetFromTalkers(userid);
+
+            foreach (Guid p in toTalkers)
+                fromTalkers.Add(p);
+
+            List<Guid> Talkers = fromTalkers.Distinct().ToList();
+
+            return Talkers;
+        }
+
     }
 }
