@@ -1,73 +1,80 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - FoodSharing</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/css/ProductStyles.css" />
-	<link rel="stylesheet" href="~/FoodSharing.styles.css" asp-append-version="true" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FoodSharing</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ProductStyles.css" />
+    <link rel="stylesheet" href="~/FoodSharing.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-			<div class="container-fluid">
-				<a class="navbar-brand" asp-area=" " asp-controller="Home" asp-action="Index">FoodSharing</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-						aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area=" " asp-controller="Home" asp-action="Index">
+                    FoodSharing
+                    </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-				<div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
-					<div class="nav-item ">
-						<a class="nav-link text-dark" asp-controller="Product" asp-action="Products">Товары</a>
-					</div>
-					<div class="nav-item ">
-						<a class="nav-link text-dark" asp-controller="Product" asp-action="NewProduct">Выставить товар</a>
-					</div>
-					<div class="nav-item ">
-						<a class="nav-link text-dark" asp-controller="Product" asp-action="Сatalog">Каталог</a>
-					</div>
-					<div class="nav-item ">
-						<a class="nav-link text-dark" asp-controller="Chat" asp-action="ChatUsers">Чат</a>
-					</div>
+                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">                  
+                    <div class="nav-item dropdown">
+                        <button class="btn btn-outline-primary " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-egg-fried"></i>
+                            Продукты
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item text-dark" asp-controller="Product" asp-action="Products"><i class="bi bi-basket2-fill"></i> Мои продукты</a></li>
+                            <li><a class="dropdown-item text-dark" asp-controller="Product" asp-action="NewProduct"><i class="bi bi-plus-circle-fill"></i> Выставить продукт</a></li>
+                            <li><a class="dropdown-item text-dark"><i class="bi bi-heart-fill"></i> Избранное</a></li>
+                        </ul>
+                    </div>
+                    <div class="nav-item ">
+                        <a class="nav-link text-dark" asp-controller="Product" asp-action="Сatalog">Каталог</a>
+                    </div>
+                    <div class="nav-item ">
+                        <a class="nav-link text-dark" asp-controller="Chat" asp-action="ChatUsers">Чат</a>
+                    </div>
 
-					@if (User.Identity.Name == null)
-					{
-						<div class="nav-item ms-auto">
-							<button class="btn btn-outline-primary " onclick="location.href='@Url.Action("Login", "Auth")'"> Войти</button>
-						</div>
-						<div class="nav-item">
-							<button class="btn btn-outline-primary " onclick="location.href='@Url.Action("Registration", "Auth")'"> Регистрация</button>
-						</div>
-					}
-					else
-					{
-						
-						<div class="nav-item ms-auto">
-							<a class="nav-link active " asp-controller="Account" asp-action="Profile"> @(User.Identity.Name)</a>
-						</div>
-						<div class="nav-item ">
-							<button class=" btn btn-outline-danger " onclick="location.href='@Url.Action("LogOut", "Auth")'"> Выход</button>
-						</div>	
-					
-					}
-				</div>
-			</div>
-		</nav>
-	</header>
-	@RenderBody()
+                    @if (User.Identity.Name == null)
+                    {
+                        <div class="nav-item ms-auto">
+                            <button class="btn btn-outline-primary " onclick="location.href='@Url.Action("Login", "Auth")'"> Войти</button>
+                        </div>
+                        <div class="nav-item">
+                            <button class="btn btn-outline-primary " onclick="location.href='@Url.Action("Registration", "Auth")'"> Регистрация</button>
+                        </div>
+                    }
+                    else
+                    {
 
-  @*<footer class="border-top text-muted footer">
-		<div class="container">
-			&copy; 2022 - FoodSharing - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		</div>
-	</footer>*@
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	@await RenderSectionAsync("Scripts", required: false)
+                        <div class="nav-item ms-auto">
+                            <a class="nav-link active " asp-controller="Account" asp-action="Profile"> @(User.Identity.Name)</a>
+                        </div>
+                        <div class="nav-item ">
+                            <button class=" btn btn-outline-danger " onclick="location.href='@Url.Action("LogOut", "Auth")'"> Выход</button>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    @RenderBody()
+
+    @*<footer class="border-top text-muted footer">
+    <div class="container">
+    &copy; 2022 - FoodSharing - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+    </footer>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 
