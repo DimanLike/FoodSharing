@@ -1,5 +1,6 @@
 ﻿using FoodSharing.Models.Products;
 using FoodSharing.Models.Products.ProductCategories;
+using FoodSharing.Models.Products.ProductFavorites;
 using Npgsql;
 
 namespace FoodSharing.Services.Products.Converters
@@ -31,6 +32,29 @@ namespace FoodSharing.Services.Products.Converters
 
 			return product;
 		}
+
+		public static async Task<Favourites> MapToFavorites(NpgsqlDataReader reader)
+		{
+			Favourites favorites = new Favourites();
+
+			if (reader.HasRows)
+			{
+				while (await reader.ReadAsync())
+				{
+					favorites.Id = (Guid)reader["Id"];
+					favorites.ProductId = (Guid)reader["ProductId"];
+					favorites.UserId = (Guid)reader["UserId"];
+					favorites.CreatedAt = (DateTime)reader["CreatedAt"];
+				}
+			}
+			else
+			{
+				return null;
+			}
+
+			return favorites;
+		}
+
 
 		public static async Task<List<Product>> MapToProducts(NpgsqlDataReader reader)
 		{

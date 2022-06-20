@@ -1,6 +1,7 @@
 ﻿using FoodSharing.Models;
 using FoodSharing.Models.Products;
 using FoodSharing.Models.Products.ProductCategories;
+using FoodSharing.Models.Products.ProductFavorites;
 using FoodSharing.Services.Products.Converters;
 using FoodSharing.Services.Products.Interfaces;
 using FoodSharing.Tools.Database;
@@ -39,7 +40,48 @@ namespace FoodSharing.Services.Products.Repositories
 			return _dbConnection.Add(expression, parameters);
 		}
 
-		public Task<List<Product>> GetProducts(Guid userid)
+		public Task AddProductFavourites(Favourites model)
+        {
+			string expression = @"INSERT INTO products_favorites (id, productid, userid, createdat) 
+								VALUES (@id, @productid, @userid,  @createdat)";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(model.Id), model.Id),
+				new NpgsqlParameter(nameof(model.ProductId), model.ProductId),
+				new NpgsqlParameter(nameof(model.UserId), model.UserId),
+				new NpgsqlParameter(nameof(model.CreatedAt), model.CreatedAt),
+			};
+
+			return _dbConnection.Add(expression, parameters);
+		}
+
+		public Task DeleteProductFavourites(Guid id)
+		{
+			string expression = @"DELETE FROM products_favorites WHERE id = @id";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(id), id),
+			};
+
+			return _dbConnection.Add(expression, parameters);
+		}
+
+        public Task<Favourites> GetProductFavourites(Guid userid, Guid productid)
+        {
+            string expression = @"SELECT * FROM products_favorites WHERE userid = @userid AND productid = @productid ";
+
+            NpgsqlParameter[] parameters = new[]
+            {
+                    new NpgsqlParameter(nameof(userid), userid),
+                    new NpgsqlParameter(nameof(productid), productid),
+                };
+
+            return _dbConnection.Get(expression, ProductConverter.MapToFavorites, parameters);
+        }
+
+        public Task<List<Product>> GetProducts(Guid userid)
 		{
 			string expression = @"SELECT * FROM products WHERE userid = @userid";
 
@@ -146,6 +188,7 @@ namespace FoodSharing.Services.Products.Repositories
 
 			return _dbConnection.Add(expression, parameters);
 		}
+
 
 
 	}

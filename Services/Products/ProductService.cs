@@ -2,6 +2,7 @@
 using FoodSharing.Models;
 using FoodSharing.Models.Products;
 using FoodSharing.Models.Products.ProductCategories;
+using FoodSharing.Models.Products.ProductFavorites;
 using FoodSharing.Models.Users;
 using FoodSharing.Services.Products.Interfaces;
 using FoodSharing.Services.Users.Interfaces;
@@ -108,5 +109,30 @@ namespace FoodSharing.Services.Products
 		{
 			return await _productRepository.GetProductCategories();
 		}
+
+        public async Task AddProductFavourites(Guid userid, Guid productid)
+        {
+			Favourites favourites = await _productRepository.GetProductFavourites(userid, productid);
+			if (favourites is null)
+            {
+				favourites.Id = new Guid();
+				favourites.ProductId = productid;
+				favourites.UserId = userid;
+				favourites.CreatedAt = DateTime.Now;
+				await _productRepository.AddProductFavourites(favourites);
+			}
+			// else ???
+
+        }
+
+		public async Task DeleteProductFavourites(Guid userid, Guid productid)
+        {
+			Favourites favourites = await _productRepository.GetProductFavourites(userid, productid);
+			if (favourites is not null)
+				await _productRepository.DeleteProductFavourites(favourites.Id);
+
+		}
+
+
 	}
 }

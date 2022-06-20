@@ -1,6 +1,7 @@
 ﻿using FoodSharing.Models;
 using FoodSharing.Models.Products;
 using FoodSharing.Models.Products.ProductCategories;
+using FoodSharing.Models.Products.ProductFavorites;
 
 namespace FoodSharing.Services.Products.Interfaces
 {
@@ -21,6 +22,11 @@ namespace FoodSharing.Services.Products.Interfaces
         // Catalog
         Task<List<Product>> GetCatalog();
         Task<List<Product>> GetCatalog(int categoryId);
+
+        // ProductFavorites
+        Task AddProductFavourites(Favourites model);
+        Task DeleteProductFavourites(Guid id);
+        Task<Favourites> GetProductFavourites(Guid userid, Guid productid);
 
     }
 }
