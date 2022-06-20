@@ -1,120 +1,126 @@
 ﻿@model ProfileInfoView
 @{
-	ViewData["Title"] = "OurProfile";
+    ViewData["Title"] = "OurProfile";
 }
 
 @*CSS*@
 <style>
-	.card {
-		margin-bottom: 1.5rem;
-	}
+    .card {
+        margin-bottom: 1.5rem;
+    }
 
-	.card-body {
-		min-height: 1px;
-	}
+    .card-body {
+        min-height: 1px;
+    }
 
-	input[type="file"] {
-		display: none;
-	}
+    input[type="file"] {
+        display: none;
+    }
 
-	.custom-file-upload {
-		display: inline-block;
-		padding: 6px 12px;
-		cursor: pointer;
-		border-radius: 0.2rem;
-		color: #fff;
-		background-color: #6c757d;
-		border-color: #6c757d;
-		transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-	}
+    .custom-file-upload {
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        border-radius: 0.2rem;
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
 
+    .icon-favourite:hover{
+        color: #dc3545;
+        background-color: #edf2f6;
+        transition: 0.5s;
+
+    }
 </style>
 
 
 <div class="container">
-	<div class="main-body">
-		<div class="row justify-content-center">
-			<div class="col-lg-4">
-				<div class="card" style="border-radius: 15px;" >
-					<div class="card-body p-4">
-						<div class="text-black">
-							<div style=" text-align: center;">
-								@if (Model.UserProfileView.Avatar != null)
-								{
-									<img id="output" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.UserProfileView.Avatar ))" class="img-fluid" style="width: 180px; height:180px; border-radius: 10px;" />
-								}
-								else
-								{
-									<img id="output" src="https://www.abc.net.au/news/image/8314104-1x1-940x940.jpg" class="img-fluid" style="width: 180px; border-radius: 10px;">
-								}
-							</div>
+    <div class="main-body">
+        <div class="row justify-content-center">
+            <div class="col-lg-4">
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <div class="text-black">
+                            <div style=" text-align: center;">
+                                @if (Model.UserProfileView.Avatar != null)
+                                {
+                                    <img id="output" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.UserProfileView.Avatar ))" class="img-fluid" style="width: 180px; height:180px; border-radius: 10px;" />
+                                }
+                                else
+                                {
+                                    <img id="output" src="https://www.abc.net.au/news/image/8314104-1x1-940x940.jpg" class="img-fluid" style="width: 180px; border-radius: 10px;">
+                                }
+                            </div>
 
-							<div class="flex-grow-1 ms-3">
-								<h5 class="mb-1">@(Model.UserProfileView.FirstName + " " + Model.UserProfileView.LastName)</h5>
-								<p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>
-								<div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
-									<div>
-										<p class="small text-muted mb-1">Articles</p>
-										<p class="mb-0">41</p>
-									</div>
-									<div class="px-3">
-										<p class="small text-muted mb-1">Followers</p>
-										<p class="mb-0">976</p>
-									</div>
-									<div>
-										<p class="small text-muted mb-1">Rating</p>
-										<p class="mb-0">8.5</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5 class="mb-1">@(Model.UserProfileView.FirstName + " " + Model.UserProfileView.LastName)</h5>
+                                <p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>
+                                <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
+                                    <div>
+                                        <p class="small text-muted mb-1">Articles</p>
+                                        <p class="mb-0">41</p>
+                                    </div>
+                                    <div class="px-3">
+                                        <p class="small text-muted mb-1">Followers</p>
+                                        <p class="mb-0">976</p>
+                                    </div>
+                                    <div>
+                                        <p class="small text-muted mb-1">Rating</p>
+                                        <p class="mb-0">8.5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			@*Card two*@
-			<div class="col-lg-8">
-				<div class="container wrap">
-					<div class="main-body">
-						<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3  ">
-							@if (Model is null)
-							{
+            @*Card two*@
+            <div class="col-lg-8">
+                <div class="container wrap">
+                    <div class="main-body">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3  ">
+                            @if (Model is null)
+                            {
 
-							}
-							else
-							{
-								@foreach (var productView in Model.ProductViews)
-								{
+                            }
+                            else
+                            {
+                                @foreach (var productView in Model.ProductViews)
+                                {
 
-									<div class="col-lg-3 col-sm-6 col-12">
-										<div class="card">
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="card">
 
-												<div style=" text-align: center;">
-													<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
-												 class="img-fluid card-img-top mx-auto d-block"  />
-												</div>
+                                            <div style=" text-align: center;">
+                                                <img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
+                                             class="img-fluid card-img-top mx-auto d-block" />
+                                            </div>
 
-											<div class="card-body border-top">
-											<div class="info-wrap ">
-												<a  class="float-end btn btn-light btn-icon">
-													<i class="bi bi-heart"></i>
-												</a>
-												<p class="title ">@productView.Name</p>
-												<small class="text-muted">@productView.Quantity</small>
-												
-											</div>
-											</div>
-										</div> 
-									</div>
-								}
-							}
-						</div>
-					</div>
-				</div>
+                                            <div class="card-body border-top">
+                                                <div class="info-wrap ">
+                                                    <a class=" float-end btn btn-light icon-favourite " onclick="location.href='@Url.Action("ChangeProductFavourites", "Account", new { ProductId = @productView.Id })'">
+                                                    <i class="bi bi-heart "></i>
+                                                    </a>
+                                                    <p class="title">@productView.Name</p>
+                                                    <small class="text-muted">@productView.Quantity</small>
 
-			</div>
-		</div>
-	</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 

@@ -34,6 +34,15 @@ namespace FoodSharing.Controllers
 			return View(profileInfoView);
         }
 
+		[HttpGet]
+		public async Task<ActionResult> ChangeProductFavourites(Guid productid)
+		{
+			//ProfileInfoView profileInfoView = await _userService.GetUserProfileInfo(userid);
+
+			return View();
+		}
+
+
 		[HttpPost]
 		public async Task<ActionResult> EditProfile(UserProfileView model)
 		{
@@ -44,6 +53,8 @@ namespace FoodSharing.Controllers
 	
 			return RedirectToAction("Profile", "Account");
 		}
+
+
 
 		[HttpPost]
 		public async Task<ActionResult> SavePhoto(UserProfileView model)
