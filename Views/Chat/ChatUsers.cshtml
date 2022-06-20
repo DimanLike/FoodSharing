@@ -86,7 +86,7 @@
                                 <p class="small mb-0">@($"Вы: {@message.Content}")</p>                                    
                             </div>
                             <div class="p-3 me-3 justify-content-end" style="margin-left: auto;">
-                                    <p class="message-time mb-0  ">@message.CreatedAt.ToString("HH:mm")</p>
+                                    <p class="message-time mb-0  ">@message.Time</p>
                             </div>
                         </div>
                     }
@@ -99,7 +99,7 @@
                                 <p class="small mb-0">@message.Content </p>                                
                             </div>
                             <div class="p-3 me-3 justify-content-end" style="margin-left: auto;">
-                                    <p class="message-time mb-0 ">@message.CreatedAt.ToString("HH:mm")</p>
+                                    <p class="message-time mb-0 ">@message.Time</p>
                             </div>
                         </div>
 

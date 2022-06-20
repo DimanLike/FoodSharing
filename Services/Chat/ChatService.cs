@@ -1,6 +1,7 @@
 ﻿using FoodSharing.Models.Chat;
 using FoodSharing.Services.Chat.Interfaces;
 using FoodSharing.Services.Users.Interfaces;
+using FoodSharing.Tools.Time;
 using System.Linq;
 
 namespace FoodSharing.Services.Chat
@@ -56,6 +57,8 @@ namespace FoodSharing.Services.Chat
 
             Message message = messages.OrderBy(x => x.CreatedAt).Last();
 
+            string time = await TimeConverter.GetTime(message.CreatedAt);
+
             string toUserEmail = await _userService.GetUserEmailById(message.ToUserId);
             string fromUserEmail = await _userService.GetUserEmailById(message.FromUserId);
 
@@ -63,7 +66,7 @@ namespace FoodSharing.Services.Chat
 
             byte[] fromUserAvatar = await _userService.GetAvatar(message.FromUserId);
 
-            Dialog dialog = new Dialog(message.Id, message.FromUserId, fromUserEmail, fromUserAvatar, message.ToUserId, toUserEmail, toUserAvatar, message.Content, message.CreatedAt);
+            Dialog dialog = new Dialog(message.Id, message.FromUserId, fromUserEmail, fromUserAvatar, message.ToUserId, toUserEmail, toUserAvatar, message.Content, message.CreatedAt, time);
 
             if (dialog is null)
                 return new Dialog();
@@ -85,32 +88,26 @@ namespace FoodSharing.Services.Chat
                     allDialogs.Dialog = new List<Dialog>() { dialog };
                 else
                     allDialogs.Dialog.Add(dialog);
+                
             }
-            if (allDialogs is null)
-            {
-                return new AllDialogsView();
-            }
-            else
-            {
-                return allDialogs;
-            }
+            allDialogs.Dialog = allDialogs.Dialog.OrderByDescending(x => x.CreatedAt).ToList();
 
+            return allDialogs;
         }
 
         public async Task<List<Guid>> GetTalkersId(Guid userid)
         {
-            List<Message> messages = await _chatRepository.GetAllMessages(userid);
-
             List<Guid> toTalkers = await _chatRepository.GetToTalkers(userid);
             List<Guid> fromTalkers = await _chatRepository.GetFromTalkers(userid);
 
-            foreach (Guid p in toTalkers)
-                fromTalkers.Add(p);
+            fromTalkers.AddRange(toTalkers);
 
-            List<Guid> Talkers = fromTalkers.Distinct().ToList();
-
-            return Talkers;
+            return fromTalkers.Distinct().ToList();
         }
 
     }
+
+    /* 
+     Status : Visuble, nonVisible, deleted, 
+     */ 
 }

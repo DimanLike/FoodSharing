@@ -12,10 +12,12 @@
         public string Content { get; set; }
         public DateTime CreatedAt { get; set; }
 
+        public string Time { get; set; }
+
 
         public Dialog() { }
 
-        public Dialog(Guid id, Guid fromUserId, string fromUserName, byte[] fromUserAvatar, Guid toUserId, string toUserName, byte[] toUserAvatar, string content, DateTime createdAt)
+        public Dialog(Guid id, Guid fromUserId, string fromUserName, byte[] fromUserAvatar, Guid toUserId, string toUserName, byte[] toUserAvatar, string content, DateTime createdAt, string time)
         {
             Id = id;
             FromUserId = fromUserId;
@@ -26,6 +28,7 @@
             ToUserAvatar = toUserAvatar;
             Content = content;
             CreatedAt = createdAt;
+            Time = time;
         }
     }
 }
