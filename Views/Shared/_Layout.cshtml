@@ -14,8 +14,8 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area=" " asp-controller="Home" asp-action="Index">
-                    <img style="width:30px" src="~/files/cabbage.svg" />
+                <a class="navbar-brand" style=" font-family: fantasy;font-size: x-large;" asp-area=" " asp-controller="Home" asp-action="Index">
+                    <img style="width:28px" src="~/files/cabbage.svg" />
                     FoodSharing
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -29,23 +29,24 @@
                             <i class="bi bi-egg-fried"></i>
                             Продукты
                         </button>
+
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item text-dark" asp-controller="Product" asp-action="Products"><i class="bi bi-basket2-fill"></i> Мои продукты</a></li>
+                            <li><a class="dropdown-item text-dark" asp-controller="Product" asp-action="Products"><i class="bi bi-bag-fill"></i> Мои продукты</a></li>
                             <li><a class="dropdown-item text-dark" asp-controller="Product" asp-action="NewProduct"><i class="bi bi-plus-circle-fill"></i> Выставить продукт</a></li>
                             <li><a class="dropdown-item text-dark"><i class="bi bi-heart-fill"></i> Избранное</a></li>
                         </ul>
                     </div>
                     <div class="nav-item ">
-                        <a class="nav-link text-dark" asp-controller="Product" asp-action="Сatalog">Каталог</a>
+                        <a class="nav-link text-dark" asp-controller="Product" asp-action="Сatalog"><i class="bi bi-basket2-fill"></i> Каталог</a>
                     </div>
                     <div class="nav-item ">
-                        <a class="nav-link text-dark" asp-controller="Chat" asp-action="ChatUsers">Чат</a>
+                        <a class="nav-link text-dark" asp-controller="Chat" asp-action="ChatUsers"><i class="bi bi-chat-dots"></i> Чат</a>
                     </div>
 
                     @if (User.Identity.Name == null)
                     {
                         <div class="nav-item ms-auto">
-                            <button class="btn btn-outline-primary " onclick="location.href='@Url.Action("Login", "Auth")'"> Войти</button>
+                            <button class="btn btn-outline-primary me-2" onclick="location.href='@Url.Action("Login", "Auth")'"> Войти</button>
                         </div>
                         <div class="nav-item">
                             <button class="btn btn-outline-primary " onclick="location.href='@Url.Action("Registration", "Auth")'"> Регистрация</button>
