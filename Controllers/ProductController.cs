@@ -123,11 +123,13 @@ namespace FoodSharing.Controllers
 		public async Task<ActionResult> GetCatalog(CatalogListView model)
         {
 			CatalogListView catalogListView = new CatalogListView();
+			if (User.Identity.Name is not null)
+            {
+				Guid currentUserId = await _userService.GetUserIdByEmail(User.Identity.Name);
+				catalogListView.CatalogViews = await _productService.GetCatalogViews(model.CategoryId, currentUserId);
+			} else catalogListView.CatalogViews = await _productService.GetCatalogViews(model.CategoryId);
 
-			string email = User.Identity.Name;
-			Guid currentUserId = await _userService.GetUserIdByEmail(email);
-
-			catalogListView.CatalogViews = await _productService.GetCatalogViews(model.CategoryId, currentUserId);
+			catalogListView.UserEmail = User.Identity.Name;
 			catalogListView.ProductCategories = await _productService.GetProductCategories();
 
 			return View("Сatalog", catalogListView);

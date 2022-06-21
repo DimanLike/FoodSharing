@@ -106,7 +106,7 @@ namespace FoodSharing.Services.Products
 			}).ToList();
 		}
 
-		public async Task<List<ProductView>> GetCatalogViews(int categoryId, Guid currentUserId)
+		public async Task<List<ProductView>> GetCatalogViews(int categoryId, Guid currentUserId = default)
 		{
 			List<Product> products = (categoryId == null || categoryId == 0)
 				? await _productRepository.GetCatalog()
@@ -117,6 +117,7 @@ namespace FoodSharing.Services.Products
 			int[] categoryIds = products.Select(x => x.CategoryId).ToArray();
 			Guid[] userIds = products.Select(x => x.UserId).Distinct().ToArray();
 			Guid[] productIds = products.Select(x => x.Id).ToArray();
+
 			List<ProductCategory> productCategories = new List<ProductCategory>();
 			productCategories = await _productRepository.GetProductCategories(categoryIds);
 
@@ -135,6 +136,8 @@ namespace FoodSharing.Services.Products
 					x.Description, x.CategoryId, productCategory?.Name ?? "", x.Quantity, x.Image, favourite != null, x.CreatedAt);
 			}).ToList();
 		}
+
+
 
 		public async Task<ProductView> GetProduct(Guid productid)
 		{

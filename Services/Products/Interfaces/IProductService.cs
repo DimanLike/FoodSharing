@@ -19,7 +19,7 @@ namespace FoodSharing.Services.Products.Interfaces
 
         //Catalog
 
-        Task<List<ProductView>> GetCatalogViews(int categoryId, Guid currentUserId);
+        Task<List<ProductView>> GetCatalogViews(int categoryId, Guid currentUserId = default);
 
         //Favourites
         Task ChangeProductFavourite(Guid userid, Guid productid);

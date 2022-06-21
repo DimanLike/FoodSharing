@@ -12,6 +12,13 @@
 	.pointer{
 		cursor: pointer;
 	}    
+	.badge-style{
+	 border-radius: 20px;
+	 color: black;
+	}
+	.text-style{
+		font-family: fantasy;
+	}
 </style>
 
 <div class="row justify-content-center">
@@ -60,7 +67,7 @@
 				@foreach (var catalogView in Model.CatalogViews)
 				{
 					<div class="col-lg-4">
-						<div class="card hover-effect" style=" border-radius: 15px;" >
+						<div class="card hover-effect" style=" border-radius: 20px;" >
 							@if (catalogView.Image != null)
 							{
 								<div class="image-container pointer" onclick="location.href='@Url.Action("ProductInfo", "Product", new { id = catalogView.Id })'">
@@ -73,50 +80,35 @@
 								<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="rounded card-img-top " />
 							}
 							<div class="card-body">
-								<form method="post" asp-controller="Product" asp-action="Сatalog" enctype="multipart/form-data">
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label">Email</label>
-										<div class="col-sm-8">
-											<input readonly type="text" class="form-control" value="@catalogView.Email">
-										</div>
-									</div>
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label" >Название</label>
-										<div class="col-sm-8">
-											<input readonly type="text" class="form-control" value="@catalogView.Name">
-										</div>
-									</div>
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label"> Количество</label>
-										<div class="col-sm-8">
-											<input readonly type="text" class="form-control" value="@catalogView.Quantity">
-										</div>
-									</div>
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label"> Описание</label>
-										<div class="col-sm-8">
-											<textarea readonly type="text" class="form-control">@catalogView.Description</textarea>
-										</div>
-									</div>
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label"> Категория</label>
-										<div class="col-sm-8">
-											<input type="text" readonly class="form-control" value="@catalogView.CategoryName">
-										</div>
-									</div>
-								</form>
+									<h5 class="card-title text-style">@catalogView.Name</h5>
+									
+									<div class="mb-1">
+										<p class="badge bg-warning badge-style"> 
+											<i class="fa-solid fa-weight-hanging"></i>	 
+											 @catalogView.Quantity
+										</p>
+										<p class="badge bg-danger badge-style"> 
+											<i class="fa-solid fa-carrot"></i> 
+											 @catalogView.CategoryName
+										</p>
+									</div> 	
 							</div>
 							<div class="card-footer text-muted">
 								
 								@catalogView.CreatedAt
 								<a class=" float-end btn btn-light" onclick="location.href='@Url.Action("ChangeProductFavourites", "Product", new { ProductId = catalogView.Id })'">
-									@if (catalogView.IsFavourite == false)
+									@if (Model.UserEmail != null)
+									{
+										@if (catalogView.IsFavourite == false)
                                     {
                                         <i class="bi bi-heart "></i>
                                     } else
                                     {
                                         <i class="bi bi-heart-fill "></i>
                                     }
+
+									}
+									
 								</a>
 							</div>
 						</div>
@@ -127,5 +119,5 @@
 	</div>
 </div>
 
-
+<script src="https://kit.fontawesome.com/3f20da78e5.js" crossorigin="anonymous"></script>
 

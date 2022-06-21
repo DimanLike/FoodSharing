@@ -7,5 +7,6 @@ namespace FoodSharing.Models.Products
         public int CategoryId { get; set; }
         public List<ProductView> CatalogViews { get; set; }
         public List<ProductCategory> ProductCategories { get; set; }
+        public string UserEmail { get; set; }
     }
 }

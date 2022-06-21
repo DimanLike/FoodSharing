@@ -115,7 +115,7 @@ namespace FoodSharing.Services.Products.Repositories
 
 		public Task<List<Favourite>> GetProductFavourites(Guid[] userids, Guid[] productids )
         {
-			string expression = @"SELECT * FROM products_favorites WHERE (userid = ANY(@userids) AND productid = ANY(@productids))";
+			string expression = @"SELECT * FROM product_favourites WHERE (userid = ANY(@userids) AND productid = ANY(@productids))";
 
 			NpgsqlParameter[] parameters = new[]
 			{
@@ -128,7 +128,7 @@ namespace FoodSharing.Services.Products.Repositories
 
 		public Task<List<Favourite>> GetUserProductFavourites(Guid userid)
 		{
-			string expression = @"SELECT * FROM products_favorites WHERE userid = @userid";
+			string expression = @"SELECT * FROM product_favourites WHERE userid = @userid";
 
 			NpgsqlParameter[] parameters = new[]
 			{
@@ -140,7 +140,7 @@ namespace FoodSharing.Services.Products.Repositories
 
 		public Task<List<Guid>> GetUserProductFavouritesIds(Guid userid)
 		{
-			string expression = @"SELECT productid FROM products_favorites WHERE userid = @userid";
+			string expression = @"SELECT productid FROM product_favourites WHERE userid = @userid";
 
 			NpgsqlParameter[] parameters = new[]
 			{
@@ -199,7 +199,7 @@ namespace FoodSharing.Services.Products.Repositories
 
 		public Task AddProductFavourites(Favourite model)
 		{
-			string expression = @"INSERT INTO products_favorites (id, productid, userid, createdat) 
+			string expression = @"INSERT INTO product_favourites (id, productid, userid, createdat) 
 								VALUES (@id, @productid, @userid, @createdat)";
 
 			NpgsqlParameter[] parameters = new[]
@@ -215,7 +215,7 @@ namespace FoodSharing.Services.Products.Repositories
 
 		public Task DeleteProductFavourites(Guid id)
 		{
-			string expression = @"DELETE FROM products_favorites WHERE id = @id";
+			string expression = @"DELETE FROM product_favourites WHERE id = @id";
 
 			NpgsqlParameter[] parameters = new[]
 			{
@@ -227,7 +227,7 @@ namespace FoodSharing.Services.Products.Repositories
 
 		public Task<Favourite> GetProductFavourites(Guid userid, Guid productid)
 		{
-			string expression = @"SELECT * FROM products_favorites WHERE userid = @userid AND productid = @productid ";
+			string expression = @"SELECT * FROM product_favourites WHERE userid = @userid AND productid = @productid ";
 
 			NpgsqlParameter[] parameters = new[]
 			{
