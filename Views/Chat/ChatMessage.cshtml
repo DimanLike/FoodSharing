@@ -42,6 +42,17 @@
       font-size: 0.750em;  
       color : #9c9c9c;
     }
+    .icon-message-main{
+        font-size: 20px
+    }
+    .icon-message{
+        cursor:pointer;
+    }
+    .icon-message:hover{
+ 
+        color:paleturquoise ;
+        transition: 0.7s;
+    }
 </style>
 
 
@@ -49,11 +60,11 @@
 <div class="row justify-content-center">
     <div class="col-lg-4 ">
         <div class="card " style="border-radius: 15px;">
-            <div class="card-header d-flex p-3 bg-info text-white border-bottom-0 justify-content-between;"
-                 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                <i class="bi bi-chevron-left" onclick="location.href='@Url.Action("ChatUsers", "Chat")'"></i>
+            <div class="card-header d-flex p-3 bg-info text-white border-bottom-0 justify-content-between icon-message-main"
+                 style="border-top-left-radius: 15px; border-top-right-radius: 15px; ">
+                <i class="bi bi-chevron-left icon-message"  onclick="location.href='@Url.Action("ChatUsers", "Chat")'" ></i>
                 <p class="mb-0 fw-bold">Live chat</p>
-                <i class="bi bi-person-circle"></i>
+                <i class="bi bi-person-circle icon-message"></i>
             </div>
 
             <div id="chatmessage" class="section card-body p-4"  style="position: relative; height: 400px; overflow: auto;">
