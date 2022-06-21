@@ -33,9 +33,9 @@ namespace FoodSharing.Services.Products.Converters
 			return product;
 		}
 
-		public static async Task<Favourites> MapToFavorites(NpgsqlDataReader reader)
+		public static async Task<Favourite> MapToFavourite(NpgsqlDataReader reader)
 		{
-			Favourites favorites = new Favourites();
+			Favourite favorites = new Favourite();
 
 			if (reader.HasRows)
 			{
@@ -103,6 +103,28 @@ namespace FoodSharing.Services.Products.Converters
 			return productCategories;
 		}
 
+		public static async Task<List<Favourite>> MapToFavourites(NpgsqlDataReader reader)
+		{
+			List<Favourite> favourites = new List<Favourite>();
+
+			if (reader.HasRows)
+			{
+				while (await reader.ReadAsync())
+				{
+					Favourite favourite = new Favourite();
+
+					favourite.Id = (Guid)reader["Id"];
+					favourite.ProductId = (Guid)reader["ProductId"];
+					favourite.UserId = (Guid)reader["UserId"];
+					favourite.CreatedAt = (DateTime)reader["CreatedAt"];
+
+					favourites.Add(favourite);
+				}
+			}
+
+			return favourites;
+		}
+
 		public static async Task<ProductCategory> MapToProductCategory(NpgsqlDataReader reader)
 		{
 			ProductCategory productCategories = new ProductCategory();
@@ -122,6 +144,21 @@ namespace FoodSharing.Services.Products.Converters
 			}
 
 			return productCategories;
+		}
+
+		public static async Task<List<Guid>> MapToGuid(NpgsqlDataReader reader)
+		{
+			List<Guid> guids = new List<Guid>();
+
+			while (await reader.ReadAsync())
+			{
+				Guid guid = new Guid();
+				guid = (Guid)reader["ProductId"];
+
+				guids.Add(guid);
+			}
+
+			return guids;
 		}
 	}
 }

@@ -56,6 +56,16 @@ namespace FoodSharing.Controllers
 			return View(model);
 		}
 
+		[HttpGet]
+		[Route("/Products/Favourites")]
+		public async Task<ActionResult> Favourites()
+		{
+			string email = User.Identity.Name;
+			Guid userId = await _userService.GetUserIdByEmail(email);
+			List<ProductView> productViews = await _productService.GetProductsFavouritesViews(userId);
+			return View(productViews);
+		}
+
 		[HttpPost]
 		[Route("/Products/NewProduct")]
 		public async Task<ActionResult> NewProduct(ProductView model)
@@ -107,16 +117,34 @@ namespace FoodSharing.Controllers
 			return RedirectToAction("GetCatalog", "Product");
 		}
 
+
+
 		[Route("/Products/Сatalog")]
 		public async Task<ActionResult> GetCatalog(CatalogListView model)
         {
 			CatalogListView catalogListView = new CatalogListView();
 
-			catalogListView.CatalogViews = await _productService.GetCatalogViews(model.CategoryId);
+			string email = User.Identity.Name;
+			Guid currentUserId = await _userService.GetUserIdByEmail(email);
+
+			catalogListView.CatalogViews = await _productService.GetCatalogViews(model.CategoryId, currentUserId);
 			catalogListView.ProductCategories = await _productService.GetProductCategories();
 
 			return View("Сatalog", catalogListView);
         }
+
+		[HttpGet]
+		public async Task<ActionResult> ChangeProductFavourites(Guid productid)
+		{
+			string email = User.Identity.Name;
+			Guid userId = await _userService.GetUserIdByEmail(email);
+
+			Guid userProfileId = await _userService.GetUserIdByProductId(productid);
+			_productService.ChangeProductFavourite(userId, productid);
+
+			return RedirectToAction("Сatalog", "Product");
+		}
+
 
 		[HttpGet]
 		public async Task<ActionResult> ProductInfo(Guid id)

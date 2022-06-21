@@ -103,7 +103,14 @@
                                             <div class="card-body border-top">
                                                 <div class="info-wrap ">
                                                     <a class=" float-end btn btn-light icon-favourite " onclick="location.href='@Url.Action("ChangeProductFavourites", "Account", new { ProductId = @productView.Id })'">
-                                                    <i class="bi bi-heart "></i>
+                                                    @if (productView.IsFavourite == false)
+                                                        {
+                                                            <i class="bi bi-heart "></i>
+                                                        } else
+                                                        {
+                                                            <i class="bi bi-heart-fill "></i>
+                                                        }
+                                                        
                                                     </a>
                                                     <p class="title">@productView.Name</p>
                                                     <small class="text-muted">@productView.Quantity</small>

@@ -1,6 +1,6 @@
 ﻿namespace FoodSharing.Models.Products.ProductFavorites
 {
-    public class Favourites
+    public class Favourite
     {
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }

@@ -33,15 +33,18 @@ namespace FoodSharing.Services.Products
 			return _productRepository.DeleteProduct(id);
 		}
 
-		public async Task<List<ProductView>> GetProductsViews(Guid userid)
-		{
-			List<Product> products = await _productRepository.GetProducts(userid);
+		public async Task<List<ProductView>> GetProductsFavouritesViews(Guid userid)
+        {
+			List<Guid> favouritesId = await _productRepository.GetUserProductFavouritesIds(userid);
+
+			List<Product> products = await _productRepository.GetSelectionProducts(favouritesId.ToArray());
 			if (products is null) return new List<ProductView>();
 
 			int[] categoryIds = products.Select(x => x.CategoryId).ToArray();
 			List<ProductCategory> productCategories = await _productRepository.GetProductCategories(categoryIds);
 
-			Guid[] userIds = products.Select(x => x.UserId).ToArray();
+			Guid[] userIds = products.Select(x => x.UserId).Distinct().ToArray();
+			Guid[] productIds = products.Select(x => x.Id).ToArray();
 			List<User> users = await _userRepository.GetUsers(userIds);
 
 			return products.Select(x =>
@@ -49,12 +52,61 @@ namespace FoodSharing.Services.Products
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
 				User? user = users.FirstOrDefault(c => c.Id == x.UserId);
 
-				return new ProductView(x.Id, x.UserId, user?.Email ?? "",  x.Name, x.Description, x.CategoryId,
-					productCategory?.Name ?? "", x.Quantity, x.Image, x.CreatedAt);
+				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, x.Description, x.CategoryId,
+					productCategory?.Name ?? "", x.Quantity, x.Image, true, x.CreatedAt);
+			}).ToList();
+
+		}
+
+		public async Task<List<ProductView>> GetProductsViews(Guid userid)
+		{
+			List<Product> products = await _productRepository.GetProducts(userid);
+			if (products is null) return new List<ProductView>();
+
+			int[] categoryIds = products.Select(x => x.CategoryId).ToArray();
+			List<ProductCategory> productCategories = await _productRepository.GetProductCategories(categoryIds);
+			Guid[] userIds = products.Select(x => x.UserId).Distinct().ToArray();
+			Guid[] productIds = products.Select(x => x.Id).ToArray();
+			List<User> users = await _userRepository.GetUsers(userIds);
+
+			List<Favourite> favourites = await _productRepository.GetProductFavourites(userIds, productIds);
+
+			return products.Select(x =>
+			{
+				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
+				User? user = users.FirstOrDefault(c => c.Id == x.UserId);
+				Favourite? favourite = favourites.FirstOrDefault(c => c.UserId == x.UserId && c.ProductId == x.Id);
+
+				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, x.Description, x.CategoryId,
+					productCategory?.Name ?? "", x.Quantity, x.Image, favourite != null, x.CreatedAt);
 			}).ToList();
 		}
 
-		public async Task<List<ProductView>> GetCatalogViews(int categoryId = default)
+		public async Task<List<ProductView>> GetProductsViews(Guid userid, Guid currentUserId)
+		{
+			List<Product> products = await _productRepository.GetProducts(userid);
+			if (products is null) return new List<ProductView>();
+
+			int[] categoryIds = products.Select(x => x.CategoryId).ToArray();
+			List<ProductCategory> productCategories = await _productRepository.GetProductCategories(categoryIds);
+			Guid[] userIds = products.Select(x => x.UserId).Distinct().ToArray();
+			Guid[] productIds = products.Select(x => x.Id).ToArray();
+			List<User> users = await _userRepository.GetUsers(userIds);
+
+			List<Favourite> favourites = await _productRepository.GetProductFavourites(new[] { currentUserId }, productIds);
+
+			return products.Select(x =>
+			{
+				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
+				User? user = users.FirstOrDefault(c => c.Id == x.UserId);
+				Favourite? favourite = favourites.FirstOrDefault(c => c.UserId == currentUserId && c.ProductId == x.Id);
+
+				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, x.Description, x.CategoryId,
+					productCategory?.Name ?? "", x.Quantity, x.Image, favourite != null, x.CreatedAt);
+			}).ToList();
+		}
+
+		public async Task<List<ProductView>> GetCatalogViews(int categoryId, Guid currentUserId)
 		{
 			List<Product> products = (categoryId == null || categoryId == 0)
 				? await _productRepository.GetCatalog()
@@ -63,10 +115,13 @@ namespace FoodSharing.Services.Products
 			if (products.Count == 0) return new List<ProductView>();
 
 			int[] categoryIds = products.Select(x => x.CategoryId).ToArray();
-			Guid[] userIds = products.Select(x => x.UserId).ToArray();
+			Guid[] userIds = products.Select(x => x.UserId).Distinct().ToArray();
+			Guid[] productIds = products.Select(x => x.Id).ToArray();
 			List<ProductCategory> productCategories = new List<ProductCategory>();
 			productCategories = await _productRepository.GetProductCategories(categoryIds);
-			
+
+			List<Favourite> favourites = await _productRepository.GetProductFavourites(new[] { currentUserId }, productIds);
+
 			List<User> Users = await _userRepository.GetUsers(userIds);
 
 			return products.Select(x =>
@@ -74,8 +129,10 @@ namespace FoodSharing.Services.Products
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
 				User? user = Users.FirstOrDefault(c => c.Id == x.UserId);
 
+				Favourite? favourite = favourites.FirstOrDefault(c => c.UserId == currentUserId && c.ProductId == x.Id);
+
 				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, 
-					x.Description, x.CategoryId, productCategory?.Name ?? "", x.Quantity, x.Image, x.CreatedAt);
+					x.Description, x.CategoryId, productCategory?.Name ?? "", x.Quantity, x.Image, favourite != null, x.CreatedAt);
 			}).ToList();
 		}
 
@@ -110,27 +167,19 @@ namespace FoodSharing.Services.Products
 			return await _productRepository.GetProductCategories();
 		}
 
-        public async Task AddProductFavourites(Guid userid, Guid productid)
+        public async Task ChangeProductFavourite(Guid userid, Guid productid)
         {
-			Favourites favourites = await _productRepository.GetProductFavourites(userid, productid);
+			Favourite favourites = await _productRepository.GetProductFavourites(userid, productid);
 			if (favourites is null)
             {
-				favourites.Id = new Guid();
+				favourites = new Favourite();
+				favourites.Id = Guid.NewGuid();
 				favourites.ProductId = productid;
 				favourites.UserId = userid;
 				favourites.CreatedAt = DateTime.Now;
 				await _productRepository.AddProductFavourites(favourites);
-			}
-			// else ???
-
-        }
-
-		public async Task DeleteProductFavourites(Guid userid, Guid productid)
-        {
-			Favourites favourites = await _productRepository.GetProductFavourites(userid, productid);
-			if (favourites is not null)
+			} else
 				await _productRepository.DeleteProductFavourites(favourites.Id);
-
 		}
 
 

@@ -11,6 +11,7 @@ namespace FoodSharing.Services.Users.Interfaces
         Task<User> GetUserByEmail(string email);
 
         Task<Guid> GetUserIdByEmail(string email);
+        Task<Guid> GetUserIdByProductId(Guid productid);
         Task<string> GetUserEmailById(Guid userid);
         Task<User> GetUserById(Guid userid);
         Task<List<User>> GetUsers(Guid[] ids);
@@ -22,7 +23,7 @@ namespace FoodSharing.Services.Users.Interfaces
         Task<UserProfileView> GetUserProfile(string email);
 
         // ProfileInfo
-        Task<ProfileInfoView> GetUserProfileInfo(Guid userid);
+        Task<ProfileInfoView> GetUserProfileInfo(Guid userid, Guid currentUserId);
 
         //other
         Task<byte[]> GetAvatar(Guid userid);

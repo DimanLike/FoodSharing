@@ -40,47 +40,6 @@ namespace FoodSharing.Services.Products.Repositories
 			return _dbConnection.Add(expression, parameters);
 		}
 
-		public Task AddProductFavourites(Favourites model)
-        {
-			string expression = @"INSERT INTO products_favorites (id, productid, userid, createdat) 
-								VALUES (@id, @productid, @userid,  @createdat)";
-
-			NpgsqlParameter[] parameters = new[]
-			{
-				new NpgsqlParameter(nameof(model.Id), model.Id),
-				new NpgsqlParameter(nameof(model.ProductId), model.ProductId),
-				new NpgsqlParameter(nameof(model.UserId), model.UserId),
-				new NpgsqlParameter(nameof(model.CreatedAt), model.CreatedAt),
-			};
-
-			return _dbConnection.Add(expression, parameters);
-		}
-
-		public Task DeleteProductFavourites(Guid id)
-		{
-			string expression = @"DELETE FROM products_favorites WHERE id = @id";
-
-			NpgsqlParameter[] parameters = new[]
-			{
-				new NpgsqlParameter(nameof(id), id),
-			};
-
-			return _dbConnection.Add(expression, parameters);
-		}
-
-        public Task<Favourites> GetProductFavourites(Guid userid, Guid productid)
-        {
-            string expression = @"SELECT * FROM products_favorites WHERE userid = @userid AND productid = @productid ";
-
-            NpgsqlParameter[] parameters = new[]
-            {
-                    new NpgsqlParameter(nameof(userid), userid),
-                    new NpgsqlParameter(nameof(productid), productid),
-                };
-
-            return _dbConnection.Get(expression, ProductConverter.MapToFavorites, parameters);
-        }
-
         public Task<List<Product>> GetProducts(Guid userid)
 		{
 			string expression = @"SELECT * FROM products WHERE userid = @userid";
@@ -88,6 +47,17 @@ namespace FoodSharing.Services.Products.Repositories
 			NpgsqlParameter[] parameters = new[]
 			{
 				new NpgsqlParameter(nameof(userid), userid),
+			};
+
+			return _dbConnection.GetList(expression, ProductConverter.MapToProducts, parameters);
+		}
+		public Task<List<Product>> GetSelectionProducts(Guid[] userids)
+		{
+			string expression = @"SELECT * FROM products WHERE id = ANY(@userids)";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(userids), userids),
 			};
 
 			return _dbConnection.GetList(expression, ProductConverter.MapToProducts, parameters);
@@ -143,6 +113,44 @@ namespace FoodSharing.Services.Products.Repositories
 			return _dbConnection.GetList(expression, ProductConverter.MapToProductCategories, parameters);
 		}
 
+		public Task<List<Favourite>> GetProductFavourites(Guid[] userids, Guid[] productids )
+        {
+			string expression = @"SELECT * FROM products_favorites WHERE (userid = ANY(@userids) AND productid = ANY(@productids))";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(userids), userids),
+				new NpgsqlParameter(nameof(productids), productids),
+			};
+
+			return _dbConnection.GetList(expression, ProductConverter.MapToFavourites, parameters);
+		}
+
+		public Task<List<Favourite>> GetUserProductFavourites(Guid userid)
+		{
+			string expression = @"SELECT * FROM products_favorites WHERE userid = @userid";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(userid), userid),
+			};
+
+			return _dbConnection.GetList(expression, ProductConverter.MapToFavourites, parameters);
+		}
+
+		public Task<List<Guid>> GetUserProductFavouritesIds(Guid userid)
+		{
+			string expression = @"SELECT productid FROM products_favorites WHERE userid = @userid";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(userid), userid),
+			};
+
+			return _dbConnection.GetList(expression, ProductConverter.MapToGuid, parameters);
+		}
+
+
 		public Task<ProductCategory> GetProductCategory(int id)
         {
 			string expression = @"SELECT * FROM products_categories WHERE id = @id";
@@ -189,7 +197,46 @@ namespace FoodSharing.Services.Products.Repositories
 			return _dbConnection.Add(expression, parameters);
 		}
 
+		public Task AddProductFavourites(Favourite model)
+		{
+			string expression = @"INSERT INTO products_favorites (id, productid, userid, createdat) 
+								VALUES (@id, @productid, @userid, @createdat)";
 
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(model.Id), model.Id),
+				new NpgsqlParameter(nameof(model.ProductId), model.ProductId),
+				new NpgsqlParameter(nameof(model.UserId), model.UserId),
+				new NpgsqlParameter(nameof(model.CreatedAt), model.CreatedAt),
+			};
+
+			return _dbConnection.Add(expression, parameters);
+		}
+
+		public Task DeleteProductFavourites(Guid id)
+		{
+			string expression = @"DELETE FROM products_favorites WHERE id = @id";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+				new NpgsqlParameter(nameof(id), id),
+			};
+
+			return _dbConnection.Add(expression, parameters);
+		}
+
+		public Task<Favourite> GetProductFavourites(Guid userid, Guid productid)
+		{
+			string expression = @"SELECT * FROM products_favorites WHERE userid = @userid AND productid = @productid ";
+
+			NpgsqlParameter[] parameters = new[]
+			{
+					new NpgsqlParameter(nameof(userid), userid),
+					new NpgsqlParameter(nameof(productid), productid),
+				};
+
+			return _dbConnection.Get(expression, ProductConverter.MapToFavourite, parameters);
+		}
 
 	}
 }

@@ -47,11 +47,20 @@ namespace FoodSharing.Services.Users
 			return user.Id;
         }
 
+
+
 		public async Task<string> GetUserEmailById(Guid userid)
 		{
 			User user = await _userRepository.GetUserById(userid);
 			return user.Email;
 		}
+
+		public async Task<Guid> GetUserIdByProductId(Guid productid)
+		{
+			ProductView product = await _productService.GetProduct(productid);
+			return product.UserId;
+		}
+
 
 		public Task<User> GetUserById(Guid userid)
         {
@@ -111,11 +120,11 @@ namespace FoodSharing.Services.Users
 			return await _userRepository.GetUsers(ids);
         }
 
-        public async Task<ProfileInfoView> GetUserProfileInfo(Guid userid)
+        public async Task<ProfileInfoView> GetUserProfileInfo(Guid userid, Guid currentUserId)
         {
             ProfileInfoView profileInfoView = new ProfileInfoView();
             UserProfile userProfile = await _userRepository.GetUserProfile(userid);
-			List<ProductView> productView = await _productService.GetProductsViews(userid);
+			List<ProductView> productView = await _productService.GetProductsViews(userid, currentUserId);
 
 			UserProfileView userProfileViewModel = UserConverter.MapToUserProfileView(userProfile);
 

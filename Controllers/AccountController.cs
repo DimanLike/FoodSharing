@@ -1,5 +1,6 @@
 ﻿using FoodSharing.Models;
 using FoodSharing.Models.Users;
+using FoodSharing.Services.Products.Interfaces;
 using FoodSharing.Services.Users.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace FoodSharing.Controllers
 	{
 		private readonly IConfiguration _config;
 		private IUserService _userService;
+		private IProductService _productService;
 
-		public AccountController(IConfiguration config, IUserService userService)
+		public AccountController(IConfiguration config, IUserService userService, IProductService productService)
 		{
 			_config = config;
 			_userService = userService;
+			_productService = productService;
 		}
 
 		[Route("Profile")]
@@ -28,8 +31,11 @@ namespace FoodSharing.Controllers
 
         [HttpGet]
 		public async Task<ActionResult> ProfileInfo(Guid userid)
-        {
-			ProfileInfoView profileInfoView = await _userService.GetUserProfileInfo(userid);
+		{
+			string email = User.Identity.Name;
+			Guid currentUserId = await _userService.GetUserIdByEmail(email);
+
+			ProfileInfoView profileInfoView = await _userService.GetUserProfileInfo(userid, currentUserId);
 
 			return View(profileInfoView);
         }
@@ -37,9 +43,13 @@ namespace FoodSharing.Controllers
 		[HttpGet]
 		public async Task<ActionResult> ChangeProductFavourites(Guid productid)
 		{
-			//ProfileInfoView profileInfoView = await _userService.GetUserProfileInfo(userid);
+			string email = User.Identity.Name;
+			Guid userId = await _userService.GetUserIdByEmail(email);
 
-			return View();
+			Guid userProfileId = await _userService.GetUserIdByProductId(productid);
+			_productService.ChangeProductFavourite(userId, productid);
+
+			return RedirectToAction("ProfileInfo", "Account", new { userid = userProfileId });
 		}
 
 

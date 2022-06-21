@@ -11,6 +11,8 @@ namespace FoodSharing.Services.Products.Interfaces
         Task AddProduct(ProductView model);
         Task DeleteProduct(Guid id);
         Task<List<Product>> GetProducts(Guid userid);
+        Task<List<Product>> GetSelectionProducts(Guid[] userids);
+
         Task<Product> GetProduct(Guid id);
         Task EditProduct(ProductView model);
 
@@ -24,9 +26,12 @@ namespace FoodSharing.Services.Products.Interfaces
         Task<List<Product>> GetCatalog(int categoryId);
 
         // ProductFavorites
-        Task AddProductFavourites(Favourites model);
+        Task AddProductFavourites(Favourite model);
         Task DeleteProductFavourites(Guid id);
-        Task<Favourites> GetProductFavourites(Guid userid, Guid productid);
+        Task<Favourite> GetProductFavourites(Guid userid, Guid productid);
+        Task<List<Guid>> GetUserProductFavouritesIds(Guid userid);
+        Task<List<Favourite>> GetProductFavourites(Guid[] userids, Guid[] productids);
+        Task<List<Favourite>> GetUserProductFavourites(Guid userid);
 
     }
 }
