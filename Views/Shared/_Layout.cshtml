@@ -23,7 +23,12 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">                  
+                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">      
+                    <div class="nav-item ">
+                        <a class="nav-link text-dark" asp-controller="Product" asp-action="Сatalog"><i class="bi bi-basket2-fill"></i> Каталог</a>
+                    </div>
+                    @if (User.Identity.Name != null)
+                    {
                     <div class="nav-item dropdown">
                         <button class="btn btn-outline-primary " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-egg-fried"></i>
@@ -33,15 +38,15 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item text-dark" asp-controller="Product" asp-action="Products"><i class="bi bi-bag-fill"></i> Мои продукты</a></li>
                             <li><a class="dropdown-item text-dark" asp-controller="Product" asp-action="NewProduct"><i class="bi bi-plus-circle-fill"></i> Выставить продукт</a></li>
-                            <li><a class="dropdown-item text-dark"><i class="bi bi-heart-fill"></i> Избранное</a></li>
+                            <li><a class="dropdown-item text-dark" asp-controller="Product" asp-action="Favourites"><i class="bi bi-heart-fill"></i> Избранное</a></li>
                         </ul>
-                    </div>
-                    <div class="nav-item ">
-                        <a class="nav-link text-dark" asp-controller="Product" asp-action="Сatalog"><i class="bi bi-basket2-fill"></i> Каталог</a>
-                    </div>
+                    </div> 
+                    
                     <div class="nav-item ">
                         <a class="nav-link text-dark" asp-controller="Chat" asp-action="ChatUsers"><i class="bi bi-chat-dots"></i> Чат</a>
-                    </div>
+                    </div>    
+                    }
+                    
 
                     @if (User.Identity.Name == null)
                     {
