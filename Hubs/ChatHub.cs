@@ -33,14 +33,15 @@ namespace FoodSharing.Hubs
 			messageModel.Content = message;
 			messageModel.CreatedAt = DateTime.Now;
 
+			string time = messageModel.CreatedAt.ToString("HH:mm");
 			await _chatService.Send(messageModel);
 
 			string avatar = Convert.ToBase64String(await _userService.GetAvatar(messageModel.FromUserId));
             string sender = userToEmail;
 
-            await Clients.User(userToEmail).SendAsync("Receive", userFromEmail, message, avatar, sender);
+            await Clients.User(userToEmail).SendAsync("Receive", userFromEmail, message, time, sender);
 			sender = userFromEmail;
-			await Clients.User(userFromEmail).SendAsync("Receive", userFromEmail, message, avatar, sender);
+			await Clients.User(userFromEmail).SendAsync("Receive", userFromEmail, message, time, sender);
 		}
 
 		public override async Task OnConnectedAsync()

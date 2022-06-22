@@ -3,110 +3,146 @@
 @model MessagesHistoryView
 
 <style>
-    .chat-form{
-        height: 400px;
-    }
-    .left{
-        border-radius: 15px;
-        background-color: #fbfbfb;
-    }
-    .right{
-        border-radius: 15px;
-        background-color: rgba(57, 192, 237,.2);
-    }
-    .image-avatar{
-        width: 45px;
-        height: 100%;
-    }
-    .section::-webkit-scrollbar {
-        width: 10px;
-    }
-    .section::-webkit-scrollbar-track {
-        background-color: #ffffff;
-        border-radius: 100px;
-    }
-    .section::-webkit-scrollbar-thumb {
-        border-radius: 100px;
-        border: 2px solid transparent;
-        background-clip: content-box;
-        background-color: #8070d4;
-    }
-    .card-footer{
-        background-color: hsla(0,0%,100%,0);
-        border-top: 2px solid #f5f5f5;
-    }
-    .btn-send{
-        border-radius: 20px;
-    }
-    .message-time{
-      font-size: 0.750em;  
-      color : #9c9c9c;
-    }
-    .icon-message-main{
-        font-size: 20px
-    }
-    .icon-message{
-        cursor:pointer;
-    }
-    .icon-message:hover{
- 
-        color:paleturquoise ;
-        transition: 0.7s;
-    }
+	.chat-form{
+		height: 400px;
+	}
+	.left{
+		border-radius: 15px;
+		background-color: #fbfbfb;
+	}
+	.right{
+		border-radius: 15px;
+		background-color: rgba(57, 192, 237,.2);
+	}
+	.image-avatar{
+		width: 45px;
+		height: 100%;
+		cursor: pointer;
+	}
+	.section::-webkit-scrollbar {
+		width: 10px;
+	}
+	.section::-webkit-scrollbar-track {
+		background-color: #ffffff;
+		border-radius: 100px;
+	}
+	.section::-webkit-scrollbar-thumb {
+		border-radius: 100px;
+		border: 2px solid transparent;
+		background-clip: content-box;
+		background-color: #8070d4;
+	}
+	.card-footer{
+		background-color: hsla(0,0%,100%,0);
+		border-top: 2px solid #f5f5f5;
+	}
+	.btn-send{
+		font-size: xx-large;
+		cursor: pointer;
+		color: darkgrey;
+	}
+	.btn-send:hover{
+		color: #917e7e;
+		transition: 0.7s;
+		font-size:35px;
+	}
+	.message-time{
+	  font-size: 0.750em;
+	  color : #9c9c9c;
+	}
+	.icon-message-main{
+		font-size: 20px
+	}
+	.icon-message{
+		cursor:pointer;
+	}
+	.icon-message:hover{
+		color:paleturquoise ;
+		transition: 0.1s;
+	}
+	.badge-style{
+	 border-radius: 20px;
+	 color: black;
+	 font-size: smaller;
+	}
+	.badge-category{
+		background-color: #00ff7f;
+	}
 </style>
 
 
 
 <div class="row justify-content-center">
-    <div class="col-lg-4 ">
-        <div class="card " style="border-radius: 15px;">
-            <div class="card-header d-flex p-3 bg-info text-white border-bottom-0 justify-content-between icon-message-main"
-                 style="border-top-left-radius: 15px; border-top-right-radius: 15px; ">
-                <i class="bi bi-chevron-left icon-message"  onclick="location.href='@Url.Action("ChatUsers", "Chat")'" ></i>
-                <p class="mb-0 fw-bold">Live chat</p>
-                <i class="bi bi-person-circle icon-message"></i>
-            </div>
+	<div class="col-lg-4 ">
+		<div class="card " style="border-radius: 15px;">
+			<div class="card-header d-flex p-3 bg-info text-white border-bottom-0 justify-content-between icon-message-main align-items-center"
+				 style="border-top-left-radius: 15px; border-top-right-radius: 15px; ">
+				<i class="bi bi-chevron-left icon-message" onclick="location.href='@Url.Action("ChatUsers", "Chat")'"></i>
+				<p class="mb-0">@Model.ToUserEmail</p>
+				<img class="image-avatar rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ToUserAvatar ))" onclick="location.href='@Url.Action("ProfileInfo", "Account", new { UserId = Model.ToUserId })'">
+			</div>
 
-            <div id="chatmessage" class="section card-body p-4"  style="position: relative; height: 400px; overflow: auto;">
-                @foreach (MessageView message in Model.Messages)
-                {
+			<div id="chatmessage" class="section card-body p-4" style="position: relative; height: 400px; overflow: auto;">
+				@foreach (MessageView message in Model.Messages)
+				{
 
-                    @if (Model.FromUserId == message.FromUserId)
-                    {
-                        <div class="d-flex flex-row justify-content-end mb-4">
-                            <div class="p-3 me-3 right">
-                                <p class="small mb-0">@message.Content</p>
-                                 <p class="message-time mb-0">@message.CreatedAt.ToString("HH:mm")</p>
-                            </div>
-                            <img class="image-avatar rounded-circle " src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.FromUserAvatar ))">
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="d-flex flex-row justify-content-start mb-4">
-                            <img class="image-avatar rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ToUserAvatar ))">
-                            <div class="p-3 ms-3 border left">
-                                <p class="small mb-0">@message.Content</p>
-                                <p class="message-time mb-0">@message.CreatedAt.ToString("HH:mm")</p>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
+					@if (Model.FromUserId == message.FromUserId)
+					{
+						<div class="d-flex flex-row justify-content-end mb-4">
+							<div class="p-3 me-3 right">
+								<p class="small mb-0">@message.Content</p>
+								<p class="message-time mb-0">@message.CreatedAt.ToString("HH:mm")</p>
+							</div>
+						</div>
+					}
+					else
+					{
+						<div class="d-flex flex-row justify-content-start mb-4">
+							<div class="p-3 ms-3 border left">
+								<p class="small mb-0">@message.Content</p>
+								<p class="message-time mb-0">@message.CreatedAt.ToString("HH:mm")</p>
+							</div>
+						</div>
+					}
+				}
+			</div>
 
-            <div class="card-footer">
-                <div class="icontext mb-3 w-100 ">
-                    <textarea class="form-control" type="text" id="messageInput" placeholder="Сообщение"></textarea>
-                </div>
+			<div class="card-footer">
+				<div class="icontext mb-3 w-100 d-flex">
+					<textarea name="@Model.ToUserId" class="form-control" type="text" id="messageInput" placeholder="Сообщение" style="border-radius: 15px; overflow:hidden "></textarea>
+					<i id="sendButton" class="bi bi-send align-self-center ms-2 btn-send"></i>
+				</div>
+				<div class="">
+					<p class="badge badge-category badge-style" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer">
+						<i class="fa-solid fa-carrot "></i>
+						тест  
+					</p>
 
-                <div class="row mb-2 px-2">
-                    <button class="btn-send btn btn-success" name="@Model.ToUserId" id="sendButton">Отправить сообщение</button>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="~/js/ChatMessage.js"></script>
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
+

@@ -16,6 +16,8 @@ namespace FoodSharing.Models
 
 		[Display(Name = "Категория")]
 		public string CategoryName { get; set; }
+
+		public string CategoryIcon { get; set; }
 		public int CategoryId { get; set; }
 
 		[Display(Name = "Количество")]
@@ -28,6 +30,7 @@ namespace FoodSharing.Models
 		public Boolean IsFavourite { get; set; }
 		public List<ProductCategory> ProductCategories { get; set; }
 		public string Email { get; set; }
+		public string Time { get; set; }
 
 		// здесь пустой конструктор нужен, потому что мы создали конструктор с параметрами, поэтому пустой конструктор по умолчанию не создастся
 		public ProductView(){}
@@ -39,10 +42,12 @@ namespace FoodSharing.Models
 							string description, 
 							int categoryId, 
 							string categoryName, 
+							string categoryIcon,
 							string quantity,
 							byte[] image, 
 							Boolean isFavourite,
-							DateTime createdAt)
+							DateTime createdAt,
+							string time)
 		{
 			Id = id;
 			UserId = userId;
@@ -51,10 +56,12 @@ namespace FoodSharing.Models
 			Description = description;
 			CategoryId = categoryId;
 			CategoryName = categoryName;
+			CategoryIcon = categoryIcon;
 			Quantity = quantity;
 			Image = image;
 			IsFavourite = isFavourite;
 			CreatedAt = createdAt;
+			Time = time;
 		}
 
         

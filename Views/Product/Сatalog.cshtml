@@ -12,18 +12,46 @@
 	.pointer{
 		cursor: pointer;
 	}    
+	.text-style{
+		font-family: fantasy;
+	}
+	.card{
+		border-radius: 15px;
+	}
 	.badge-style{
 	 border-radius: 20px;
 	 color: black;
+	 font-size: smaller;
+	 margin-bottom: 0;
 	}
-	.text-style{
-		font-family: fantasy;
+	.badge-category{
+		background-color: #00ff7f;
+	}
+	.like::before{
+		cursor:pointer;
+		color:red;
+		content:"\F415";
+	}
+	.dislike::before{
+		cursor:pointer;
+		color:black;
+		content:"\F417";
+	}
+	.like:hover::before{
+		color:black;
+		content:"\F417";
+		transition: 0.7s;
+	}
+	.dislike:hover::before{
+		color:red;
+		content:"\F415";
+		transition: 0.7s;
 	}
 </style>
 
 <div class="row justify-content-center">
 	<div class="col-lg-8 ">
-		<div class="card" style="border-radius: 15px;" >
+		<div class="card" >
 			
 			<div class="card-body">
 				<form method="post" asp-controller="Product" asp-action="GetCatalog">
@@ -52,7 +80,6 @@
 				</form>
 			</div>
 		</div>
-
 	</div>
 </div>
 <div class="container wrap">
@@ -64,14 +91,14 @@
 			}
 			else
 			{
-				@foreach (var catalogView in Model.CatalogViews)
+				@foreach (var productView in Model.CatalogViews)
 				{
 					<div class="col-lg-4">
 						<div class="card hover-effect" style=" border-radius: 20px;" >
-							@if (catalogView.Image != null)
+							@if (productView.Image != null)
 							{
-								<div class="image-container pointer" onclick="location.href='@Url.Action("ProductInfo", "Product", new { id = catalogView.Id })'">
-									<img src="data:image/jpeg;base64,@(Convert.ToBase64String(catalogView.Image))"
+								<div class="image-container pointer" onclick="location.href='@Url.Action("ProductInfo", "Product", new { id = productView.Id })'">
+									<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
 							 class="img-fluid card-img-top mx-auto d-block" />
 								</div>
 							}
@@ -79,36 +106,35 @@
 							{
 								<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="rounded card-img-top " />
 							}
-							<div class="card-body">
-									<h5 class="card-title text-style">@catalogView.Name</h5>
+							<div class="card-body ">
+									<h5 class="card-title text-style">@productView.Name</h5>
 									
 									<div class="mb-1">
 										<p class="badge bg-warning badge-style"> 
 											<i class="fa-solid fa-weight-hanging"></i>	 
-											 @catalogView.Quantity
+											 @productView.Quantity
 										</p>
-										<p class="badge bg-danger badge-style"> 
-											<i class="fa-solid fa-carrot"></i> 
-											 @catalogView.CategoryName
+										<p class="badge badge-category badge-style"> 
+											<i class="fa-solid @productView.CategoryIcon"></i> 
+											 @productView.CategoryName
 										</p>
 									</div> 	
 							</div>
-							<div class="card-footer text-muted">
-								
-								@catalogView.CreatedAt
-								<a class=" float-end btn btn-light" onclick="location.href='@Url.Action("ChangeProductFavourites", "Product", new { ProductId = catalogView.Id })'">
+							<div class="card-footer text-muted " style="background-color: white; border-top: white; border-radius: 15px;">
+								<i class="bi bi-clock"></i>
+								 @productView.Time
+								<a class="float-end"  onclick="location.href='@Url.Action("ChangeProductFavourites", "Product", new { ProductId = productView.Id })'">
 									@if (Model.UserEmail != null)
 									{
-										@if (catalogView.IsFavourite == false)
+										@if (productView.IsFavourite == false)
                                     {
-                                        <i class="bi bi-heart "></i>
+                                        <i class="bi dislike"></i>
                                     } else
                                     {
-                                        <i class="bi bi-heart-fill "></i>
+                                        <i class="bi like"></i>
                                     }
 
-									}
-									
+									}									
 								</a>
 							</div>
 						</div>
@@ -118,6 +144,3 @@
 		</div>
 	</div>
 </div>
-
-<script src="https://kit.fontawesome.com/3f20da78e5.js" crossorigin="anonymous"></script>
-

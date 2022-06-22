@@ -10,5 +10,5 @@
         public string Quantity { get; set; }
         public byte[] Image { get; set; }
         public DateTime CreatedAt { get; set; }
-    }
+    }   
 }

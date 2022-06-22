@@ -6,6 +6,47 @@
 	.isClick{
 		cursor:pointer;
 	}
+	.hover-effect:hover {
+	box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(143 143 213 / 54%);
+	transition: 0.5s;
+	}
+	.pointer{
+		cursor: pointer;
+	}    
+	.badge-style{
+	 border-radius: 20px;
+	 color: black;
+	 font-size: smaller;
+	}
+	.text-style{
+		font-family: fantasy;
+	}
+	.card{
+		border-radius: 15px;
+	}
+	.badge-category{
+		background-color: #00ff7f;
+	}
+		.like::before{
+		cursor:pointer;
+		color:red;
+		content:"\F415";
+	}
+	.dislike::before{
+		cursor:pointer;
+		color:black;
+		content:"\F417";
+	}
+	.like:hover::before{
+		color:black;
+		content:"\F417";
+		transition: 0.7s;
+	}
+	.dislike:hover::before{
+		color:red;
+		content:"\F415";
+		transition: 0.7s;
+	}
 </style>
 <div class="container wrap">
 	<div class="main-body">
@@ -19,46 +60,48 @@
 				@foreach (var productView in Model)
 				{
 					<div class="col-md-4">
-						<div class="card " style="border-radius: 15px;">
+						<div class="card hover-effect" style=" border-radius: 20px;" >
 							@if (productView.Image != null)
 							{
-								<div class="isClick" style=" text-align: center;" onclick="location.href='@Url.Action("ProductInfo", "Product", new { id = productView.Id })'">
-									<img  src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
-							 class="img-fluid card-img-top  " />
+								<div class="image-container pointer" onclick="location.href='@Url.Action("ProductInfo", "Product", new { id = productView.Id })'">
+									<img src="data:image/jpeg;base64,@(Convert.ToBase64String(productView.Image))"
+							 class="img-fluid card-img-top mx-auto d-block" />
 								</div>
 							}
 							else
 							{
-								<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="img-fluid rounded" />
+								<img src="https://e7.pngegg.com/pngimages/83/693/png-clipart-united-states-color-blank-map-white-united-states-angle-white.png" class="rounded card-img-top " />
 							}
 							<div class="card-body">
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label">Название</label>
-										<div class="col-sm-8">
-											<input readonly type="text" class="form-control" value="@productView.Name">
-										</div>
-									</div>
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label"> Количество</label>
-										<div class="col-sm-8">
-											<input readonly type="text" class="form-control" value="@productView.Quantity">
-										</div>
-									</div>
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label"> Описание</label>
-										<div class="col-sm-8">
-											<textarea readonly type="text" class="form-control">@productView.Description</textarea>
-										</div>
-									</div>
-									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label"> Категория</label>
-										<div class="col-sm-8">
-											<input type="text" readonly class="form-control" value="@productView.CategoryName">
-										</div>
-									</div>	
+									<h5 class="card-title text-style">@productView.Name</h5>
+									
+									<div class="mb-1">
+										<p class="badge bg-warning badge-style"> 
+											<i class="fa-solid fa-weight-hanging"></i>	 
+											 @productView.Quantity
+										</p>
+										<p class="badge badge-category badge-style"> 
+											<i class="fa-solid fa-carrot"></i> 
+											 @productView.CategoryName
+										</p>
+									</div> 	
 							</div>
-							<div class="card-footer text-muted">
-								@productView.CreatedAt
+							<div class="card-footer text-muted " style="background-color: white; border-top: white; border-radius: 15px;">
+								<i class="bi bi-clock"></i>
+								 @productView.Time
+								<a class="float-end"  onclick="location.href='@Url.Action("ChangeProductFavourites", "Product", new { ProductId = productView.Id })'">
+									@if (productView.Email != null)
+									{
+										@if (productView.IsFavourite == false)
+                                    {
+                                        <i class="bi dislike"></i>
+                                    } else
+                                    {
+                                        <i class="bi like"></i>
+                                    }
+
+									}									
+								</a>
 							</div>
 						</div>
 					</div>

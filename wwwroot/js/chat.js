@@ -7,21 +7,21 @@ var connection = new signalR.HubConnectionBuilder()
 
 document.getElementById("sendButton").disabled = true;
 
-connection.on("Receive", function (user, message, avatar, sender) {
+connection.on("Receive", function (user, message, time, sender) {
     var divconteiner = document.createElement("div");
     var divcontent = document.createElement("div");
-    var img = document.createElement("img");
     var p = document.createElement("p");
+    var p_time = document.createElement("p");
+
     const cls_divconteiner = ["flex-row", "justify-content-start", "mb-4"];
-    const cls_img = ["rounded-circle"];
     const cls_divcontent = ["ms-3", "left"];
     const cls_p = ["mb-0"];
 
     divconteiner.className = "d-flex";
     divconteiner.classList.add(...cls_divconteiner);
- 
-    img.className = "image-avatar";
-    img.classList.add(...cls_img);
+
+    p_time.className = "message-time";
+    p_time.classList.add(...cls_p);
 
     divcontent.className = "p-3";
     divcontent.classList.add(...cls_divcontent);
@@ -31,11 +31,13 @@ connection.on("Receive", function (user, message, avatar, sender) {
 
     divconteiner.id = "divconteiner";
     divcontent.id = "divcontent"
-    img.id = "img";
-    p.id = "p"
 
+    p.id = "p"
+    p_time.id = "p"
     p.textContent = `${message}`;
-    img.src = `data:image/jpeg;base64,${avatar}`;
+
+    p_time.textContent = `${time}`;
+
    
     //left
     if (user == sender) {
@@ -47,16 +49,16 @@ connection.on("Receive", function (user, message, avatar, sender) {
         document.getElementById("chatmessage").appendChild(divconteiner);
         divconteiner.appendChild(divcontent);
         divcontent.appendChild(p);
-        divconteiner.appendChild(img); 
+        divcontent.appendChild(p_time);
     } //right
     else
     {
         document.getElementById("chatmessage").appendChild(divconteiner);
-        divconteiner.appendChild(img);
         divcontent.classList.remove("right");
         divcontent.classList.add("left");
         divconteiner.appendChild(divcontent);
         divcontent.appendChild(p);     
+        divcontent.appendChild(p_time);
     }
 });
 
@@ -82,7 +84,9 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     var message = messageInput.value;
 
     var sendButton = document.getElementById("sendButton");
-    var userTo = sendButton.name;
+
+    var sendArea = document.getElementById("messageInput");
+    var userTo = sendArea.name;
 
     connection.invoke("SendMessage", message, userTo ).catch(function (err) {
         return console.error(err.toString());

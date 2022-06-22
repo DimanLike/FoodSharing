@@ -95,6 +95,7 @@ namespace FoodSharing.Services.Products.Converters
 					productCategory.Id = (int)reader["Id"];
 					productCategory.Name = (string)reader["Name"];
 					productCategory.CreatedAt = (DateTime)reader["CreatedAt"];
+					productCategory.Icon = (string)reader["Icon"];
 
 					productCategories.Add(productCategory);
 				}

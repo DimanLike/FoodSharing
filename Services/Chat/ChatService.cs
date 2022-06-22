@@ -46,6 +46,9 @@ namespace FoodSharing.Services.Chat
             messegesHistory.FromUserAvatar = await _userService.GetAvatar(messegesHistory.FromUserId);
             messegesHistory.ToUserAvatar = await _userService.GetAvatar(messegesHistory.ToUserId);
 
+            messegesHistory.FromUserEmail = email;
+            messegesHistory.ToUserEmail = await _userService.GetUserEmailById(userId);
+
             messegesHistory.Messages = (await GetMessages(messegesHistory.FromUserId, messegesHistory.ToUserId)).OrderBy(x => x.CreatedAt).ToList();
 
             return messegesHistory;

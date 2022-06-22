@@ -7,6 +7,7 @@ using FoodSharing.Models.Users;
 using FoodSharing.Services.Products.Interfaces;
 using FoodSharing.Services.Users.Interfaces;
 using FoodSharing.Tools;
+using FoodSharing.Tools.Time;
 
 namespace FoodSharing.Services.Products
 {
@@ -51,9 +52,9 @@ namespace FoodSharing.Services.Products
 			{
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
 				User? user = users.FirstOrDefault(c => c.Id == x.UserId);
-
+				Task<String?> time = TimeConverter.GetTime(x.CreatedAt);
 				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, x.Description, x.CategoryId,
-					productCategory?.Name ?? "", x.Quantity, x.Image, true, x.CreatedAt);
+					productCategory?.Name ?? "", productCategory.Icon, x.Quantity, x.Image, true, x.CreatedAt, time.Result);
 			}).ToList();
 
 		}
@@ -76,9 +77,10 @@ namespace FoodSharing.Services.Products
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
 				User? user = users.FirstOrDefault(c => c.Id == x.UserId);
 				Favourite? favourite = favourites.FirstOrDefault(c => c.UserId == x.UserId && c.ProductId == x.Id);
+				Task<String?> time = TimeConverter.GetTime(x.CreatedAt);
 
 				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, x.Description, x.CategoryId,
-					productCategory?.Name ?? "", x.Quantity, x.Image, favourite != null, x.CreatedAt);
+					productCategory?.Name ?? "", productCategory.Icon, x.Quantity, x.Image, favourite != null, x.CreatedAt, time.Result);
 			}).ToList();
 		}
 
@@ -100,9 +102,10 @@ namespace FoodSharing.Services.Products
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
 				User? user = users.FirstOrDefault(c => c.Id == x.UserId);
 				Favourite? favourite = favourites.FirstOrDefault(c => c.UserId == currentUserId && c.ProductId == x.Id);
+				Task<String?> time = TimeConverter.GetTime(x.CreatedAt);
 
 				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, x.Description, x.CategoryId,
-					productCategory?.Name ?? "", x.Quantity, x.Image, favourite != null, x.CreatedAt);
+					productCategory?.Name ?? "", productCategory.Icon, x.Quantity, x.Image, favourite != null, x.CreatedAt, time.Result);
 			}).ToList();
 		}
 
@@ -129,11 +132,11 @@ namespace FoodSharing.Services.Products
 			{
 				ProductCategory? productCategory = productCategories.FirstOrDefault(c => c.Id == x.CategoryId);
 				User? user = Users.FirstOrDefault(c => c.Id == x.UserId);
-
 				Favourite? favourite = favourites.FirstOrDefault(c => c.UserId == currentUserId && c.ProductId == x.Id);
+				Task<String?> time = TimeConverter.GetTime(x.CreatedAt);
 
 				return new ProductView(x.Id, x.UserId, user?.Email ?? "", x.Name, 
-					x.Description, x.CategoryId, productCategory?.Name ?? "", x.Quantity, x.Image, favourite != null, x.CreatedAt);
+					x.Description, x.CategoryId, productCategory?.Name ?? "", productCategory.Icon, x.Quantity, x.Image, favourite != null, x.CreatedAt, time.Result);
 			}).ToList();
 		}
 
