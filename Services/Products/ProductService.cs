@@ -140,8 +140,6 @@ namespace FoodSharing.Services.Products
 			}).ToList();
 		}
 
-
-
 		public async Task<ProductView> GetProduct(Guid productid)
 		{
 			Product product = await _productRepository.GetProduct(productid);
@@ -188,6 +186,13 @@ namespace FoodSharing.Services.Products
 				await _productRepository.DeleteProductFavourites(favourites.Id);
 		}
 
+		public async Task<Boolean> GetProductFavourites(Guid userid, Guid productid)
+        {
+			Favourite favorites = await _productRepository.GetProductFavourites(userid, productid);
+			if (favorites is null)
+				return false;
+			else return true;
+        }
 
 	}
 }

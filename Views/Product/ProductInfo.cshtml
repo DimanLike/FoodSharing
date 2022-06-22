@@ -27,11 +27,30 @@
 	.icontext p {
     margin-bottom: 0;
 	}
-
 	.hover-effect:hover {
 	box-shadow: 0 2px 6px 0 rgb(206 206 238 / 54%);
 	transition: 0.5s;
-	}		
+	}
+	.like::before{
+		cursor:pointer;
+		color:red;
+		content:"\F415";
+	}
+	.dislike::before{
+		cursor:pointer;
+		color:black;
+		content:"\F417";
+	}
+	.like:hover::before{
+		color:black;
+		content:"\F417";
+		transition: 0.7s;
+	}
+	.dislike:hover::before{
+		color:red;
+		content:"\F415";
+		transition: 0.7s;
+	}
 
 </style>
 
@@ -51,20 +70,6 @@
 								<h5 >Описание</h5>
 
 								<p> @Model.ProductView.Description </p>
-								@*<div class="mb-3">
-								<span class="tag">
-								<span class="badge text-bg-light">Light</span>
-								</span>
-								<span class="tag">
-								<span class="badge text-bg-light">Light</span>
-								</span>
-								<span class="tag">
-								<span class="badge text-bg-light">Light</span>
-								</span>
-								<span class="tag">
-								<span class="badge text-bg-light">Light</span>
-								</span>
-								</div>*@
 								<table class="table table-striped">
 									<tbody>
 										<tr>
@@ -112,9 +117,19 @@
 			<div class="col-lg-4">
 				<div class="card">
 					<div class="card-body">
-						<a href="#" class="btn btn-light float-end">
-							<i class="fa fa-heart me-2"></i> Save
-						</a>
+						<a class="float-end"  onclick="location.href='@Url.Action("ChangeProductFavourites", "Product", new { ProductId = Model.ProductView.Id })'">
+									@if (Model.UserEmail != Model.ProductView.Email)
+									{
+										@if (Model.ProductView.IsFavourite == false)
+                                    {
+                                        <i class="bi dislike"></i>
+                                    } else
+                                    {
+                                        <i class="bi like"></i>
+                                    }
+
+									}									
+								</a>
 						<time datetime="2022-02-14 20:00" class="text-muted"> @Model.ProductView.CreatedAt </time>
 						<b class="clearfix"></b>
 						@*<div class="price mt-2 h5"> $32,000 </div>*@

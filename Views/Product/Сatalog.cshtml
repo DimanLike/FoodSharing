@@ -13,7 +13,8 @@
 		cursor: pointer;
 	}    
 	.text-style{
-		font-family: fantasy;
+		font-family: inherit;
+		font-size: x-large;
 	}
 	.card{
 		border-radius: 15px;
@@ -67,7 +68,7 @@
 								<input type="text" placeholder="Type location" class="form-control" name="lorem">
 							</div>
 						</div>
-						<div class="col-auto">
+						<div class="col-4">
 						<select asp-for="CategoryId" asp-items="@(new SelectList(Model.ProductCategories, "Id", nameof(ProductCategory.Name)))" class="form-select">
 							<option selected>Выберите категорию продукта</option>
 						</select>
@@ -124,7 +125,7 @@
 								<i class="bi bi-clock"></i>
 								 @productView.Time
 								<a class="float-end"  onclick="location.href='@Url.Action("ChangeProductFavourites", "Product", new { ProductId = productView.Id })'">
-									@if (Model.UserEmail != null)
+									@if (Model.UserEmail != productView.Email)
 									{
 										@if (productView.IsFavourite == false)
                                     {

@@ -153,8 +153,14 @@ namespace FoodSharing.Controllers
 		{
 			ProductView productView = await _productService.GetProduct(id);
 			UserProfileView userProfileViewModel = await _userService.GetUserProfile(productView.UserId);
-
-			ProductInfoView model = new ProductInfoView(userProfileViewModel, productView);
+			string email = User.Identity.Name;
+			Guid userId = await _userService.GetUserIdByEmail(email);
+			Guid UserIdforProduct = await _userService.GetUserIdByProductId(id);
+			string EmailForProduct = await _userService.GetUserEmailById(UserIdforProduct);
+			Boolean favourites = await _productService.GetProductFavourites(userId, id);
+			productView.IsFavourite = favourites;
+			productView.Email = EmailForProduct;
+			ProductInfoView model = new ProductInfoView(userProfileViewModel, productView, email);
 
 			return View(model);
 		}

@@ -24,6 +24,7 @@ namespace FoodSharing.Services.Products.Interfaces
         //Favourites
         Task ChangeProductFavourite(Guid userid, Guid productid);
         Task<List<ProductView>> GetProductsFavouritesViews(Guid userid);
+        Task<Boolean> GetProductFavourites(Guid userid, Guid productid);
 
     }
 }
