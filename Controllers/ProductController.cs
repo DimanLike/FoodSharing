@@ -103,7 +103,7 @@ namespace FoodSharing.Controllers
 		[Route("/Products/EditProduct")]
 		public async Task<ActionResult> EditProduct(ProductView model)
         {
-			if (model.Image is not null)
+			if (model.IFormFile is not null)
             {
 				model.Image = FileTools.GetBytes(model.IFormFile);
             }

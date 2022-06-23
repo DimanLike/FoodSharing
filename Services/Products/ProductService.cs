@@ -162,7 +162,7 @@ namespace FoodSharing.Services.Products
 		public async Task EditProduct(ProductView model)
 		{
 			Product product = await _productRepository.GetProduct(model.Id);
-			model.Image = product.Image;
+			//model.Image = product.Image;
 			await _productRepository.EditProduct(model);
 		}
 

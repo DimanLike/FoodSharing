@@ -34,7 +34,7 @@
 					<div class="card-body">
 						<form method="post" asp asp-controller="Product" asp-action="EditProduct" enctype="multipart/form-data">
 							<input asp-for="Id" hidden>
-							<input asp-for="IFormFile" type="file" class="form-control" hidden>
+						@*	<input asp-for="IFormFile" type="file" class="form-control" hidden>*@
 
 							<div class="row mb-4">
 								<label asp-for="Name" class="col-sm-3 col-form-label"></label>
