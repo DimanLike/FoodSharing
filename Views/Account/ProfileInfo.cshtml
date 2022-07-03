@@ -55,10 +55,12 @@
                                 }
                             </div>
 
-                            <div class="flex-grow-1 ms-3">
-                                <h5 class="mb-1">@(Model.UserProfileView.FirstName + " " + Model.UserProfileView.LastName)</h5>
-                                <p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>
-                                <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
+                            <div class="flex-grow-1 ms-3" style="text-align-last: center;">
+                                <h5 class="mb-3" style="font-size: xx-large;margin-top: 20px;">@(Model.UserProfileView.FirstName + " " + Model.UserProfileView.LastName)</h5>
+                                <p class="mb-2 pb-1" style="color: #2b2a2a;"><i class="bi bi-info-circle"></i>   @Model.UserProfileView.Adress</p>
+                                <p class="mb-2 pb-1" style="color: #2b2a2a;"><i class="bi bi-envelope"></i>   @Model.UserProfileView.Email</p>
+                                <p class="mb-2 pb-1" style="color: #2b2a2a;"><i class="bi bi-phone"></i>   @Model.UserProfileView.Phone</p>
+                               @* <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
                                     <div>
                                         <p class="small text-muted mb-1">Articles</p>
                                         <p class="mb-0">41</p>
@@ -71,7 +73,7 @@
                                         <p class="small text-muted mb-1">Rating</p>
                                         <p class="mb-0">8.5</p>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                         </div>
                     </div>

@@ -16,19 +16,16 @@ namespace FoodSharing.Services
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            //Services
+            //Сервисы 
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IChatService, ChatService>();
-
-            //Repositoryes
+            //Репозитории
             services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IChatRepository, ChatRepository>();
-
+            //Инструменты
             services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
-
-
         }
     }
 }

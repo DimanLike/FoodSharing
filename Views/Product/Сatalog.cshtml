@@ -57,9 +57,9 @@
 			<div class="card-body">
 				<form method="post" asp-controller="Product" asp-action="GetCatalog">
 					<div class="row g-2">
-						<div class="col-xl col-lg-6 flex-grow">
+						<div class="col-sm-4 flex-grow">
 							<div class="input-group">
-								<select class="form-select" style="max-width:40%">
+								<select class="form-select" style="max-width:50%">
 									<option>Country</option>
 									<option>Russia</option>
 									<option>France</option>
@@ -68,14 +68,14 @@
 								<input type="text" placeholder="Type location" class="form-control" name="lorem">
 							</div>
 						</div>
-						<div class="col-4">
+						<div class="col-auto">
 						<select asp-for="CategoryId" asp-items="@(new SelectList(Model.ProductCategories, "Id", nameof(ProductCategory.Name)))" class="form-select">
 							<option selected>Выберите категорию продукта</option>
 						</select>
 						</div>
 
 						<div class="col-auto">
-							<button class="btn w-100 btn-primary" onclick="location.href='@Url.Action("GetCatalog", "Product")'"> Поиск </button>
+							<button class="btn w-120 btn-primary" style="border-radius: 20px;" onclick="location.href='@Url.Action("GetCatalog", "Product")'"> Поиск </button>
 						</div>
 					</div>
 				</form>

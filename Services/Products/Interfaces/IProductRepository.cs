@@ -12,7 +12,6 @@ namespace FoodSharing.Services.Products.Interfaces
         Task DeleteProduct(Guid id);
         Task<List<Product>> GetProducts(Guid userid);
         Task<List<Product>> GetSelectionProducts(Guid[] userids);
-
         Task<Product> GetProduct(Guid id);
         Task EditProduct(ProductView model);
 

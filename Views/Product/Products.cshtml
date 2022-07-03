@@ -14,17 +14,21 @@
 			{
 				@foreach (var productView in Model)
 				{
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="card " style="border-radius: 15px;">
 							<div class="card-header bg-transparent d-grid gap-2 d-md-flex justify-content-md-end">
 								<div class="collapse" id="collapse@(productView.Id)">
-									<button class=" btn btn-danger my-2 my-sm-0" onclick="location.href='@Url.Action("DeleteProduct", "Product", new { id = productView.Id })'">
+									<button class=" btn btn-danger my-2 my-sm-0" style="max-inline-size: min-content;" onclick="location.href='@Url.Action("DeleteProduct", "Product", new { id = productView.Id })'">
 										<i class="bi bi-trash-fill"></i>
 										Delete
 									</button>
-									<button class="btn btn-success my-2 my-sm-0" onclick="location.href='@Url.Action("EditProduct", "Product", new { id = productView.Id })'">
+									<button class="btn btn-success my-2 my-sm-0" style="max-inline-size: min-content;" onclick="location.href='@Url.Action("EditProduct", "Product", new { id = productView.Id })'">
 										<i class="bi bi-pencil-square"></i>
 										Edit
+									</button>
+									<button class="btn btn-light my-2 my-sm-0" style="max-inline-size: min-content;" onclick="location.href='@Url.Action("EditProduct", "Product", new { id = productView.Id })'">
+										<i class="bi bi-eye"></i>
+										Visible
 									</button>
 								</div>
 								<button class="btn btn-outline-info" data-bs-toggle="collapse" href="#collapse@(productView.Id)" role="button" aria-expanded="false" aria-controls="collapse@(productView.Id)" my-2 my-sm-0">
@@ -51,7 +55,7 @@
 										</div>
 									</div>
 									<div class="row mb-4">
-										<label class="col-sm-4 col-form-label"> Количество</label>
+										<label class="col-sm-4 col-form-label" style=" font-size: smaller;"> Количество</label>
 										<div class="col-sm-8">
 											<input readonly type="text" class="form-control" value="@productView.Quantity">
 										</div>
